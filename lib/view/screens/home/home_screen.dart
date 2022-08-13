@@ -52,10 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Provider.of<ProfileProvider>(context, listen: false).getUserInfo(context);
     }
     if (reload) {
-      print(
-          'offset : ${Provider.of<ProductProvider>(context, listen: false).latestOffset}');
       Provider.of<ProductProvider>(context, listen: false).seeMoreReturn();
-
       Provider.of<CategoryProvider>(context, listen: false).getCategoryList(
         context,
         true,
@@ -71,20 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
             .languageCode,
       );
 
-      Provider.of<ProductProvider>(context, listen: false)
-          .getPopularProductList(
-        context,
-        reload,
-        Provider.of<ProductProvider>(context, listen: false)
-            .latestOffset
-            .toString(),
-        Provider.of<LocalizationProvider>(context, listen: false)
-            .locale
-            .languageCode,
-      );
       Provider.of<BannerProvider>(context, listen: false)
           .getBannerList(context, reload);
-      Provider.of<CategoryProvider>(context, listen: true)
+      Provider.of<CategoryProvider>(context, listen: false)
           .getAllCategoryProductList(
         context,
         reload,
@@ -110,16 +96,35 @@ class _HomeScreenState extends State<HomeScreen> {
       );
       Provider.of<BannerProvider>(context, listen: false)
           .getBannerList(context, reload);
-      await Future.delayed(Duration(seconds: 5));
-      Provider.of<CategoryProvider>(context, listen: false)
-          .getAllCategoryProductList(
-        context,
-        reload,
-        Provider.of<LocalizationProvider>(context, listen: false)
-            .locale
-            .languageCode,
-      );
     }
+
+    Provider.of<ProductProvider>(context, listen: false).getLatestProductList(
+      context,
+      false,
+      '1',
+      Provider.of<LocalizationProvider>(context, listen: false)
+          .locale
+          .languageCode,
+    );
+
+    await Provider.of<ProductProvider>(context, listen: false)
+        .getPopularProductList(
+      context,
+      false,
+      '1',
+      Provider.of<LocalizationProvider>(context, listen: false)
+          .locale
+          .languageCode,
+    );
+
+    Provider.of<CategoryProvider>(context, listen: false)
+        .getAllCategoryProductList(
+      context,
+      reload,
+      Provider.of<LocalizationProvider>(context, listen: false)
+          .locale
+          .languageCode,
+    );
   }
 
   @override
