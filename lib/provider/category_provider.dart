@@ -13,9 +13,8 @@ class CategoryProvider extends ChangeNotifier {
 
   List<CategoryModel> _categoryList;
   List<CategoryModel> _subCategoryList;
-  List<Product> _allcategoryProductList;
-
   List<Product> _categoryProductList;
+  List<Product> _allcategoryProductList;
   bool _pageFirstIndex = true;
   bool _pageLastIndex = false;
   bool _isLoading = false;
@@ -23,10 +22,30 @@ class CategoryProvider extends ChangeNotifier {
   List<CategoryModel> get categoryList => _categoryList;
   List<CategoryModel> get subCategoryList => _subCategoryList;
   List<Product> get categoryProductList => _categoryProductList;
+  List<Product> get allcategoryProductList => _allcategoryProductList;
   bool get pageFirstIndex => _pageFirstIndex;
   bool get pageLastIndex => _pageLastIndex;
   bool get isLoading => _isLoading;
-  List<Product> get allcategoryProductList => _allcategoryProductList;
+
+  Future<void> getCategoryList(
+      BuildContext context, bool reload, String languageCode) async {
+    _subCategoryList = null;
+    if (_categoryList == null || reload) {
+      _isLoading = true;
+      ApiResponse apiResponse =
+          await categoryRepo.getCategoryList(languageCode);
+      if (apiResponse.response != null &&
+          apiResponse.response.statusCode == 200) {
+        _categoryList = [];
+        apiResponse.response.data.forEach(
+            (category) => _categoryList.add(CategoryModel.fromJson(category)));
+      } else {
+        ApiChecker.checkApi(context, apiResponse);
+      }
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 
   Future<void> getAllCategoryProductList(
       BuildContext context, bool reload, String languageCode,
@@ -64,26 +83,6 @@ class CategoryProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getCategoryList(
-      BuildContext context, bool reload, String languageCode) async {
-    _subCategoryList = null;
-    if (_categoryList == null || reload) {
-      _isLoading = true;
-      ApiResponse apiResponse =
-          await categoryRepo.getCategoryList(languageCode);
-      if (apiResponse.response != null &&
-          apiResponse.response.statusCode == 200) {
-        _categoryList = [];
-        apiResponse.response.data.forEach(
-            (category) => _categoryList.add(CategoryModel.fromJson(category)));
-      } else {
-        ApiChecker.checkApi(context, apiResponse);
-      }
-      _isLoading = false;
-      notifyListeners();
-    }
-  }
-
   void getSubCategoryList(
       BuildContext context, String categoryID, String languageCode) async {
     _subCategoryList = null;
@@ -103,7 +102,7 @@ class CategoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getCategoryProductList(
+  Future<void> getCategoryProductList(
       BuildContext context, String categoryID, String languageCode) async {
     _categoryProductList = null;
     notifyListeners();

@@ -64,14 +64,6 @@ class CategoryView extends StatelessWidget {
                                           category.categoryList[index].id
                                               .toString(),
                                         );
-                                        // Navigator.pushNamed(
-                                        //   context,
-                                        //   Routes.getCategoryRoute(
-                                        //       category.categoryList[index].id),
-                                        //   arguments: CategoryScreen(
-                                        //       categoryModel:
-                                        //           category.categoryList[index]),
-                                        // );
                                       }, // arguments:  category.categoryList[index].name),
                                       child: Column(children: [
                                         ClipOval(
