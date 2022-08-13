@@ -218,7 +218,7 @@ class _WebAppBarState extends State<WebAppBar> {
           Expanded(
             child: Center(
               child: SizedBox(
-                  width: 1170,
+                  width: 1200,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -298,45 +298,29 @@ class _WebAppBarState extends State<WebAppBar> {
                           }),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: Dimensions.PADDING_SIZE_SMALL),
-                        child: TextButton(
-                          onPressed: () {
+                      OnHover(builder: (isHover) {
+                        return InkWell(
+                          onTap: () {
                             Navigator.pushNamed(
                               context,
                               Routes.getBookTableScreen(),
                             );
                           },
-                          child: OnHover(
-                            builder: (isHover) {
-                              return Text(
-                                getTranslated('book_table', context),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: Dimensions.PADDING_SIZE_DEFAULT),
+                            child: Text(getTranslated('book_table', context),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: rubikRegular.copyWith(
-                                  color: isHover
-                                      ? Theme.of(context).primaryColor
-                                      : ColorResources.getWhiteAndBlack(
-                                          context),
-                                  fontSize: Dimensions.FONT_SIZE_LARGE,
-                                ),
-                              );
-                            },
+                                    color: isHover
+                                        ? Theme.of(context).primaryColor
+                                        : ColorResources.getWhiteAndBlack(
+                                            context),
+                                    fontSize: Dimensions.FONT_SIZE_LARGE)),
                           ),
-                        ),
-                      ),
-
-                      // CustomButton(
-                      //           btnTxt:
-                      //       "Book A Table Online", //TODO: do translation here
-                      //   onTap: () => Navigator.pushNamed(
-                      //     context,
-                      //     Routes.getBookTableScreen(),
-                      //   ),
-                      //   backgroundColor:
-                      //       ColorResources.APPBAR_HEADER_COL0R,
-                      // ),
+                        );
+                      }),
                       OnHover(
                         builder: (isHover) {
                           return InkWell(
@@ -347,7 +331,7 @@ class _WebAppBarState extends State<WebAppBar> {
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal:
-                                          Dimensions.PADDING_SIZE_DEFAULT),
+                                          Dimensions.PADDING_SIZE_SMALL),
                                   child: Text(
                                       getTranslated('favourite', context),
                                       maxLines: 1,
@@ -363,6 +347,22 @@ class _WebAppBarState extends State<WebAppBar> {
                               ));
                         },
                       ),
+                      OnHover(builder: (isHover) {
+                        return InkWell(
+                          onTap: () {},
+                          child: Text(
+                            "Join Membership",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: rubikRegular.copyWith(
+                              color: isHover
+                                  ? Theme.of(context).primaryColor
+                                  : ColorResources.getWhiteAndBlack(context),
+                              fontSize: Dimensions.FONT_SIZE_DEFAULT,
+                            ),
+                          ),
+                        );
+                      }),
                       Spacer(),
                       Container(
                         width: 450,
@@ -454,7 +454,6 @@ class _WebAppBarState extends State<WebAppBar> {
                           );
                         }),
                       ),
-
                       InkWell(
                           onTap: () => Navigator.pushNamed(
                               context, Routes.getDashboardRoute('cart')),
