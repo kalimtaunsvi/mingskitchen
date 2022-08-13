@@ -477,7 +477,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
                       ),
-                      PricingTable(),
                       ResponsiveHelper.isDesktop(context)
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -576,6 +575,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                             ),
+// join membership
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: Dimensions.PADDING_SIZE_LARGE,
+                          ),
+                          child: Text(
+                            getTranslated('join_membership', context),
+                            style: rubikRegular.copyWith(
+                              fontSize: Dimensions.FONT_SIZE_OVER_LARGE,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      PricingTable(),
                     ],
                   ),
                 ),

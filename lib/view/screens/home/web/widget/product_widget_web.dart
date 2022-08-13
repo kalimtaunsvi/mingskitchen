@@ -74,10 +74,7 @@ class ProductWidgetWeb extends StatelessWidget {
           },
           child: Stack(
             children: [
-              // ),
               Container(
-                // height: 220,
-                // width: 170,
                 decoration: BoxDecoration(
                   color: ColorResources.getCartColor(context),
                   borderRadius: BorderRadius.circular(10),
@@ -170,33 +167,38 @@ class ProductWidgetWeb extends StatelessWidget {
                                       MainAxisAlignment.spaceEvenly,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    Text(
-                                        '${PriceConverter.convertPrice(context, _startingPrice, discount: product.discount, discountType: product.discountType)}'
-                                        '${_endingPrice != null ? ' - ${PriceConverter.convertPrice(context, _endingPrice, discount: product.discount, discountType: product.discountType)}' : ''}',
-                                        style: rubikBold.copyWith(
-                                            fontSize:
-                                                Dimensions.FONT_SIZE_DEFAULT,
-                                            color: ColorResources
-                                                .APPBAR_HEADER_COL0R)),
-                                    priceDiscount > 0
-                                        ? Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: Dimensions
-                                                    .PADDING_SIZE_SMALL),
-                                            child: Text(
-                                              '${PriceConverter.convertPrice(context, _startingPrice)}'
-                                              '${_endingPrice != null ? ' - ${PriceConverter.convertPrice(context, _endingPrice)}' : ''}',
-                                              style: rubikBold.copyWith(
+                                    Column(
+                                      children: [
+                                        Text(
+                                            '${PriceConverter.convertPrice(context, _startingPrice, discount: product.discount, discountType: product.discountType)}'
+                                            '${_endingPrice != null ? ' - ${PriceConverter.convertPrice(context, _endingPrice, discount: product.discount, discountType: product.discountType)}' : ''}',
+                                            style: rubikBold.copyWith(
+                                                fontSize: Dimensions
+                                                    .FONT_SIZE_DEFAULT,
                                                 color: ColorResources
-                                                    .APPBAR_HEADER_COL0R,
-                                                fontSize:
-                                                    Dimensions.FONT_SIZE_SMALL,
-                                                decoration:
-                                                    TextDecoration.lineThrough,
-                                              ),
-                                            ),
-                                          )
-                                        : SizedBox(),
+                                                    .APPBAR_HEADER_COL0R)),
+                                        priceDiscount > 0
+                                            ? Padding(
+                                                padding: const EdgeInsets
+                                                        .symmetric(
+                                                    vertical: Dimensions
+                                                        .PADDING_SIZE_EXTRA_SMALL),
+                                                child: Text(
+                                                  '${PriceConverter.convertPrice(context, _startingPrice)}'
+                                                  '${_endingPrice != null ? ' - ${PriceConverter.convertPrice(context, _endingPrice)}' : ''}',
+                                                  style: rubikMedium.copyWith(
+                                                    color: ColorResources
+                                                        .APPBAR_HEADER_COL0R,
+                                                    fontSize: Dimensions
+                                                        .FONT_SIZE_SMALL,
+                                                    decoration: TextDecoration
+                                                        .lineThrough,
+                                                  ),
+                                                ),
+                                              )
+                                            : SizedBox(),
+                                      ],
+                                    ),
                                     RatingBar(
                                       rating: product.rating.length > 0
                                           ? double.parse(
