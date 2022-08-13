@@ -44,32 +44,17 @@ class _CategoryViewWebState extends State<CategoryViewWeb> {
                 ),
               ],
             ),
-            Center(
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: SizedBox(
-                            height: 160,
-                            child: category.categoryList != null
-                                ? category.categoryList.length > 0
-                                    ? CategoryPageView(
-                                        categoryProvider: category,
-                                        pageController: pageController)
-                                    : Center(
-                                        child: Text(getTranslated(
-                                            'no_category_available', context)))
-                                : CategoryShimmer(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            SizedBox(
+              height: 160,
+              child: category.categoryList != null
+                  ? category.categoryList.length > 0
+                      ? CategoryPageView(
+                          categoryProvider: category,
+                          pageController: pageController)
+                      : Center(
+                          child: Text(
+                              getTranslated('no_category_available', context)))
+                  : CategoryShimmer(),
             ),
           ],
         );

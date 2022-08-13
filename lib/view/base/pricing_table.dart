@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_restaurant/utill/color_resources.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PricingTable extends StatelessWidget {
@@ -117,7 +118,7 @@ class PricingTable extends StatelessWidget {
                           topLeft: Radius.circular(24),
                           topRight: Radius.circular(24),
                         ),
-                        color: Color(0xffEF476F),
+                        color: ColorResources.APPBAR_HEADER_COL0R,
                       ),
                       child: Text(
                         "Best Value",
@@ -205,7 +206,7 @@ class PricingTable extends StatelessWidget {
                             height: 55,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24),
-                              color: Color(0xffFFD166),
+                              color: ColorResources.APPBAR_HEADER_COL0R,
                             ),
                             child: Center(
                               child: Text(
@@ -214,7 +215,7 @@ class PricingTable extends StatelessWidget {
                                   fontWeight: FontWeight.w700,
                                   fontSize: 18,
                                   height: 1.5,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                 ),
                               ),
                             ),

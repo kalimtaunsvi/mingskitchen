@@ -24,7 +24,7 @@ class ColorResources {
   static Color getBackgroundColor(BuildContext context) {
     return Provider.of<ThemeProvider>(context).darkTheme
         ? Color(0xFF343636)
-        : Color(0xFFF4F7FC);
+        : Color.fromARGB(255, 233, 233, 233);
   }
 
   static Color getHintColor(BuildContext context) {
@@ -54,13 +54,13 @@ class ColorResources {
   static Color getCartTitleColor(BuildContext context) {
     return Provider.of<ThemeProvider>(context).darkTheme
         ? Color(0xFF61699b)
-        : Color(0xFF000743);
+        : Color.fromARGB(255, 224, 224, 224);
   }
 
   static Color getCartColor(BuildContext context) {
     return Provider.of<ThemeProvider>(context).darkTheme
         ? Color(0xFF494949)
-        : Color(0xFFFFFFFF);
+        : Color(0xFF222731);
   }
 
   static Color getCategoryHoverColor(BuildContext context) {
@@ -103,6 +103,7 @@ class ColorResources {
   static const Color COLOR_BLACK = Color(0xFF000000);
   static const Color COLOR_NERO = Color(0xFF1F1F1F);
   static const Color COLOR_WHITE = Color(0xFFFFFFFF);
+  static const Color COLOR_WHITE_GRAY = Colors.white70;
   static const Color COLOR_HINT = Color(0xFF52575C);
   static const Color SEARCH_BG = Color(0xFFF4F7FC);
   static const Color COLOR_GRAY = Color(0xff6E6E6E);
@@ -114,14 +115,12 @@ class ColorResources {
   static const Color COLOR_GREY_CHATEAU = Color(0xffA0A4A8);
   static const Color BORDER_COLOR = Color(0xFFDCDCDC);
   static const Color DISABLE_COLOR = Color(0xFF979797);
-  static const Color APPBAR_HEADER_COL0R = Color(0xFFFC6A57);
+  static const Color APPBAR_HEADER_COL0R = Color(0xFFFC7E11);
   static const Color FOOTER_COL0R = Color(0xFFFFDDD9);
   static const Color ARROW_COLOR = Color(0xFF515755);
   static const Color FOOTER_BODY_TEXT_COLOR = Color(0xFF454545);
   static const Color MENU = Color(0xFF454545);
   static const Color CARD_SHADOW_COLOR = Color(0xFFA7A7A7);
-  static const Color COLOR_WHITE_GRAY = Colors.white70;
-
   // static const Color CATEGORIES_HOVER_COLOR = Color(0xFFC5DCFA);
 
   static const Map<int, Color> colorMap = {
