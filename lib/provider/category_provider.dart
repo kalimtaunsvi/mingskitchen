@@ -13,6 +13,8 @@ class CategoryProvider extends ChangeNotifier {
 
   List<CategoryModel> _categoryList;
   List<CategoryModel> _subCategoryList;
+  List<Product> _allcategoryProductList;
+
   List<Product> _categoryProductList;
   bool _pageFirstIndex = true;
   bool _pageLastIndex = false;
@@ -24,15 +26,56 @@ class CategoryProvider extends ChangeNotifier {
   bool get pageFirstIndex => _pageFirstIndex;
   bool get pageLastIndex => _pageLastIndex;
   bool get isLoading => _isLoading;
+  List<Product> get allcategoryProductList => _allcategoryProductList;
 
-  Future<void> getCategoryList(BuildContext context, bool reload, String languageCode) async {
+  Future<void> getAllCategoryProductList(
+      BuildContext context, bool reload, String languageCode,
+      [String categoryID]) async {
+    if (categoryID == null) {
+      _allcategoryProductList = null;
+      _allcategoryProductList = [];
+      _categoryList.forEach((categoryFromCategoryList) async {
+        ApiResponse apiResponse = await categoryRepo.getCategoryProductList(
+          categoryFromCategoryList.id.toString(),
+          languageCode,
+        );
+        if (apiResponse.response != null &&
+            apiResponse.response.statusCode == 200) {
+          apiResponse.response.data.forEach((category) =>
+              _allcategoryProductList.add(Product.fromJson(category)));
+          notifyListeners();
+        }
+      });
+      // notifyListeners();
+    } else {
+      _allcategoryProductList = null;
+      // notifyListeners();
+      ApiResponse apiResponse =
+          await categoryRepo.getCategoryProductList(categoryID, languageCode);
+      if (apiResponse.response != null &&
+          apiResponse.response.statusCode == 200) {
+        _allcategoryProductList = [];
+        apiResponse.response.data.forEach((category) =>
+            _allcategoryProductList.add(Product.fromJson(category)));
+        notifyListeners();
+      } else {
+        showCustomSnackBar(apiResponse.error.toString(), context);
+      }
+    }
+  }
+
+  Future<void> getCategoryList(
+      BuildContext context, bool reload, String languageCode) async {
     _subCategoryList = null;
-    if(_categoryList == null || reload) {
+    if (_categoryList == null || reload) {
       _isLoading = true;
-      ApiResponse apiResponse = await categoryRepo.getCategoryList(languageCode);
-      if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+      ApiResponse apiResponse =
+          await categoryRepo.getCategoryList(languageCode);
+      if (apiResponse.response != null &&
+          apiResponse.response.statusCode == 200) {
         _categoryList = [];
-        apiResponse.response.data.forEach((category) => _categoryList.add(CategoryModel.fromJson(category)));
+        apiResponse.response.data.forEach(
+            (category) => _categoryList.add(CategoryModel.fromJson(category)));
       } else {
         ApiChecker.checkApi(context, apiResponse);
       }
@@ -41,14 +84,18 @@ class CategoryProvider extends ChangeNotifier {
     }
   }
 
-  void getSubCategoryList(BuildContext context, String categoryID, String languageCode) async {
+  void getSubCategoryList(
+      BuildContext context, String categoryID, String languageCode) async {
     _subCategoryList = null;
     _isLoading = true;
-    ApiResponse apiResponse = await categoryRepo.getSubCategoryList(categoryID, languageCode);
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
-      _subCategoryList= [];
-      apiResponse.response.data.forEach((category) => _subCategoryList.add(CategoryModel.fromJson(category)));
-      getCategoryProductList(context, categoryID,languageCode);
+    ApiResponse apiResponse =
+        await categoryRepo.getSubCategoryList(categoryID, languageCode);
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
+      _subCategoryList = [];
+      apiResponse.response.data.forEach(
+          (category) => _subCategoryList.add(CategoryModel.fromJson(category)));
+      getCategoryProductList(context, categoryID, languageCode);
     } else {
       ApiChecker.checkApi(context, apiResponse);
     }
@@ -56,13 +103,17 @@ class CategoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getCategoryProductList(BuildContext context, String categoryID, String languageCode) async {
+  void getCategoryProductList(
+      BuildContext context, String categoryID, String languageCode) async {
     _categoryProductList = null;
     notifyListeners();
-    ApiResponse apiResponse = await categoryRepo.getCategoryProductList(categoryID, languageCode);
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    ApiResponse apiResponse =
+        await categoryRepo.getCategoryProductList(categoryID, languageCode);
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       _categoryProductList = [];
-      apiResponse.response.data.forEach((category) => _categoryProductList.add(Product.fromJson(category)));
+      apiResponse.response.data.forEach(
+          (category) => _categoryProductList.add(Product.fromJson(category)));
       notifyListeners();
     } else {
       showCustomSnackBar(apiResponse.error.toString(), context);
@@ -77,18 +128,19 @@ class CategoryProvider extends ChangeNotifier {
     _selectCategory = index;
     notifyListeners();
   }
+
   updateProductCurrentIndex(int index, int totalLength) {
-    if(index > 0) {
+    if (index > 0) {
       _pageFirstIndex = false;
       notifyListeners();
-    }else{
+    } else {
       _pageFirstIndex = true;
       notifyListeners();
     }
-    if(index + 1  == totalLength) {
+    if (index + 1 == totalLength) {
       _pageLastIndex = true;
       notifyListeners();
-    }else {
+    } else {
       _pageLastIndex = false;
       notifyListeners();
     }

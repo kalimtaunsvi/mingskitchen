@@ -73,6 +73,7 @@ class AppConstants {
   static const String SEND_MESSAGE_TO_DELIVERY_MAN_URL =
       '/api/v1/customer/message/send/customer';
   static const String EMAIL_SUBSCRIBE_URI = '/api/v1/subscribe-newsletter';
+  static const String BOOK_TABLE = '/api/v1/booktable';
 
   // Shared Key
   static const String THEME = 'theme';

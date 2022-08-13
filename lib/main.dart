@@ -12,6 +12,7 @@ import 'package:flutter_restaurant/helper/router_helper.dart';
 import 'package:flutter_restaurant/localization/app_localization.dart';
 import 'package:flutter_restaurant/provider/auth_provider.dart';
 import 'package:flutter_restaurant/provider/banner_provider.dart';
+import 'package:flutter_restaurant/provider/book_table_provider.dart';
 import 'package:flutter_restaurant/provider/cart_provider.dart';
 import 'package:flutter_restaurant/provider/category_provider.dart';
 import 'package:flutter_restaurant/provider/chat_provider.dart';
@@ -108,6 +109,7 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (context) => di.sl<SearchProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<NewsLetterProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<TimerProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<BookTableProvider>()),
     ],
     child: MyApp(orderId: _orderID, isWeb: !kIsWeb),
   ));

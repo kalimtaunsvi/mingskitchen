@@ -14,45 +14,55 @@ class ProductShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 85,
-      padding: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL, horizontal: Dimensions.PADDING_SIZE_SMALL),
+      padding: EdgeInsets.symmetric(
+          vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+          horizontal: Dimensions.PADDING_SIZE_SMALL),
       margin: EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_DEFAULT),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [BoxShadow(
-          color: Colors.grey[Provider.of<ThemeProvider>(context).darkTheme ? 900 : 300],
-          blurRadius:Provider.of<ThemeProvider>(context).darkTheme ? 2 : 5,
-          spreadRadius: Provider.of<ThemeProvider>(context).darkTheme ? 0 : 1,
-        )],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey[
+                Provider.of<ThemeProvider>(context).darkTheme ? 900 : 300],
+            blurRadius: Provider.of<ThemeProvider>(context).darkTheme ? 2 : 5,
+            spreadRadius: Provider.of<ThemeProvider>(context).darkTheme ? 0 : 1,
+          )
+        ],
       ),
       child: Shimmer(
         duration: Duration(seconds: 2),
         enabled: isEnabled,
         child: Row(children: [
           Container(
-            height: 70, width: 85,
+            height: 70,
+            width: 85,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.grey[300],
             ),
           ),
           SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-
-          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-            Container(height: 15, width: double.maxFinite, color: Colors.grey[300]),
-            SizedBox(height: 5),
-            RatingBar(rating: 0.0, size: 12),
-            SizedBox(height: 10),
-            Container(height: 10, width: 50, color: Colors.grey[300]),
-          ])),
+          Expanded(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                Container(
+                    height: 15,
+                    width: double.maxFinite,
+                    color: Colors.grey[300]),
+                SizedBox(height: 5),
+                RatingBar(rating: 0.0, size: 12),
+                SizedBox(height: 10),
+                Container(height: 10, width: 50, color: Colors.grey[300]),
+              ])),
           SizedBox(width: 10),
-
           Column(children: [
             Icon(Icons.favorite_border, color: Colors.grey),
             Expanded(child: SizedBox()),
             Icon(Icons.add, color: ColorResources.COLOR_BLACK),
           ]),
-
         ]),
       ),
     );
