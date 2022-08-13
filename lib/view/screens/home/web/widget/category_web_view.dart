@@ -36,37 +36,31 @@ class _CategoryViewWebState extends State<CategoryViewWeb> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
-                  child: Text(getTranslated('all_categories', context),
-                      style: rubikRegular.copyWith(
-                          fontSize: Dimensions.FONT_SIZE_OVER_LARGE)),
-                ),
+                Text(getTranslated('all_categories', context),
+                    style: rubikRegular.copyWith(
+                        fontSize: Dimensions.FONT_SIZE_OVER_LARGE)),
               ],
             ),
             Center(
               child: Stack(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: SizedBox(
-                            height: 160,
-                            child: category.categoryList != null
-                                ? category.categoryList.length > 0
-                                    ? CategoryPageView(
-                                        categoryProvider: category,
-                                        pageController: pageController)
-                                    : Center(
-                                        child: Text(getTranslated(
-                                            'no_category_available', context)))
-                                : Center(child: CategoryShimmer()),
-                          ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          height: 160,
+                          child: category.categoryList != null
+                              ? category.categoryList.length > 0
+                                  ? CategoryPageView(
+                                      categoryProvider: category,
+                                      pageController: pageController)
+                                  : Center(
+                                      child: Text(getTranslated(
+                                          'no_category_available', context)))
+                              : Center(child: CategoryShimmer()),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),

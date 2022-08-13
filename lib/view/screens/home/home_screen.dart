@@ -461,16 +461,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
                       ),
 
-                      ResponsiveHelper.isDesktop(context)
-                          ? Center(
-                              child: SizedBox(
-                                width:
-                                    Dimensions.getScreeenSize(context).width *
-                                        0.86,
-                                child: SetMenuViewWeb(),
-                              ),
-                            )
-                          : SetMenuView(),
+                      if (ResponsiveHelper.isDesktop(context))
+                        Center(
+                          child: SizedBox(
+                            width:
+                                Dimensions.getScreeenSize(context).width * 0.86,
+                            child: SetMenuViewWeb(),
+                          ),
+                        )
+                      else
+                        SetMenuView(),
                       // ResponsiveHelper.isDesktop(context)
                       //     ? SizedBox()
                       //     : BannerView(),
@@ -548,9 +548,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
                                   ),
                                   Container(
-                                    width: (MediaQuery.of(context).size.width /
-                                            5) *
-                                        4,
+                                    width: Dimensions.getScreeenSize(context)
+                                            .width *
+                                        0.86,
                                     child: GridView.builder(
                                       padding: const EdgeInsets.symmetric(
                                         horizontal:
@@ -590,7 +590,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      PricingTable(),
+                      SizedBox(
+                        width: Dimensions.getScreeenSize(context).width * 0.86,
+                        child: PricingTable(),
+                      ),
+                      SizedBox(
+                        height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
+                      ),
                     ],
                   ),
                 ),
