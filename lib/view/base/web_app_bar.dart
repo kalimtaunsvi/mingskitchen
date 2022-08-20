@@ -27,9 +27,12 @@ import 'package:flutter_restaurant/view/screens/search/search_result_screen.dart
 import 'package:provider/provider.dart';
 
 class WebAppBar extends StatefulWidget implements PreferredSizeWidget {
+  WebAppBar({this.scrollToCounter});
+
+  final Future<dynamic> Function(int) scrollToCounter;
+
   @override
   State<WebAppBar> createState() => _WebAppBarState();
-
   @override
   Size get preferredSize => throw UnimplementedError();
 }
@@ -349,7 +352,9 @@ class _WebAppBarState extends State<WebAppBar> {
                       ),
                       OnHover(builder: (isHover) {
                         return InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            widget.scrollToCounter(4);
+                          },
                           child: Text(
                             "Join Membership",
                             maxLines: 1,

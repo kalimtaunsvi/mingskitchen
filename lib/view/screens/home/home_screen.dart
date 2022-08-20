@@ -47,6 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> drawerGlobalKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
 
+  final priceTableKey = GlobalKey();
+
   Future<void> _loadData(BuildContext context, bool reload) async {
     if (Provider.of<AuthProvider>(context, listen: false).isLoggedIn()) {
       Provider.of<ProfileProvider>(context, listen: false).getUserInfo(context);
@@ -138,6 +140,11 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+  Future _scrollToCounter(int c) async {
+    final scrollContext = priceTableKey.currentContext;
+    await Scrollable.ensureVisible(scrollContext);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,7 +158,10 @@ class _HomeScreenState extends State<HomeScreen> {
           : SizedBox(),
       appBar: ResponsiveHelper.isDesktop(context)
           ? PreferredSize(
-              child: WebAppBar(), preferredSize: Size.fromHeight(100))
+              child: WebAppBar(
+                scrollToCounter: _scrollToCounter,
+              ),
+              preferredSize: Size.fromHeight(100))
           : null,
       body: SafeArea(
         child: RefreshIndicator(
@@ -378,227 +388,203 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
         SliverToBoxAdapter(
-          child: Center(
+          child: SingleChildScrollView(
             child: Column(
+              // shrinkWrap: true,
               children: [
-                SizedBox(
-                  // width: 1170,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      MainSlider(),
-                      ResponsiveHelper.isDesktop(context)
-                          ? CategoryViewWeb()
-                          : CategoryView(),
-                      SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-                      Center(
-                        child: SizedBox(
-                          width:
-                              Dimensions.getScreeenSize(context).width * 0.86,
-                          child: AllProductView(),
-                        ),
-                      ),
-                      SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
-                      ResponsiveHelper.isMobile(context)
-                          ? SizedBox()
-                          : Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(
-                                    height: Dimensions.PADDING_SIZE_DEFAULT,
-                                  ),
-                                  Container(
-                                    width: (MediaQuery.of(context).size.width /
-                                            5) *
-                                        4,
-                                    child: GridView(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal:
-                                            Dimensions.PADDING_SIZE_LARGE,
-                                      ),
-                                      shrinkWrap: true,
-                                      gridDelegate:
-                                          SliverGridDelegateWithMaxCrossAxisExtent(
-                                        maxCrossAxisExtent: 300,
-                                        mainAxisExtent: 270,
-                                        mainAxisSpacing: 20,
-                                        crossAxisSpacing: 10,
-                                      ),
-                                      children: [
-                                        ServiceCard(
-                                          title: "Master Chefs",
-                                          iconData: Icons.person,
-                                          description:
-                                              "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
-                                        ),
-                                        ServiceCard(
-                                          title: "Quality Food",
-                                          iconData: Icons.fastfood,
-                                          description:
-                                              "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
-                                        ),
-                                        ServiceCard(
-                                          title: "Online Order",
-                                          iconData: Icons.shopping_cart,
-                                          description:
-                                              "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
-                                        ),
-                                        ServiceCard(
-                                          title: "24/7 Service",
-                                          iconData: Icons.headphones,
-                                          description:
-                                              "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                      SizedBox(
-                        height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
-                      ),
-
-                      if (ResponsiveHelper.isDesktop(context))
-                        Center(
-                          child: SizedBox(
-                            width:
-                                Dimensions.getScreeenSize(context).width * 0.86,
-                            child: SetMenuViewWeb(),
-                          ),
-                        )
-                      else
-                        SetMenuView(),
-                      // ResponsiveHelper.isDesktop(context)
-                      //     ? SizedBox()
-                      //     : BannerView(),
-                      SizedBox(
-                        height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
-                      ),
-                      ResponsiveHelper.isDesktop(context)
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                                  child: Text(
-                                    getTranslated('popular_item', context),
-                                    style: rubikRegular.copyWith(
-                                      fontSize: Dimensions.FONT_SIZE_OVER_LARGE,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Padding(
-                              padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                              child: TitleWidget(
-                                  title:
-                                      getTranslated('popular_item', context)),
-                            ),
-
-                      Center(
-                        child: SizedBox(
-                          width:
-                              Dimensions.getScreeenSize(context).width * 0.86,
-                          child: ProductView(
-                            productType: ProductType.POPULAR_PRODUCT,
-                            scrollController: _scrollController,
-                          ),
-                        ),
-                      ),
-
-                      ResponsiveHelper.isMobile(context)
-                          ? SizedBox()
-                          : Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      text: '____   ',
-                                      style: TextStyle(
-                                        fontSize:
-                                            Dimensions.FONT_SIZE_OVER_TOO_LARGE,
-                                        color:
-                                            ColorResources.APPBAR_HEADER_COL0R,
-                                        fontWeight: FontWeight.w900,
-                                      ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text: 'Team Members',
-                                          style: dancingScriptRegular,
-                                        ),
-                                        TextSpan(text: '   _____'),
-                                      ],
-                                    ),
-                                  ),
-                                  Text(
-                                    "Our Master Chefs",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w900,
-                                      fontSize:
-                                          Dimensions.FONT_SIZE_OVER_TOO_LARGE,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
-                                  ),
-                                  Container(
-                                    width: Dimensions.getScreeenSize(context)
-                                            .width *
-                                        0.86,
-                                    child: GridView.builder(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal:
-                                            Dimensions.PADDING_SIZE_LARGE,
-                                      ),
-                                      shrinkWrap: true,
-                                      gridDelegate:
-                                          SliverGridDelegateWithMaxCrossAxisExtent(
-                                        maxCrossAxisExtent: 300,
-                                        mainAxisExtent: 340,
-                                        mainAxisSpacing: 10,
-                                        crossAxisSpacing: 10,
-                                      ),
-                                      itemCount: 4,
-                                      itemBuilder: (context, index) {
-                                        return TeamMemberWidget();
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      height: Dimensions.PADDING_SIZE_DEFAULT),
-                                ],
-                              ),
-                            ),
-// join membership
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: Dimensions.PADDING_SIZE_LARGE,
-                          ),
-                          child: Text(
-                            getTranslated('join_membership', context),
-                            style: rubikRegular.copyWith(
-                              fontSize: Dimensions.FONT_SIZE_OVER_LARGE,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: Dimensions.getScreeenSize(context).width * 0.86,
-                        child: PricingTable(),
-                      ),
-                      SizedBox(
-                        height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
-                      ),
-                    ],
+                MainSlider(),
+                ResponsiveHelper.isDesktop(context)
+                    ? CategoryViewWeb()
+                    : CategoryView(),
+                SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                Center(
+                  child: SizedBox(
+                    width: Dimensions.getScreeenSize(context).width * 0.86,
+                    child: AllProductView(),
                   ),
+                ),
+                SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: Dimensions.PADDING_SIZE_LARGE,
+                    ),
+                    child: Text(
+                      getTranslated('join_membership', context),
+                      style: rubikRegular.copyWith(
+                        fontSize: Dimensions.FONT_SIZE_OVER_LARGE,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
+                ),
+                Center(
+                  child: SizedBox(
+                    key: priceTableKey,
+                    width: Dimensions.getScreeenSize(context).width * 0.83,
+                    child: PricingTable(),
+                  ),
+                ),
+                if (ResponsiveHelper.isDesktop(context))
+                  Center(
+                    child: SizedBox(
+                      width: Dimensions.getScreeenSize(context).width * 0.86,
+                      child: SetMenuViewWeb(),
+                    ),
+                  )
+                else
+                  SetMenuView(),
+                SizedBox(
+                  height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
+                ),
+                ResponsiveHelper.isDesktop(context)
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                            child: Text(
+                              getTranslated('popular_item', context),
+                              style: rubikRegular.copyWith(
+                                fontSize: Dimensions.FONT_SIZE_OVER_LARGE,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Padding(
+                        padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                        child: TitleWidget(
+                            title: getTranslated('popular_item', context)),
+                      ),
+                Center(
+                  child: SizedBox(
+                    width: Dimensions.getScreeenSize(context).width * 0.86,
+                    child: ProductView(
+                      productType: ProductType.POPULAR_PRODUCT,
+                      scrollController: _scrollController,
+                    ),
+                  ),
+                ),
+                ResponsiveHelper.isMobile(context)
+                    ? SizedBox()
+                    : Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                text: '____   ',
+                                style: TextStyle(
+                                  fontSize: Dimensions.FONT_SIZE_OVER_TOO_LARGE,
+                                  color: ColorResources.APPBAR_HEADER_COL0R,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: 'Team Members',
+                                    style: dancingScriptRegular,
+                                  ),
+                                  TextSpan(text: '   _____'),
+                                ],
+                              ),
+                            ),
+                            Text(
+                              "Our Master Chefs",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize: Dimensions.FONT_SIZE_OVER_TOO_LARGE,
+                              ),
+                            ),
+                            SizedBox(
+                              height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
+                            ),
+                            Container(
+                              width: Dimensions.getScreeenSize(context).width *
+                                  0.86,
+                              child: GridView.builder(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: Dimensions.PADDING_SIZE_LARGE,
+                                ),
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 300,
+                                  mainAxisExtent: 340,
+                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: 10,
+                                ),
+                                itemCount: 4,
+                                itemBuilder: (context, index) {
+                                  return TeamMemberWidget();
+                                },
+                              ),
+                            ),
+                            SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                          ],
+                        ),
+                      ),
+                ResponsiveHelper.isMobile(context)
+                    ? SizedBox()
+                    : Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              height: Dimensions.PADDING_SIZE_DEFAULT,
+                            ),
+                            Container(
+                              width:
+                                  (MediaQuery.of(context).size.width / 5) * 4,
+                              child: GridView(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: Dimensions.PADDING_SIZE_LARGE,
+                                ),
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 300,
+                                  mainAxisExtent: 270,
+                                  mainAxisSpacing: 20,
+                                  crossAxisSpacing: 10,
+                                ),
+                                children: [
+                                  ServiceCard(
+                                    title: "Master Chefs",
+                                    iconData: Icons.person,
+                                    description:
+                                        "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
+                                  ),
+                                  ServiceCard(
+                                    title: "Quality Food",
+                                    iconData: Icons.fastfood,
+                                    description:
+                                        "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
+                                  ),
+                                  ServiceCard(
+                                    title: "Online Order",
+                                    iconData: Icons.shopping_cart,
+                                    description:
+                                        "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
+                                  ),
+                                  ServiceCard(
+                                    title: "24/7 Service",
+                                    iconData: Icons.headphones,
+                                    description:
+                                        "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                SizedBox(
+                  height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
                 ),
                 if (ResponsiveHelper.isDesktop(context)) FooterView(),
               ],

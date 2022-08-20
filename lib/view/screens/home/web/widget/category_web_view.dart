@@ -32,6 +32,9 @@ class _CategoryViewWebState extends State<CategoryViewWeb> {
       builder: (context, category, child) {
         return Column(
           children: [
+            SizedBox(
+              height: Dimensions.PADDING_SIZE_DEFAULT,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,6 +43,9 @@ class _CategoryViewWebState extends State<CategoryViewWeb> {
                     style: rubikRegular.copyWith(
                         fontSize: Dimensions.FONT_SIZE_OVER_LARGE)),
               ],
+            ),
+            SizedBox(
+              height: Dimensions.PADDING_SIZE_DEFAULT,
             ),
             Center(
               child: Stack(

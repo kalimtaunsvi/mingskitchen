@@ -196,18 +196,21 @@ class FooterView extends StatelessWidget {
                                       SizedBox(
                                         width: Dimensions.PADDING_SIZE_SMALL,
                                       ),
-                                      Text(
-                                        "6 Yukon Drive Raeford, NC 28376",
-                                        style: hovered
-                                            ? robotoRegular.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                                letterSpacing: 0.6,
-                                              )
-                                            : rubikRegular.copyWith(
-                                                color:
-                                                    ColorResources.COLOR_WHITE,
-                                                fontSize: Dimensions
-                                                    .FONT_SIZE_DEFAULT),
+                                      SizedBox(
+                                        width: 150,
+                                        child: Text(
+                                          "120 2nd Avenue North, Saskatoon, SK, Canada, Saskatchewan",
+                                          style: hovered
+                                              ? robotoRegular.copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                  letterSpacing: 0.6,
+                                                )
+                                              : rubikRegular.copyWith(
+                                                  color: ColorResources
+                                                      .COLOR_WHITE,
+                                                  fontSize: Dimensions
+                                                      .FONT_SIZE_DEFAULT),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -257,7 +260,7 @@ class FooterView extends StatelessWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Icon(
-                                        Icons.location_on,
+                                        Icons.email,
                                         color: ColorResources.COLOR_WHITE,
                                         size: Dimensions.FONT_SIZE_LARGE,
                                       ),
@@ -265,7 +268,7 @@ class FooterView extends StatelessWidget {
                                         width: Dimensions.PADDING_SIZE_SMALL,
                                       ),
                                       Text(
-                                        "info@example.com",
+                                        "info@mingskitchen.ca",
                                         style: hovered
                                             ? robotoRegular.copyWith(
                                                 fontWeight: FontWeight.bold,
