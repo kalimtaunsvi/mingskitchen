@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:410522356318:android:a392f109799d7e123dc2cf",
         "android_client_info": {
-          "package_name": "com.u6amtech.efood_client"
+          "package_name": "com.u6amtech.MingsKitchen_client"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "410522356318-43pl1qmq619t6800lmilft67nbq4s8cm.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.sixamtech.eFood"
+                "bundle_id": "com.sixamtech.MingsKitchen"
               }
             }
           ]
@@ -86,7 +86,7 @@
               "client_id": "410522356318-43pl1qmq619t6800lmilft67nbq4s8cm.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.sixamtech.eFood"
+                "bundle_id": "com.sixamtech.MingsKitchen"
               }
             }
           ]
@@ -122,7 +122,7 @@
               "client_id": "410522356318-43pl1qmq619t6800lmilft67nbq4s8cm.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.sixamtech.eFood"
+                "bundle_id": "com.sixamtech.MingsKitchen"
               }
             }
           ]

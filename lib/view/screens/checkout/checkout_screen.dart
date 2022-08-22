@@ -34,6 +34,7 @@ import 'package:flutter_restaurant/view/base/footer_view.dart';
 import 'package:flutter_restaurant/view/base/not_logged_in_screen.dart';
 import 'package:flutter_restaurant/view/base/web_app_bar.dart';
 import 'package:flutter_restaurant/view/screens/address/widget/permission_dialog.dart';
+import 'package:flutter_restaurant/view/screens/checkout/payment_screen.dart';
 import 'package:flutter_restaurant/view/screens/checkout/widget/custom_check_box.dart';
 import 'package:flutter_restaurant/view/screens/checkout/widget/delivery_fee_dialog.dart';
 import 'package:flutter_restaurant/view/screens/checkout/widget/slot_widget.dart';
@@ -70,6 +71,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   @override
   void initState() {
+    print('total amount is : ${widget.amount}');
     super.initState();
     _isLoggedIn = Provider.of<AuthProvider>(context, listen: false).isLoggedIn();
     if(_isLoggedIn) {
@@ -201,6 +203,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                         double.parse(_branches[0].longitude),
                                                       ), zoom: 5,
                                                     ),
+                                                    minMaxZoomPreference: MinMaxZoomPreference(0, 16),
                                                     zoomControlsEnabled: true,
                                                     markers: _markers,
                                                     onMapCreated: (GoogleMapController controller) async {
@@ -513,10 +516,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   String port = html.window.location.port;
                   final String _placeOrder =  convert.base64Url.encode(convert.utf8.encode(convert.jsonEncode(_placeOrderBody.toJson())));
                   String _url = "customer_id=${Provider.of<ProfileProvider>(context, listen: false).userInfoModel.id}"
-                      "&&callback=${AppConstants.BASE_URL}${Routes.ORDER_SUCCESS_SCREEN}&&order_amount=${widget.amount}";
+                      "&&callback=${AppConstants.BASE_URL}${Routes.ORDER_SUCCESS_SCREEN}&&order_amount=${widget.amount+_deliveryCharge}";
 
                   String _webUrl = "customer_id=${Provider.of<ProfileProvider>(context, listen: false).userInfoModel.id}"
-                      "&&callback=$protocol//$hostname:$port${Routes.ORDER_WEB_PAYMENT}&&order_amount=${widget.amount}&&status=";
+                      "&&callback=$protocol//$hostname:$port${Routes.ORDER_WEB_PAYMENT}&&order_amount=${widget.amount+_deliveryCharge}&&status=";
 
                   String _tokenUrl = convert.base64Encode(convert.utf8.encode(ResponsiveHelper.isWeb() ? _webUrl : _url));
                   String selectedUrl = '${AppConstants.BASE_URL}/payment-mobile?token=$_tokenUrl';
@@ -526,7 +529,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     });
 
                   } else{
-                    Navigator.pushReplacementNamed(context, Routes.getPaymentRoute(page: 'checkout',  selectAddress: selectedUrl, placeOrderBody: _placeOrderBody));
+                    Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (context) =>  PaymentScreen(
+                      fromCheckout: true, url: selectedUrl, placeOrderBody: _placeOrderBody,
+                    )),
+                    );
                   }
                 }
               }}),

@@ -1,43 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_restaurant/data/model/response/membership_plan_models.dart';
 import 'package:flutter_restaurant/helper/responsive_helper.dart';
+import 'package:flutter_restaurant/provider/membership_plan_provider.dart';
 import 'package:flutter_restaurant/utill/color_resources.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class PricingTable extends StatelessWidget {
   const PricingTable({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      alignment: WrapAlignment.spaceBetween,
-      children: [
-        if (ResponsiveHelper.isMobile(context))
-          Center(
-            child: BasicPackage(),
-          )
-        else
-          BasicPackage(),
-        if (ResponsiveHelper.isMobile(context))
-          Center(
-            child: BestValuePackage(),
-          )
-        else
-          BestValuePackage(),
-        if (ResponsiveHelper.isDesktop(context))
-          BusinessPackage()
-        else
-          Center(
-            child: BusinessPackage(),
-          )
-      ],
-    );
+    return Consumer<MembershipPlansProvider>(
+        builder: (context, membershipPlansProvider, _) {
+      final List<MembershipPlanModel> memberPlanList =
+          membershipPlansProvider.memberPlanList;
+      if (memberPlanList.isEmpty) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      return Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        children: [
+          if (ResponsiveHelper.isMobile(context))
+            Center(
+              child: BasicPackage(
+                membershipPlanModel: memberPlanList.first,
+              ),
+            )
+          else
+            BasicPackage(
+              membershipPlanModel: memberPlanList.first,
+            ),
+          if (ResponsiveHelper.isMobile(context))
+            Center(
+              child: BestValuePackage(
+                membershipPlanModel: memberPlanList[1],
+              ),
+            )
+          else
+            BestValuePackage(
+              membershipPlanModel: memberPlanList[1],
+            ),
+          if (ResponsiveHelper.isDesktop(context))
+            BusinessPackage(
+              membershipPlanModel: memberPlanList.last,
+            )
+          else
+            Center(
+              child: BusinessPackage(
+                membershipPlanModel: memberPlanList.last,
+              ),
+            )
+        ],
+      );
+    });
   }
 }
 
 class BusinessPackage extends StatelessWidget {
   const BusinessPackage({
     Key key,
+    this.membershipPlanModel,
   }) : super(key: key);
 
+  final MembershipPlanModel membershipPlanModel;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,7 +86,7 @@ class BusinessPackage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Business",
+                      membershipPlanModel.title,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 24,
@@ -71,17 +98,17 @@ class BusinessPackage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          r"$149",
+                          r"$" + membershipPlanModel.price,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 54,
+                            fontSize: 45,
                             height: 1.66,
                             color: Colors.white,
                           ),
                         ),
                         SizedBox(width: 14),
                         Text(
-                          "/ month",
+                          "/ ${membershipPlanModel.duration} months",
                           style: TextStyle(
                             fontSize: 16,
                             height: 1.66,
@@ -92,7 +119,7 @@ class BusinessPackage extends StatelessWidget {
                     ),
                     SizedBox(height: 3),
                     Text(
-                      "This plan is the best for large businesses",
+                      membershipPlanModel.des,
                       style: TextStyle(
                         fontSize: 13,
                         height: 1.65,
@@ -143,113 +170,13 @@ class BusinessPackage extends StatelessWidget {
   }
 }
 
-class Business2Package extends StatelessWidget {
-  const Business2Package({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 285,
-      height: 460,
-      color: Color(0xffF1FAEE),
-      margin: EdgeInsets.only(top: 20),
-      child: Stack(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(32),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Business",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 24,
-                    height: 1.39,
-                    color: Colors.black,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      r"$149",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 54,
-                        height: 1.66,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(width: 14),
-                    Text(
-                      "/ month",
-                      style: TextStyle(
-                        fontSize: 16,
-                        height: 1.66,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 3),
-                Text(
-                  "This plan is the best for large businesses",
-                  style: TextStyle(
-                    fontSize: 13,
-                    height: 1.65,
-                    color: Colors.black,
-                  ),
-                ),
-                SizedBox(height: 24),
-                _CheckboxWithTitle(title: "Unlimited Files"),
-                SizedBox(height: 26),
-                _CheckboxWithTitle(title: "Unlimited Storage"),
-                SizedBox(height: 26),
-                _CheckboxWithTitle(title: "Phone Support"),
-                SizedBox(height: 35),
-                Container(
-                  width: 220,
-                  height: 55,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    color: Color(0xff023047),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Choose Plan",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                        height: 1.5,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            child: SvgPicture.asset(
-              "assets/svgs/pricing_table_card.svg",
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class BestValuePackage extends StatelessWidget {
   const BestValuePackage({
     Key key,
+    this.membershipPlanModel,
   }) : super(key: key);
+
+  final MembershipPlanModel membershipPlanModel;
 
   @override
   Widget build(BuildContext context) {
@@ -295,7 +222,7 @@ class BestValuePackage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Professional",
+                      membershipPlanModel.title,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 24,
@@ -307,17 +234,17 @@ class BestValuePackage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          r"$99",
+                          r"$" + membershipPlanModel.price,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 54,
+                            fontSize: 45,
                             height: 1.66,
                             color: Colors.white,
                           ),
                         ),
                         SizedBox(width: 14),
                         Text(
-                          "/ month",
+                          "/ ${membershipPlanModel.duration} months",
                           style: TextStyle(
                             fontSize: 16,
                             height: 1.66,
@@ -328,7 +255,7 @@ class BestValuePackage extends StatelessWidget {
                     ),
                     SizedBox(height: 3),
                     Text(
-                      "This plan is for businesses that are getting started",
+                      membershipPlanModel.des,
                       style: TextStyle(
                         fontSize: 13,
                         height: 1.65,
@@ -391,7 +318,10 @@ class BestValuePackage extends StatelessWidget {
 class BasicPackage extends StatelessWidget {
   const BasicPackage({
     Key key,
+    this.membershipPlanModel,
   }) : super(key: key);
+
+  final MembershipPlanModel membershipPlanModel;
 
   @override
   Widget build(BuildContext context) {
@@ -414,7 +344,7 @@ class BasicPackage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Basic",
+                      membershipPlanModel.title,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 24,
@@ -426,17 +356,17 @@ class BasicPackage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          r"$49",
+                          r"$" + membershipPlanModel.price,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 54,
+                            fontSize: 45,
                             height: 1.66,
                             color: Colors.white,
                           ),
                         ),
                         SizedBox(width: 14),
                         Text(
-                          "/ month",
+                          "/ ${membershipPlanModel.duration} Months",
                           style: TextStyle(
                             fontSize: 16,
                             height: 1.66,
@@ -447,7 +377,7 @@ class BasicPackage extends StatelessWidget {
                     ),
                     SizedBox(height: 3),
                     Text(
-                      "This plan is the best for individuals who are getting started",
+                      membershipPlanModel.des,
                       style: TextStyle(
                         fontSize: 13,
                         height: 1.65,
@@ -497,109 +427,6 @@ class BasicPackage extends StatelessWidget {
     );
   }
 }
-
-// class BasicPackage extends StatelessWidget {
-//   const BasicPackage({
-//     Key key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: 285,
-//       height: 460,
-//       color: Color(0xffF1FAEE),
-//       margin: EdgeInsets.only(top: 20),
-//       child: Stack(
-//         children: [
-//           Padding(
-//             padding: EdgeInsets.all(32),
-//             child: Column(
-//               mainAxisSize: MainAxisSize.min,
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(
-//                   "Basic",
-//                   style: TextStyle(
-//                     fontWeight: FontWeight.w700,
-//                     fontSize: 24,
-//                     height: 1.39,
-//                     color: Colors.black,
-//                   ),
-//                 ),
-//                 Row(
-//                   mainAxisAlignment: MainAxisAlignment.start,
-//                   children: [
-//                     Text(
-//                       r"$49",
-//                       style: TextStyle(
-//                         fontWeight: FontWeight.bold,
-//                         fontSize: 54,
-//                         height: 1.66,
-//                         color: Colors.black,
-//                       ),
-//                     ),
-//                     SizedBox(width: 14),
-//                     Text(
-//                       "/ month",
-//                       style: TextStyle(
-//                         fontSize: 16,
-//                         height: 1.66,
-//                         color: Colors.black,
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//                 SizedBox(height: 3),
-//                 Text(
-//                   "This plan is the best for individuals who are getting started",
-//                   style: TextStyle(
-//                     fontSize: 13,
-//                     height: 1.65,
-//                     color: Colors.black,
-//                   ),
-//                 ),
-//                 SizedBox(height: 24),
-//                 _CheckboxWithTitle(title: "15 Files"),
-//                 SizedBox(height: 26),
-//                 _CheckboxWithTitle(title: "10 GB Storage"),
-//                 SizedBox(height: 26),
-//                 _CheckboxWithTitle(title: " Email Support"),
-//                 SizedBox(height: 35),
-//                 Container(
-//                   width: 220,
-//                   height: 55,
-//                   decoration: BoxDecoration(
-//                     borderRadius: BorderRadius.circular(24),
-//                     color: Color(0xff023047),
-//                   ),
-//                   child: Center(
-//                     child: Text(
-//                       "Choose Plan",
-//                       style: TextStyle(
-//                         fontWeight: FontWeight.w700,
-//                         fontSize: 18,
-//                         height: 1.5,
-//                         color: Colors.white,
-//                       ),
-//                     ),
-//                   ),
-//                 )
-//               ],
-//             ),
-//           ),
-//           Positioned(
-//             bottom: 0,
-//             child: SvgPicture.asset(
-//               "assets/svgs/pricing_table_card.svg",
-//               color: Colors.black,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 class _CheckboxWithTitle extends StatelessWidget {
   const _CheckboxWithTitle({

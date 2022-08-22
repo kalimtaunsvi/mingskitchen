@@ -7,6 +7,7 @@ import 'package:flutter_restaurant/provider/banner_provider.dart';
 import 'package:flutter_restaurant/provider/cart_provider.dart';
 import 'package:flutter_restaurant/provider/category_provider.dart';
 import 'package:flutter_restaurant/provider/localization_provider.dart';
+import 'package:flutter_restaurant/provider/membership_plan_provider.dart';
 import 'package:flutter_restaurant/provider/order_provider.dart';
 import 'package:flutter_restaurant/provider/product_provider.dart';
 import 'package:flutter_restaurant/provider/profile_provider.dart';
@@ -100,6 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
           .getBannerList(context, reload);
     }
 
+    Provider.of<MembershipPlansProvider>(context, listen: false)
+        .getMemberPlansList(context);
     Provider.of<ProductProvider>(context, listen: false).getLatestProductList(
       context,
       false,

@@ -2,7 +2,7 @@ import 'package:flutter_restaurant/data/model/response/language_model.dart';
 import 'package:flutter_restaurant/utill/images.dart';
 
 class AppConstants {
-  static const String APP_NAME = 'eFood';
+  static const String APP_NAME = 'MingsKitchen';
   static const double APP_VERSION = 8.0;
   static const String BASE_URL = 'https://admin.mingskitchen.ca';
   static const String CATEGORY_URI = '/api/v1/categories';
@@ -74,6 +74,7 @@ class AppConstants {
       '/api/v1/customer/message/send/customer';
   static const String EMAIL_SUBSCRIBE_URI = '/api/v1/subscribe-newsletter';
   static const String BOOK_TABLE = '/api/v1/booktable';
+  static const String MEMBERSHIP_PLAN_URI = '/api/v1/membershipplan';
 
   // Shared Key
   static const String THEME = 'theme';
