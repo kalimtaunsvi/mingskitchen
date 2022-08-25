@@ -5,7 +5,14 @@ import 'package:flutter_restaurant/utill/dimensions.dart';
 import 'package:flutter_restaurant/utill/routes.dart';
 import 'package:flutter_restaurant/utill/styles.dart';
 import 'package:flutter_restaurant/view/base/on_hover.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_restaurant/helper/email_checker.dart';
+import 'package:flutter_restaurant/provider/news_letter_controller.dart';
+import 'package:flutter_restaurant/provider/splash_provider.dart';
+import 'package:flutter_restaurant/utill/images.dart';
+import 'package:flutter_restaurant/view/base/custom_snackbar.dart';
+import 'package:provider/provider.dart';
 
 class FooterView extends StatelessWidget {
   const FooterView({Key key}) : super(key: key);
@@ -351,45 +358,13 @@ class FooterView extends StatelessWidget {
                                   height: Dimensions.PADDING_SIZE_DEFAULT),
                               Row(
                                 children: [
-                                  SizedBox.fromSize(
-                                    size:
-                                        Size(40, 40), // button width and height
-                                    child: ClipOval(
-                                      child: Material(
-                                        color: Theme.of(context)
-                                            .primaryColor, // button color
-                                        child: InkWell(
-                                          splashColor: ColorResources
-                                              .APPBAR_HEADER_COL0R, // splash color
-                                          onTap: () {}, // button pressed
-                                          child: Icon(
-                                            Icons.android_rounded,
-                                            color: ColorResources.COLOR_WHITE,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                  Image.asset(
+                                    Images.google_play_bandge,
+                                    width: 120,
                                   ),
-                                  SizedBox(
-                                      width: Dimensions.PADDING_SIZE_DEFAULT),
-                                  SizedBox.fromSize(
-                                    size:
-                                        Size(40, 40), // button width and height
-                                    child: ClipOval(
-                                      child: Material(
-                                        color: Theme.of(context)
-                                            .primaryColor, // button color
-                                        child: InkWell(
-                                          splashColor: ColorResources
-                                              .APPBAR_HEADER_COL0R, // splash color
-                                          onTap: () {}, // button pressed
-                                          child: Icon(
-                                            Icons.mobile_screen_share,
-                                            color: ColorResources.COLOR_WHITE,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                  SvgPicture.asset(
+                                    "assets/svgs/App_Store_Badge.svg",
+                                    width: 100,
                                   ),
                                 ],
                               ),
@@ -401,7 +376,10 @@ class FooterView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(
-                                  height: Dimensions.PADDING_SIZE_LARGE * 2),
+                                  height: Dimensions.PADDING_SIZE_LARGE),
+
+                              const SizedBox(
+                                  height: Dimensions.PADDING_SIZE_LARGE),
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -421,37 +399,181 @@ class FooterView extends StatelessWidget {
                                   ),
                                 ],
                               ),
+
                               const SizedBox(
-                                  height: Dimensions.PADDING_SIZE_LARGE),
-                              Text(
-                                  getTranslated(
-                                      'newsletter_description', context),
+                                  height: Dimensions.PADDING_SIZE_SMALL),
+                              Text(getTranslated('subscribe_to_our', context),
                                   style: rubikRegular.copyWith(
                                       color: ColorResources.COLOR_WHITE_GRAY,
                                       fontSize: Dimensions.FONT_SIZE_DEFAULT)),
+
                               const SizedBox(
                                   height: Dimensions.PADDING_SIZE_DEFAULT),
-                              OnHover(builder: (hovered) {
-                                return InkWell(
-                                    onTap: () => Navigator.pushNamed(
-                                        context, Routes.getSupportRoute()),
-                                    child: Text(
-                                        ">   " +
-                                            getTranslated(
-                                                'drive_for_us', context),
-                                        style: hovered
-                                            ? robotoRegular.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                                letterSpacing: 0.6,
-                                              )
-                                            : rubikRegular.copyWith(
-                                                color:
-                                                    ColorResources.COLOR_WHITE,
+
+                              Container(
+                                width: 400,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: ColorResources.COLOR_BLACK
+                                            .withOpacity(0.05),
+                                        blurRadius: 2,
+                                      )
+                                    ]),
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 20),
+                                    Expanded(
+                                        child: TextField(
+                                      controller: _newsLetterController,
+                                      style: rubikMedium.copyWith(
+                                          color: ColorResources.COLOR_BLACK),
+                                      decoration: InputDecoration(
+                                        hintText: getTranslated(
+                                            'your_email_address', context),
+                                        hintStyle: rubikRegular.copyWith(
+                                            color: ColorResources.getGreyColor(
+                                                context),
+                                            fontSize:
+                                                Dimensions.FONT_SIZE_LARGE),
+                                        border: InputBorder.none,
+                                      ),
+                                      maxLines: 1,
+                                    )),
+                                    InkWell(
+                                      onTap: () {
+                                        String email = _newsLetterController
+                                            .text
+                                            .trim()
+                                            .toString();
+                                        if (email.isEmpty) {
+                                          showCustomSnackBar(
+                                              getTranslated(
+                                                  'enter_email_address',
+                                                  context),
+                                              context);
+                                        } else if (EmailChecker.isNotValid(
+                                            email)) {
+                                          showCustomSnackBar(
+                                              getTranslated(
+                                                  'enter_valid_email', context),
+                                              context);
+                                        } else {
+                                          Provider.of<NewsLetterProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .addToNewsLetter(context, email)
+                                              .then((value) {
+                                            _newsLetterController.clear();
+                                          });
+                                        }
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 4, vertical: 2),
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).primaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15, vertical: 10),
+                                        child: Text(
+                                            getTranslated('subscribe', context),
+                                            style: rubikRegular.copyWith(
+                                                color: Colors.white,
                                                 fontSize: Dimensions
-                                                    .FONT_SIZE_DEFAULT)));
-                              }),
+                                                    .FONT_SIZE_DEFAULT)),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
                               const SizedBox(
                                   height: Dimensions.PADDING_SIZE_DEFAULT),
+
+                              // const SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+
+                              Consumer<SplashProvider>(
+                                  builder: (context, splashProvider, child) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (splashProvider.configModel
+                                                .socialMediaLink.length !=
+                                            null &&
+                                        splashProvider.configModel
+                                                .socialMediaLink.length >
+                                            0)
+                                      Text(
+                                        getTranslated('follow_us_on', context),
+                                        style: rubikRegular.copyWith(
+                                            color:
+                                                ColorResources.COLOR_WHITE_GRAY,
+                                            fontSize:
+                                                Dimensions.FONT_SIZE_DEFAULT),
+                                      ),
+                                    Container(
+                                      height: 50,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        shrinkWrap: true,
+                                        itemCount: splashProvider
+                                            .configModel.socialMediaLink.length,
+                                        itemBuilder:
+                                            (BuildContext context, index) {
+                                          String name = splashProvider
+                                              .configModel
+                                              .socialMediaLink[index]
+                                              .name;
+                                          String icon;
+                                          if (name == 'facebook') {
+                                            icon = Images.facebook_icon;
+                                          } else if (name == 'linkedin') {
+                                            icon = Images.linked_in_icon;
+                                          } else if (name == 'youtube') {
+                                            icon = Images.youtube_icon;
+                                          } else if (name == 'twitter') {
+                                            icon = Images.twitter_icon;
+                                          } else if (name == 'instagram') {
+                                            icon = Images.in_sta_gram_icon;
+                                          } else if (name == 'pinterest') {
+                                            icon = Images.pinterest;
+                                          }
+                                          return splashProvider.configModel
+                                                      .socialMediaLink.length >
+                                                  0
+                                              ? InkWell(
+                                                  onTap: () {
+                                                    _launchURL(splashProvider
+                                                        .configModel
+                                                        .socialMediaLink[index]
+                                                        .link);
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 8.0),
+                                                    child: Image.asset(icon,
+                                                        height: Dimensions
+                                                            .PADDING_SIZE_EXTRA_LARGE,
+                                                        width: Dimensions
+                                                            .PADDING_SIZE_EXTRA_LARGE,
+                                                        fit: BoxFit.contain),
+                                                  ),
+                                                )
+                                              : SizedBox();
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }),
+
+                              const SizedBox(
+                                  height: Dimensions.PADDING_SIZE_LARGE),
                             ],
                           )),
                     ],

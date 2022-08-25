@@ -507,26 +507,33 @@ class _HomeScreenState extends State<HomeScreen> {
                             SizedBox(
                               height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
                             ),
-                            Container(
-                              width: Dimensions.getScreeenSize(context).width *
-                                  0.86,
-                              child: GridView.builder(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: Dimensions.PADDING_SIZE_LARGE,
-                                ),
-                                shrinkWrap: true,
-                                gridDelegate:
-                                    SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent: 300,
-                                  mainAxisExtent: 340,
-                                  mainAxisSpacing: 10,
-                                  crossAxisSpacing: 10,
-                                ),
-                                itemCount: 4,
-                                itemBuilder: (context, index) {
-                                  return TeamMemberWidget();
-                                },
-                              ),
+                            // Container(
+                            //   width: Dimensions.getScreeenSize(context).width *
+                            //       0.86,
+                            //   child: GridView.builder(
+                            //     padding: const EdgeInsets.symmetric(
+                            //       horizontal: Dimensions.PADDING_SIZE_LARGE,
+                            //     ),
+                            //     shrinkWrap: true,
+                            //     gridDelegate:
+                            //         SliverGridDelegateWithMaxCrossAxisExtent(
+                            //       maxCrossAxisExtent: 300,
+                            //       mainAxisExtent: 340,
+                            //       mainAxisSpacing: 10,
+                            //       crossAxisSpacing: 10,
+                            //     ),
+                            //     itemCount: 4,
+                            //     itemBuilder: (context, index) {
+                            //       return TeamMemberWidget();
+                            //     },
+                            //   ),
+                            // ),
+                            Wrap(
+                              children: [1, 2, 3, 4]
+                                  .map(
+                                    (e) => TeamMemberWidget(),
+                                  )
+                                  .toList(),
                             ),
                             SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
                           ],
@@ -535,56 +542,40 @@ class _HomeScreenState extends State<HomeScreen> {
                 ResponsiveHelper.isMobile(context)
                     ? SizedBox()
                     : Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              height: Dimensions.PADDING_SIZE_DEFAULT,
-                            ),
-                            Container(
-                              width:
-                                  (MediaQuery.of(context).size.width / 5) * 4,
-                              child: GridView(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: Dimensions.PADDING_SIZE_LARGE,
-                                ),
-                                shrinkWrap: true,
-                                gridDelegate:
-                                    SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent: 300,
-                                  mainAxisExtent: 270,
-                                  mainAxisSpacing: 20,
-                                  crossAxisSpacing: 10,
-                                ),
-                                children: [
-                                  ServiceCard(
-                                    title: "Master Chefs",
-                                    iconData: Icons.person,
-                                    description:
-                                        "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
-                                  ),
-                                  ServiceCard(
-                                    title: "Quality Food",
-                                    iconData: Icons.fastfood,
-                                    description:
-                                        "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
-                                  ),
-                                  ServiceCard(
-                                    title: "Online Order",
-                                    iconData: Icons.shopping_cart,
-                                    description:
-                                        "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
-                                  ),
-                                  ServiceCard(
-                                    title: "24/7 Service",
-                                    iconData: Icons.headphones,
-                                    description:
-                                        "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
-                                  ),
-                                ],
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                            vertical: Dimensions.PADDING_SIZE_DEFAULT,
+                          ),
+                          width: (MediaQuery.of(context).size.width / 5) * 4,
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            children: [
+                              ServiceCard(
+                                title: "Master Chefs",
+                                iconData: Icons.person,
+                                description:
+                                    "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
                               ),
-                            ),
-                          ],
+                              ServiceCard(
+                                title: "Quality Food",
+                                iconData: Icons.fastfood,
+                                description:
+                                    "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
+                              ),
+                              ServiceCard(
+                                title: "Online Order",
+                                iconData: Icons.shopping_cart,
+                                description:
+                                    "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
+                              ),
+                              ServiceCard(
+                                title: "24/7 Service",
+                                iconData: Icons.headphones,
+                                description:
+                                    "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                 SizedBox(
@@ -639,53 +630,58 @@ class ServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OnHover(
-      builder: (bool isHovered) {
-        return Card(
-          color: isHovered
-              ? ColorResources.APPBAR_HEADER_COL0R
-              : Provider.of<ThemeProvider>(context).darkTheme
-                  ? Color(0xFF494949)
-                  : Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  iconData,
-                  size: 60,
-                  color: isHovered
-                      ? ColorResources.COLOR_WHITE
-                      : ColorResources.APPBAR_HEADER_COL0R,
-                ),
-                SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-                Text(
-                  title,
-                  style: rubikRegular.copyWith(
+    return Padding(
+      padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+      child: OnHover(
+        builder: (bool isHovered) {
+          return Card(
+            color: isHovered
+                ? ColorResources.APPBAR_HEADER_COL0R
+                : Provider.of<ThemeProvider>(context).darkTheme
+                    ? Color(0xFF494949)
+                    : Colors.white,
+            child: Container(
+              width: 270,
+              height: 300,
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    iconData,
+                    size: 60,
                     color: isHovered
                         ? ColorResources.COLOR_WHITE
-                        : ColorResources.COLOR_BLACK,
-                    fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
-                    fontWeight: FontWeight.bold,
+                        : ColorResources.APPBAR_HEADER_COL0R,
                   ),
-                ),
-                SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
-                Text(
-                  description,
-                  style: rubikRegular.copyWith(
-                    color: isHovered
-                        ? ColorResources.COLOR_WHITE
-                        : ColorResources.COLOR_BLACK,
-                    fontSize: Dimensions.FONT_SIZE_LARGE,
+                  SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                  Text(
+                    title,
+                    style: rubikRegular.copyWith(
+                      color: isHovered
+                          ? ColorResources.COLOR_WHITE
+                          : ColorResources.COLOR_BLACK,
+                      fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                  Text(
+                    description,
+                    style: rubikRegular.copyWith(
+                      color: isHovered
+                          ? ColorResources.COLOR_WHITE
+                          : ColorResources.COLOR_BLACK,
+                      fontSize: Dimensions.FONT_SIZE_LARGE,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
@@ -702,138 +698,144 @@ class _TeamMemberWidgetState extends State<TeamMemberWidget> {
   double opacity = 0.0;
   @override
   Widget build(context) {
-    return InkWell(
-      onTap: () {},
-      onHover: (value) {
-        setState(() {
-          isHover = value;
-        });
-        if (value) {
+    return Padding(
+      padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+      child: InkWell(
+        onTap: () {},
+        onHover: (value) {
           setState(() {
-            opacity = 1;
-            elevation = 20.0;
-            scale = 1.2;
+            isHover = value;
           });
-        } else {
-          setState(() {
-            opacity = 0;
-            elevation = 4.0;
-            scale = 1;
-          });
-        }
-      },
-      child: Card(
-        elevation: 1.5,
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
-            SizedBox(
-              width: 180,
-              height: 180,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(500),
-                child: AnimatedScale(
-                  scale: scale,
-                  duration: Duration(
-                    milliseconds: 500,
-                  ),
-                  child: Material(
-                    elevation: elevation,
-                    child: Image.network(
-                      'https://technext.github.io/restoran/img/team-1.jpg',
+          if (value) {
+            setState(() {
+              opacity = 1;
+              elevation = 20.0;
+              scale = 1.2;
+            });
+          } else {
+            setState(() {
+              opacity = 0;
+              elevation = 4.0;
+              scale = 1;
+            });
+          }
+        },
+        child: Card(
+          elevation: 1.5,
+          child: Container(
+            margin: const EdgeInsets.all(8),
+            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 8),
+            child: Column(
+              children: [
+                SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                SizedBox(
+                  width: 180,
+                  height: 180,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(500),
+                    child: AnimatedScale(
+                      scale: scale,
+                      duration: Duration(
+                        milliseconds: 500,
+                      ),
+                      child: Material(
+                        elevation: elevation,
+                        child: Image.network(
+                          'https://technext.github.io/restoran/img/team-1.jpg',
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
-            Text(
-              "Full Name",
-              style: rubikRegular.copyWith(
-                fontSize: Dimensions.FONT_SIZE_LARGE,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-            Text(
-              "Designation",
-              style: rubikRegular.copyWith(
-                fontSize: Dimensions.FONT_SIZE_DEFAULT,
-              ),
-            ),
-            SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-            AnimatedOpacity(
-              duration: const Duration(milliseconds: 500),
-              opacity: opacity,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
+                SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
+                Text(
+                  "Full Name",
+                  style: rubikRegular.copyWith(
+                    fontSize: Dimensions.FONT_SIZE_LARGE,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                Text(
+                  "Designation",
+                  style: rubikRegular.copyWith(
+                    fontSize: Dimensions.FONT_SIZE_DEFAULT,
+                  ),
+                ),
+                SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 500),
+                  opacity: opacity,
+                  child: Column(
                     children: [
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          width: 28,
-                          height: 37,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                              width: 28,
+                              height: 37,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                ),
+                                color: Colors.orange,
+                              ),
+                              child: Icon(
+                                FontAwesomeIcons.facebook,
+                                size: 18,
+                                color: ColorResources.COLOR_WHITE,
+                              ),
                             ),
-                            color: Colors.orange,
                           ),
-                          child: Icon(
-                            FontAwesomeIcons.facebook,
-                            size: 18,
-                            color: ColorResources.COLOR_WHITE,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          width: 28,
-                          height: 37,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
+                          SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT),
+                          InkWell(
+                            onTap: () {},
+                            child: Container(
+                              width: 28,
+                              height: 37,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                ),
+                                color: Colors.orange,
+                              ),
+                              child: Icon(
+                                FontAwesomeIcons.twitter,
+                                size: 18,
+                                color: ColorResources.COLOR_WHITE,
+                              ),
                             ),
-                            color: Colors.orange,
                           ),
-                          child: Icon(
-                            FontAwesomeIcons.twitter,
-                            size: 18,
-                            color: ColorResources.COLOR_WHITE,
+                          SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT),
+                          Container(
+                            width: 28,
+                            height: 37,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                              color: Colors.orange,
+                            ),
+                            child: Icon(
+                              FontAwesomeIcons.instagram,
+                              size: 18,
+                              color: ColorResources.COLOR_WHITE,
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                      SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT),
-                      Container(
-                        width: 28,
-                        height: 37,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
-                          ),
-                          color: Colors.orange,
-                        ),
-                        child: Icon(
-                          FontAwesomeIcons.instagram,
-                          size: 18,
-                          color: ColorResources.COLOR_WHITE,
-                        ),
-                      ),
+                      SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
                     ],
                   ),
-                  SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
