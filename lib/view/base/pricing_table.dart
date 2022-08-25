@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_restaurant/data/model/response/membership_plan_models.dart';
 import 'package:flutter_restaurant/provider/membership_plan_provider.dart';
 import 'package:flutter_restaurant/utill/color_resources.dart';
+import 'package:flutter_restaurant/view/screens/checkout/payment_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert' as convert;
+import 'package:flutter_restaurant/helper/responsive_helper.dart';
+import 'package:flutter_restaurant/provider/profile_provider.dart';
+import 'package:flutter_restaurant/utill/app_constants.dart';
+import 'package:flutter_restaurant/utill/routes.dart';
+import 'package:universal_html/html.dart' as html;
 
 class PricingTable extends StatelessWidget {
   const PricingTable({Key key}) : super(key: key);
@@ -132,21 +139,55 @@ class BestValuePackage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 35),
-                    Container(
-                      width: 220,
-                      height: 55,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24),
-                        color: ColorResources.APPBAR_HEADER_COL0R,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Buy Plan",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
-                            height: 1.5,
-                            color: Colors.white,
+                    GestureDetector(
+                      onTap: () {
+                        print("buy plan tap");
+                        String hostname = html.window.location.hostname;
+                        String protocol = html.window.location.protocol;
+                        String port = html.window.location.port;
+
+                        String _url =
+                            "customer_id=${Provider.of<ProfileProvider>(context, listen: false).userInfoModel.id}"
+                            "&&callback=${AppConstants.BASE_URL}${Routes.ORDER_SUCCESS_SCREEN}&&order_amount=${200}";
+
+                        String _webUrl =
+                            "customer_id=${Provider.of<ProfileProvider>(context, listen: false).userInfoModel.id}"
+                            "&&callback=$protocol//$hostname:$port${Routes.ORDER_WEB_PAYMENT}&&order_amount=${200}&&status=";
+
+                        String _tokenUrl = convert.base64Encode(convert.utf8
+                            .encode(ResponsiveHelper.isWeb() ? _webUrl : _url));
+                        String selectedUrl =
+                            '${AppConstants.BASE_URL}/payment-mobile?token=$_tokenUrl';
+                        if (ResponsiveHelper.isWeb()) {
+                          html.window.open(selectedUrl, "_self");
+                        } else {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PaymentScreen(
+                                      fromCheckout: true,
+                                      url: selectedUrl,
+                                      // placeOrderBody: _placeOrderBody,
+                                    )),
+                          );
+                        }
+                      },
+                      child: Container(
+                        width: 220,
+                        height: 55,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(24),
+                          color: ColorResources.APPBAR_HEADER_COL0R,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Buy Plan",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                              height: 1.5,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
