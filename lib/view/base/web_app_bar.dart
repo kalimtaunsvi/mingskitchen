@@ -504,7 +504,7 @@ class _WebAppBarState extends State<WebAppBar> {
                         return InkWell(
                           onTap: () => Navigator.pushNamed(
                               context, Routes.getDashboardRoute('menu')),
-                          child: Icon(Icons.menu,
+                          child: Icon(Icons.person_rounded,
                               size: Dimensions.PADDING_SIZE_EXTRA_LARGE,
                               color: isHover
                                   ? Theme.of(context).primaryColor
