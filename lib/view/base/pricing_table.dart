@@ -127,11 +127,14 @@ class BusinessPackage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 26),
-                    _CheckboxWithTitle(title: "Unlimited Files"),
-                    SizedBox(height: 26),
-                    _CheckboxWithTitle(title: "Unlimited Storage"),
-                    SizedBox(height: 26),
-                    _CheckboxWithTitle(title: "Phone Support"),
+                    Text(
+                      "Discount " + membershipPlanModel.discount + "%",
+                      style: TextStyle(
+                        fontSize: 18,
+                        height: 1.33,
+                        color: Colors.white,
+                      ),
+                    ),
                     SizedBox(height: 35),
                     Container(
                       width: 220,
@@ -263,19 +266,13 @@ class BestValuePackage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 24),
-                    _CheckboxWithTitle(
-                      title: "Unlimited Files",
-                      color: Colors.white,
-                    ),
-                    SizedBox(height: 26),
-                    _CheckboxWithTitle(
-                      title: "25 GB Storage",
-                      color: Colors.white,
-                    ),
-                    SizedBox(height: 26),
-                    _CheckboxWithTitle(
-                      title: "Phone Support",
-                      color: Colors.white,
+                    Text(
+                      "Discount " + membershipPlanModel.discount + "%",
+                      style: TextStyle(
+                        fontSize: 18,
+                        height: 1.33,
+                        color: Colors.white,
+                      ),
                     ),
                     SizedBox(height: 35),
                     Container(
@@ -385,11 +382,14 @@ class BasicPackage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 26),
-                    _CheckboxWithTitle(title: "15 Files"),
-                    SizedBox(height: 26),
-                    _CheckboxWithTitle(title: "10 GB Storage"),
-                    SizedBox(height: 26),
-                    _CheckboxWithTitle(title: " Email Support"),
+                    Text(
+                      "Discount " + membershipPlanModel.discount + "%",
+                      style: TextStyle(
+                        fontSize: 18,
+                        height: 1.33,
+                        color: Colors.white,
+                      ),
+                    ),
                     SizedBox(height: 35),
                     Container(
                       width: 220,
@@ -424,45 +424,6 @@ class BasicPackage extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _CheckboxWithTitle extends StatelessWidget {
-  const _CheckboxWithTitle({
-    Key key,
-    @required this.title,
-    this.color,
-  }) : super(key: key);
-  final String title;
-  final Color color;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 16,
-          height: 16,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Color(0xff06D6A0),
-          ),
-          child: Icon(
-            Icons.check,
-            color: Colors.white,
-            size: 12,
-          ),
-        ),
-        SizedBox(width: 12),
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 15,
-            height: 1.33,
-            color: color != null ? color : Colors.white,
-          ),
-        ),
-      ],
     );
   }
 }
