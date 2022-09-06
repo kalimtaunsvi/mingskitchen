@@ -29,13 +29,17 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ResponsiveHelper.isDesktop(context) ? PreferredSize(child: WebAppBar(), preferredSize: Size.fromHeight(100)) : null,
+      appBar: ResponsiveHelper.isDesktop(context)
+          ? PreferredSize(
+              child: WebAppBar(), preferredSize: Size.fromHeight(100))
+          : null,
       body: SafeArea(
         child: Center(
           child: Container(
             width: 1170,
             child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
+                padding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.PADDING_SIZE_LARGE),
                 child: Consumer<SearchProvider>(
                   builder: (context, searchProvider, child) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,16 +49,25 @@ class _SearchScreenState extends State<SearchScreen> {
                         children: [
                           Expanded(
                             child: CustomTextField(
-                              hintText: getTranslated('search_items_here', context),
+                              hintText:
+                                  getTranslated('search_items_here', context),
                               isShowBorder: true,
                               isShowSuffixIcon: true,
                               suffixIconUrl: Images.search,
                               onSuffixTap: () {
                                 if (_searchController.text.length > 0) {
-                                  searchProvider.saveSearchAddress(_searchController.text);
-                                  searchProvider.searchProduct(_searchController.text, context);
-                                  Navigator.pushNamed(context, Routes.getSearchResultRoute(_searchController.text), arguments: SearchResultScreen(searchString: _searchController.text));
-                                 // Navigator.pushNamed(context, Routes.getSearchResultRoute(_searchController.text.replaceAll(' ', '-')));
+                                  searchProvider.saveSearchAddress(
+                                      _searchController.text);
+                                  searchProvider.searchProduct(
+                                      _searchController.text, context);
+                                  Navigator.pushNamed(
+                                      context,
+                                      Routes.getSearchResultRoute(
+                                          _searchController.text),
+                                      arguments: SearchResultScreen(
+                                          searchString:
+                                              _searchController.text));
+                                  // Navigator.pushNamed(context, Routes.getSearchResultRoute(_searchController.text.replaceAll(' ', '-')));
                                 }
                               },
                               controller: _searchController,
@@ -62,9 +75,17 @@ class _SearchScreenState extends State<SearchScreen> {
                               isIcon: true,
                               onSubmit: (text) {
                                 if (_searchController.text.length > 0) {
-                                  searchProvider.saveSearchAddress(_searchController.text);
-                                  searchProvider.searchProduct(_searchController.text, context);
-                                  Navigator.pushNamed(context, Routes.getSearchResultRoute(_searchController.text), arguments: SearchResultScreen(searchString: _searchController.text));
+                                  searchProvider.saveSearchAddress(
+                                      _searchController.text);
+                                  searchProvider.searchProduct(
+                                      _searchController.text, context);
+                                  Navigator.pushNamed(
+                                      context,
+                                      Routes.getSearchResultRoute(
+                                          _searchController.text),
+                                      arguments: SearchResultScreen(
+                                          searchString:
+                                              _searchController.text));
                                   //Navigator.pushNamed(context, Routes.getSearchResultRoute(_searchController.text.replaceAll(' ', '-')));
                                 }
                               },
@@ -76,7 +97,13 @@ class _SearchScreenState extends State<SearchScreen> {
                               },
                               child: Text(
                                 getTranslated('cancel', context),
-                                style: Theme.of(context).textTheme.headline2.copyWith(color: ColorResources.getGreyBunkerColor(context)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline2
+                                    .copyWith(
+                                        color:
+                                            ColorResources.getGreyBunkerColor(
+                                                context)),
                               ))
                         ],
                       ),
@@ -87,14 +114,23 @@ class _SearchScreenState extends State<SearchScreen> {
                         children: [
                           Text(
                             getTranslated('recent_search', context),
-                            style: Theme.of(context).textTheme.headline3.copyWith(color: ColorResources.COLOR_GREY_BUNKER),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline3
+                                .copyWith(
+                                    color: ColorResources.COLOR_GREY_BUNKER),
                           ),
                           searchProvider.historyList.length > 0
                               ? TextButton(
                                   onPressed: searchProvider.clearSearchAddress,
                                   child: Text(
                                     getTranslated('remove_all', context),
-                                    style: Theme.of(context).textTheme.headline2.copyWith(color: ColorResources.COLOR_GREY_BUNKER),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline2
+                                        .copyWith(
+                                            color: ColorResources
+                                                .COLOR_GREY_BUNKER),
                                   ))
                               : SizedBox.shrink(),
                         ],
@@ -107,28 +143,45 @@ class _SearchScreenState extends State<SearchScreen> {
                             physics: BouncingScrollPhysics(),
                             itemBuilder: (context, index) => InkWell(
                                   onTap: () {
-                                    searchProvider.searchProduct(searchProvider.historyList[index], context);
-                                    Navigator.pushNamed(context, Routes.getSearchResultRoute(searchProvider.historyList[index].replaceAll(' ', '-')));
+                                    searchProvider.searchProduct(
+                                        searchProvider.historyList[index],
+                                        context);
+                                    Navigator.pushNamed(
+                                        context,
+                                        Routes.getSearchResultRoute(
+                                            searchProvider.historyList[index]
+                                                .replaceAll(' ', '-')));
                                   },
                                   child: Padding(
-                                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                                    padding: EdgeInsets.all(
+                                        Dimensions.PADDING_SIZE_SMALL),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           children: [
-                                            Icon(Icons.history, size: 16, color: ColorResources.COLOR_HINT),
+                                            Icon(Icons.history,
+                                                size: 16,
+                                                color:
+                                                    ColorResources.COLOR_HINT),
                                             SizedBox(width: 13),
                                             Text(
                                               searchProvider.historyList[index],
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headline2
-                                                  .copyWith(color: ColorResources.COLOR_HINT, fontSize: Dimensions.FONT_SIZE_SMALL),
+                                                  .copyWith(
+                                                      color: ColorResources
+                                                          .COLOR_HINT,
+                                                      fontSize: Dimensions
+                                                          .FONT_SIZE_SMALL),
                                             )
                                           ],
                                         ),
-                                        Icon(Icons.arrow_upward, size: 16, color: ColorResources.COLOR_HINT),
+                                        Icon(Icons.arrow_upward,
+                                            size: 16,
+                                            color: ColorResources.COLOR_HINT),
                                       ],
                                     ),
                                   ),

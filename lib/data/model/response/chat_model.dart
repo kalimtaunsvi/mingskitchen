@@ -45,41 +45,41 @@ class Messages {
 
   Messages(
       {this.id,
-        this.conversationId,
-        this.customerId,
-        this.deliverymanId,
-        this.message,
-        this.reply,
-        this.attachment,
-        this.image,
-        this.isReply,
-        this.createdAt,
-        this.updatedAt});
+      this.conversationId,
+      this.customerId,
+      this.deliverymanId,
+      this.message,
+      this.reply,
+      this.attachment,
+      this.image,
+      this.isReply,
+      this.createdAt,
+      this.updatedAt});
 
   Messages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    try{
+    try {
       conversationId = json['conversation_id'];
-    }catch(e) {
+    } catch (e) {
       conversationId = int.parse(json['conversation_id']);
     }
-    if(json['customer_id']!=null){
+    if (json['customer_id'] != null) {
       customerId = json['customer_id'] != null
           ? new CustomerId.fromJson(json['customer_id'])
           : null;
     }
 
-    if(json['deliveryman_id']!= null){
+    if (json['deliveryman_id'] != null) {
       deliverymanId = json['deliveryman_id'] != null
           ? new DeliverymanId.fromJson(json['deliveryman_id'])
           : null;
     }
     message = json['message'];
     reply = json['reply'];
-    if(json['attachment']!=null && json['attachment']!=[]){
+    if (json['attachment'] != null && json['attachment'] != []) {
       attachment = json['attachment'].cast<String>();
     }
-    if(json['image']!=null){
+    if (json['image'] != null) {
       image = json['image'].cast<String>();
     }
 
@@ -105,7 +105,6 @@ class Messages {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
 
-
     return data;
   }
 }
@@ -128,6 +127,7 @@ class CustomerId {
     return data;
   }
 }
+
 class DeliverymanId {
   String name;
   String image;

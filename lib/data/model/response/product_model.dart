@@ -66,26 +66,26 @@ class Product {
 
   Product(
       {int id,
-        String name,
-        String description,
-        String image,
-        double price,
-        List<Variation> variations,
-        List<AddOns> addOns,
-        double tax,
-        String availableTimeStarts,
-        String availableTimeEnds,
-        int status,
-        String createdAt,
-        String updatedAt,
-        List<String> attributes,
-        List<CategoryId> categoryIds,
-        List<ChoiceOption> choiceOptions,
-        double discount,
-        String discountType,
-        String taxType,
-        int setMenu,
-        List<Rating> rating}) {
+      String name,
+      String description,
+      String image,
+      double price,
+      List<Variation> variations,
+      List<AddOns> addOns,
+      double tax,
+      String availableTimeStarts,
+      String availableTimeEnds,
+      int status,
+      String createdAt,
+      String updatedAt,
+      List<String> attributes,
+      List<CategoryId> categoryIds,
+      List<ChoiceOption> choiceOptions,
+      double discount,
+      String discountType,
+      String taxType,
+      int setMenu,
+      List<Rating> rating}) {
     this._id = id;
     this._name = name;
     this._description = description;
@@ -152,7 +152,7 @@ class Product {
     _tax = json['tax'].toDouble();
     _tax = json['tax'].toDouble();
     _availableTimeStarts = json['available_time_starts'] ?? '';
-    _availableTimeEnds = json['available_time_ends'] ?? '' ;
+    _availableTimeEnds = json['available_time_ends'] ?? '';
     _status = json['status'] ?? 0;
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
@@ -237,7 +237,7 @@ class Variation {
 
   Variation.fromJson(Map<String, dynamic> json) {
     _type = json['type'];
-    if(json['price'] != null) {
+    if (json['price'] != null) {
       _price = json['price'].toDouble();
     }
   }
@@ -257,7 +257,8 @@ class AddOns {
   String _createdAt;
   String _updatedAt;
 
-  AddOns({int id, String name, double price, String createdAt, String updatedAt}) {
+  AddOns(
+      {int id, String name, double price, String createdAt, String updatedAt}) {
     this._id = id;
     this._name = name;
     this._price = price;

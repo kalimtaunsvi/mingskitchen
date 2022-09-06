@@ -14,7 +14,7 @@ import 'package:flutter_restaurant/data/model/response/userinfo_model.dart';
 import 'package:flutter_restaurant/utill/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfileRepo{
+class ProfileRepo {
   final DioClient dioClient;
   final SharedPreferences sharedPreferences;
   ProfileRepo({@required this.dioClient, @required this.sharedPreferences});
@@ -27,7 +27,10 @@ class ProfileRepo{
         'Office',
         'Other',
       ];
-      Response response = Response(requestOptions: RequestOptions(path: ''), data: addressTypeList, statusCode: 200);
+      Response response = Response(
+          requestOptions: RequestOptions(path: ''),
+          data: addressTypeList,
+          statusCode: 200);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -43,31 +46,47 @@ class ProfileRepo{
     }
   }
 
-  Future<http.StreamedResponse> updateProfile(UserInfoModel userInfoModel, String password, File file, XFile data, String token) async {
-    http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse('${AppConstants.BASE_URL}${AppConstants.UPDATE_PROFILE_URI}'));
-    request.headers.addAll(<String,String>{'Authorization': 'Bearer $token'});
-    if(file != null) {
-      print('----------------${file.readAsBytes().asStream()}/${file.lengthSync()}/${file.path.split('/').last}');
-      request.files.add(http.MultipartFile('image', file.readAsBytes().asStream(), file.lengthSync(), filename: file.path.split('/').last));
-    }else if(data != null) {
+  Future<http.StreamedResponse> updateProfile(UserInfoModel userInfoModel,
+      String password, File file, XFile data, String token) async {
+    http.MultipartRequest request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+            '${AppConstants.BASE_URL}${AppConstants.UPDATE_PROFILE_URI}'));
+    request.headers.addAll(<String, String>{'Authorization': 'Bearer $token'});
+    if (file != null) {
+      print(
+          '----------------${file.readAsBytes().asStream()}/${file.lengthSync()}/${file.path.split('/').last}');
+      request.files.add(http.MultipartFile(
+          'image', file.readAsBytes().asStream(), file.lengthSync(),
+          filename: file.path.split('/').last));
+    } else if (data != null) {
       Uint8List _list = await data.readAsBytes();
-      var part = http.MultipartFile('image', data.readAsBytes().asStream(), _list.length, filename: basename(data.path), contentType: MediaType('image', 'jpg'));
+      var part = http.MultipartFile(
+          'image', data.readAsBytes().asStream(), _list.length,
+          filename: basename(data.path),
+          contentType: MediaType('image', 'jpg'));
       request.files.add(part);
       print('----------------${_list.length}/${basename(data.path)}');
     }
     Map<String, String> _fields = Map();
-    if(password.isEmpty) {
+    if (password.isEmpty) {
       _fields.addAll(<String, String>{
-        '_method': 'put', 'f_name': userInfoModel.fName, 'l_name': userInfoModel.lName, 'phone': userInfoModel.phone
+        '_method': 'put',
+        'f_name': userInfoModel.fName,
+        'l_name': userInfoModel.lName,
+        'phone': userInfoModel.phone
       });
-    }else {
+    } else {
       _fields.addAll(<String, String>{
-        '_method': 'put', 'f_name': userInfoModel.fName, 'l_name': userInfoModel.lName, 'phone': userInfoModel.phone, 'password': password
+        '_method': 'put',
+        'f_name': userInfoModel.fName,
+        'l_name': userInfoModel.lName,
+        'phone': userInfoModel.phone,
+        'password': password
       });
     }
     request.fields.addAll(_fields);
     http.StreamedResponse response = await request.send();
     return response;
   }
-
 }

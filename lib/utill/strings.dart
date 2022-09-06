@@ -14,7 +14,8 @@ class Strings {
   static const String previous = 'Previous';
   static const String lets_start = 'Let\'s Start';
   static const String welcome = 'Welcome';
-  static const String lorem__ipsm__nonu = 'Lorem ipsum dolor sit amet, consetetur the sadipscing elitr, sed diam nonu.';
+  static const String lorem__ipsm__nonu =
+      'Lorem ipsum dolor sit amet, consetetur the sadipscing elitr, sed diam nonu.';
   static const String login = 'Login';
   static const String signup = 'Singup';
   static const String mobile_number = 'Mobile Number';

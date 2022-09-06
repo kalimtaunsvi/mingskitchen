@@ -20,15 +20,21 @@ class BannerProvider extends ChangeNotifier {
   List<Product> get productList => _productList;
 
   Future<void> getBannerList(BuildContext context, bool reload) async {
-    if(bannerList == null || reload) {
+    if (bannerList == null || reload) {
       ApiResponse apiResponse = await bannerRepo.getBannerList();
-      if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+      if (apiResponse.response != null &&
+          apiResponse.response.statusCode == 200) {
         _bannerList = [];
         apiResponse.response.data.forEach((category) {
           BannerModel bannerModel = BannerModel.fromJson(category);
-          if(bannerModel.productId != null) {
-            getProductDetails(context, bannerModel.productId.toString(),
-              Provider.of<LocalizationProvider>(context, listen: false).locale.languageCode,);
+          if (bannerModel.productId != null) {
+            getProductDetails(
+              context,
+              bannerModel.productId.toString(),
+              Provider.of<LocalizationProvider>(context, listen: false)
+                  .locale
+                  .languageCode,
+            );
           }
           _bannerList.add(bannerModel);
         });
@@ -39,9 +45,12 @@ class BannerProvider extends ChangeNotifier {
     }
   }
 
-  void getProductDetails(BuildContext context, String productID, String languageCode) async {
-    ApiResponse apiResponse = await bannerRepo.getProductDetails(productID, languageCode);
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+  void getProductDetails(
+      BuildContext context, String productID, String languageCode) async {
+    ApiResponse apiResponse =
+        await bannerRepo.getProductDetails(productID, languageCode);
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       _productList.add(Product.fromJson(apiResponse.response.data));
     } else {
       showCustomSnackBar(apiResponse.error.toString(), context);

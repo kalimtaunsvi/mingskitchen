@@ -22,31 +22,51 @@ class DeliveryManWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [BoxShadow(
-          color: Colors.grey[Provider.of<ThemeProvider>(context).darkTheme ? 700 : 300],
-          blurRadius: 5, spreadRadius: 1,
-        )],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey[
+                Provider.of<ThemeProvider>(context).darkTheme ? 700 : 300],
+            blurRadius: 5,
+            spreadRadius: 1,
+          )
+        ],
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(getTranslated('delivery_man', context), style: rubikRegular.copyWith(fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL)),
+        Text(getTranslated('delivery_man', context),
+            style: rubikRegular.copyWith(
+                fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL)),
         ListTile(
           leading: ClipOval(
             child: FadeInImage.assetNetwork(
-              placeholder: Images.placeholder_user, height: 40, width: 40, fit: BoxFit.cover,
-              image: '${Provider.of<SplashProvider>(context, listen: false).baseUrls.deliveryManImageUrl}/${deliveryMan.image}',
-              imageErrorBuilder: (c, o, s) => Image.asset(Images.placeholder_user, height: 40, width: 40, fit: BoxFit.cover),
+              placeholder: Images.placeholder_user,
+              height: 40,
+              width: 40,
+              fit: BoxFit.cover,
+              image:
+                  '${Provider.of<SplashProvider>(context, listen: false).baseUrls.deliveryManImageUrl}/${deliveryMan.image}',
+              imageErrorBuilder: (c, o, s) => Image.asset(
+                  Images.placeholder_user,
+                  height: 40,
+                  width: 40,
+                  fit: BoxFit.cover),
             ),
           ),
           title: Text(
             '${deliveryMan.fName} ${deliveryMan.lName}',
             style: rubikRegular.copyWith(fontSize: Dimensions.FONT_SIZE_LARGE),
           ),
-          subtitle: RatingBar(rating: deliveryMan.rating.length > 0 ? double.parse(deliveryMan.rating[0].average) : 0, size: 15),
+          subtitle: RatingBar(
+              rating: deliveryMan.rating.length > 0
+                  ? double.parse(deliveryMan.rating[0].average)
+                  : 0,
+              size: 15),
           trailing: InkWell(
             onTap: () => launchUrl(Uri.parse('tel:${deliveryMan.phone}')),
             child: Container(
               padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
-              decoration: BoxDecoration(shape: BoxShape.circle, color: ColorResources.getSearchBg(context)),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: ColorResources.getSearchBg(context)),
               child: Icon(Icons.call_outlined),
             ),
           ),

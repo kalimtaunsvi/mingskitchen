@@ -15,12 +15,24 @@ class OnBoardingRepo {
   Future<ApiResponse> getOnBoardingList(BuildContext context) async {
     try {
       List<OnBoardingModel> onBoardingList = [
-        OnBoardingModel(Images.onboarding_one, getTranslated('make_your_choice_order', context), getTranslated('you_can_choice_the_best', context)),
-        OnBoardingModel(Images.onboarding_two, getTranslated('select_delivery_location', context), getTranslated('select_accurate_location', context)),
-        OnBoardingModel(Images.onboarding_three, getTranslated('delivery_to_your_home', context), getTranslated('get_food_delivery_at_home', context)),
+        OnBoardingModel(
+            Images.onboarding_one,
+            getTranslated('make_your_choice_order', context),
+            getTranslated('you_can_choice_the_best', context)),
+        OnBoardingModel(
+            Images.onboarding_two,
+            getTranslated('select_delivery_location', context),
+            getTranslated('select_accurate_location', context)),
+        OnBoardingModel(
+            Images.onboarding_three,
+            getTranslated('delivery_to_your_home', context),
+            getTranslated('get_food_delivery_at_home', context)),
       ];
 
-      Response response = Response(requestOptions: RequestOptions(path: ''), data: onBoardingList, statusCode: 200);
+      Response response = Response(
+          requestOptions: RequestOptions(path: ''),
+          data: onBoardingList,
+          statusCode: 200);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_restaurant/data/model/response/address_model.dart';
 import 'package:flutter_restaurant/localization/language_constrants.dart';
@@ -21,14 +20,17 @@ class AddressWidget extends StatelessWidget {
       padding: EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_SMALL),
       child: InkWell(
         onTap: () {
-          if(addressModel != null) {
+          if (addressModel != null) {
             Navigator.pushNamed(context, Routes.getMapRoute(addressModel));
           }
         },
         child: Container(
           padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
           height: 70,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.PADDING_SIZE_SMALL), color: ColorResources.getSearchBg(context)),
+          decoration: BoxDecoration(
+              borderRadius:
+                  BorderRadius.circular(Dimensions.PADDING_SIZE_SMALL),
+              color: ColorResources.getSearchBg(context)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -40,9 +42,10 @@ class AddressWidget extends StatelessWidget {
                     Icon(
                       addressModel.addressType.toLowerCase() == "home"
                           ? Icons.home_filled
-                          : addressModel.addressType.toLowerCase() == "workplace"
-                          ? Icons.work_outline
-                          : Icons.list_alt_outlined,
+                          : addressModel.addressType.toLowerCase() ==
+                                  "workplace"
+                              ? Icons.work_outline
+                              : Icons.list_alt_outlined,
                       //color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.45),
                       size: 22,
                     ),
@@ -54,12 +57,28 @@ class AddressWidget extends StatelessWidget {
                         children: [
                           Text(
                             addressModel.addressType,
-                            style: Theme.of(context).textTheme.headline2.copyWith(color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.65)),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline2
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .color
+                                        .withOpacity(.65)),
                           ),
                           Text(
                             addressModel.address,
-                            maxLines: 1, overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.headline2.copyWith(color: Theme.of(context).textTheme.bodyText1.color),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline2
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .color),
                           ),
                         ],
                       ),
@@ -69,7 +88,8 @@ class AddressWidget extends StatelessWidget {
                 ),
               ),
               Stack(
-                clipBehavior: Clip.none, children: [
+                clipBehavior: Clip.none,
+                children: [
                   Container(
                     margin: EdgeInsets.only(right: 10),
                     child: Container(
@@ -79,7 +99,9 @@ class AddressWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: Theme.of(context).cardColor,
-                        border: Border.all(width: 1, color: ColorResources.getGreyColor(context)),
+                        border: Border.all(
+                            width: 1,
+                            color: ColorResources.getGreyColor(context)),
                       ),
                       child: Icon(Icons.map),
                     ),
@@ -87,31 +109,44 @@ class AddressWidget extends StatelessWidget {
                   //SizedBox(width: 9.0),
                   // Image.asset(Images.menu)
                   Positioned(
-                    right: -10, top: 0, bottom: 0,
+                    right: -10,
+                    top: 0,
+                    bottom: 0,
                     child: Material(
                       color: Colors.transparent,
                       child: PopupMenuButton<String>(
-                        icon: Image.asset(Images.three_dot, width: Dimensions.PADDING_SIZE_LARGE),
+                        icon: Image.asset(Images.three_dot,
+                            width: Dimensions.PADDING_SIZE_LARGE),
                         padding: EdgeInsets.all(0),
                         onSelected: (String result) {
                           if (result == 'delete') {
-                            showDialog(context: context, barrierDismissible: false, builder: (context) => DeleteConfirmationDialog(addressModel: addressModel,index: index));
+                            showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) => DeleteConfirmationDialog(
+                                    addressModel: addressModel, index: index));
                           } else {
-                            Provider.of<LocationProvider>(context, listen: false).updateAddressStatusMessage(message: '');
+                            Provider.of<LocationProvider>(context,
+                                    listen: false)
+                                .updateAddressStatusMessage(message: '');
                             Navigator.pushNamed(
                               context,
-                              Routes.getAddAddressRoute('address', 'update', addressModel),
+                              Routes.getAddAddressRoute(
+                                  'address', 'update', addressModel),
                             );
                           }
                         },
-                        itemBuilder: (BuildContext c) => <PopupMenuEntry<String>>[
+                        itemBuilder: (BuildContext c) =>
+                            <PopupMenuEntry<String>>[
                           PopupMenuItem<String>(
                             value: 'edit',
-                            child: Text(getTranslated('edit', context), style: Theme.of(context).textTheme.headline2),
+                            child: Text(getTranslated('edit', context),
+                                style: Theme.of(context).textTheme.headline2),
                           ),
                           PopupMenuItem<String>(
                             value: 'delete',
-                            child: Text(getTranslated('delete', context), style: Theme.of(context).textTheme.headline2),
+                            child: Text(getTranslated('delete', context),
+                                style: Theme.of(context).textTheme.headline2),
                           ),
                         ],
                       ),

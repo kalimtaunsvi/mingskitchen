@@ -75,6 +75,7 @@ class AppConstants {
   static const String EMAIL_SUBSCRIBE_URI = '/api/v1/subscribe-newsletter';
   static const String BOOK_TABLE = '/api/v1/booktable';
   static const String MEMBERSHIP_PLAN_URI = '/api/v1/membershipplan';
+  static const String CHECK_MEMBERSHIP = 'api/v1/checkmembership';
 
   // Shared Key
   static const String THEME = 'theme';

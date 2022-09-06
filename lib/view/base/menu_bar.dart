@@ -11,21 +11,25 @@ class MenuBar extends StatelessWidget {
     return [
       MenuItemView(
         menuType: MenuType.menu,
-        onTap: () => Navigator.pushNamed(context, Routes.getDashboardRoute('menu')),
+        onTap: () =>
+            Navigator.pushNamed(context, Routes.getDashboardRoute('menu')),
       ),
       MenuItemView(
         menuType: MenuType.cart,
         icon: Icons.shopping_cart,
-        onTap: () => Navigator.pushNamed(context, Routes.getDashboardRoute('cart')),
+        onTap: () =>
+            Navigator.pushNamed(context, Routes.getDashboardRoute('cart')),
       ),
     ];
   }
+
   List<MenuItemView> getMenus(BuildContext context) {
     return [
       MenuItemView(
         menuType: MenuType.text,
         title: getTranslated('home', context),
-        onTap: () => Navigator.pushNamed(context, Routes.getDashboardRoute('home')),
+        onTap: () =>
+            Navigator.pushNamed(context, Routes.getDashboardRoute('home')),
       ),
 
       // MenuItemView(
@@ -39,13 +43,12 @@ class MenuBar extends StatelessWidget {
       MenuItemView(
         menuType: MenuType.text,
         title: 'Favourite',
-        onTap: () => Navigator.pushNamed(context, Routes.getDashboardRoute('favourite')),
+        onTap: () =>
+            Navigator.pushNamed(context, Routes.getDashboardRoute('favourite')),
       ),
       // MenuItemView(
       //   menuType: MenuType.search
       // ),
-      
-
     ];
     // return [
     //   MenuItemView(
@@ -110,19 +113,18 @@ class MenuBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
-    //   //color: Colors.white,
-    // width: 800,
+      //   //color: Colors.white,
+      // width: 800,
       child: PlutoMenuBar(
         backgroundColor: Theme.of(context).cardColor,
         gradient: false,
         goBackButtonText: 'Back',
-        textStyle: TextStyle(color: Theme.of(context).textTheme.bodyText1.color),
+        textStyle:
+            TextStyle(color: Theme.of(context).textTheme.bodyText1.color),
         moreIconColor: Theme.of(context).textTheme.bodyText1.color,
         menuIconColor: Theme.of(context).textTheme.bodyText1.color,
-        menus: isLeft ?  getMenus(context) : getCartMenu(context),
-
+        menus: isLeft ? getMenus(context) : getCartMenu(context),
       ),
     );
   }

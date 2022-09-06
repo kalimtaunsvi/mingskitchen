@@ -21,7 +21,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class OrderProvider extends ChangeNotifier {
   final OrderRepo orderRepo;
   final SharedPreferences sharedPreferences;
-  OrderProvider({ @required this.sharedPreferences,@required this.orderRepo});
+  OrderProvider({@required this.sharedPreferences, @required this.orderRepo});
 
   List<OrderModel> _runningOrderList;
   List<OrderModel> _historyOrderList;
@@ -63,24 +63,25 @@ class OrderProvider extends ChangeNotifier {
 
   void changeStatus(bool status, {bool notify = false}) {
     _isRestaurantCloseShow = status;
-    if(notify) {
+    if (notify) {
       notifyListeners();
     }
   }
 
   Future<void> getOrderList(BuildContext context) async {
     ApiResponse apiResponse = await orderRepo.getOrderList();
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       _runningOrderList = [];
       _historyOrderList = [];
       apiResponse.response.data.forEach((order) {
         OrderModel orderModel = OrderModel.fromJson(order);
-        if(orderModel.orderStatus == 'pending' ||
+        if (orderModel.orderStatus == 'pending' ||
             orderModel.orderStatus == 'processing' ||
             orderModel.orderStatus == 'out_for_delivery' ||
             orderModel.orderStatus == 'confirmed') {
           _runningOrderList.add(orderModel);
-        }else if(orderModel.orderStatus == 'delivered' ||
+        } else if (orderModel.orderStatus == 'delivered' ||
             orderModel.orderStatus == 'returned' ||
             orderModel.orderStatus == 'failed' ||
             orderModel.orderStatus == 'canceled') {
@@ -93,17 +94,20 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<OrderDetailsModel>> getOrderDetails(String orderID, BuildContext context) async {
+  Future<List<OrderDetailsModel>> getOrderDetails(
+      String orderID, BuildContext context) async {
     _orderDetails = null;
     _isLoading = true;
     _showCancelled = false;
 
     ApiResponse apiResponse = await orderRepo.getOrderDetails(orderID);
     _isLoading = false;
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       print('order Details: ${apiResponse.response}');
       _orderDetails = [];
-      apiResponse.response.data.forEach((orderDetail) => _orderDetails.add(OrderDetailsModel.fromJson(orderDetail)));
+      apiResponse.response.data.forEach((orderDetail) =>
+          _orderDetails.add(OrderDetailsModel.fromJson(orderDetail)));
     } else {
       ApiChecker.checkApi(context, apiResponse);
     }
@@ -113,7 +117,8 @@ class OrderProvider extends ChangeNotifier {
 
   Future<void> getDeliveryManData(String orderID, BuildContext context) async {
     ApiResponse apiResponse = await orderRepo.getDeliveryManData(orderID);
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       _deliveryManModel = DeliveryManModel.fromJson(apiResponse.response.data);
     } else {
       ApiChecker.checkApi(context, apiResponse);
@@ -126,40 +131,46 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<ResponseModel> trackOrder(String orderID, OrderModel orderModel, BuildContext context, bool fromTracking) async {
+  Future<ResponseModel> trackOrder(String orderID, OrderModel orderModel,
+      BuildContext context, bool fromTracking) async {
     _trackModel = null;
     _responseModel = null;
-    if(!fromTracking) {
+    if (!fromTracking) {
       _orderDetails = null;
     }
     _showCancelled = false;
-    if(orderModel == null) {
+    if (orderModel == null) {
       _isLoading = true;
       ApiResponse apiResponse = await orderRepo.trackOrder(orderID);
-      if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+      if (apiResponse.response != null &&
+          apiResponse.response.statusCode == 200) {
         _trackModel = OrderModel.fromJson(apiResponse.response.data);
-        _responseModel = ResponseModel(true, apiResponse.response.data.toString());
+        _responseModel =
+            ResponseModel(true, apiResponse.response.data.toString());
         debugPrint('responseModel : ${_responseModel.message}');
       } else {
-        _responseModel = ResponseModel(false, apiResponse.error.errors[0].message);
+        _responseModel =
+            ResponseModel(false, apiResponse.error.errors[0].message);
         ApiChecker.checkApi(context, apiResponse);
       }
       _isLoading = false;
       notifyListeners();
-    }else {
+    } else {
       _trackModel = orderModel;
       _responseModel = ResponseModel(true, 'Successful');
     }
     return _responseModel;
   }
 
-  Future<void> placeOrder(PlaceOrderBody placeOrderBody, Function callback) async {
+  Future<void> placeOrder(
+      PlaceOrderBody placeOrderBody, Function callback) async {
     _isLoading = true;
     notifyListeners();
     print('order body : ${placeOrderBody.toJson()}');
     ApiResponse apiResponse = await orderRepo.placeOrder(placeOrderBody);
     _isLoading = false;
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       String message = apiResponse.response.data['message'];
       String orderID = apiResponse.response.data['order_id'].toString();
       callback(true, message, orderID, placeOrderBody.deliveryAddressId);
@@ -200,10 +211,11 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
     ApiResponse apiResponse = await orderRepo.cancelOrder(orderID);
     _isLoading = false;
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       OrderModel orderModel;
       _runningOrderList.forEach((order) {
-        if(order.id.toString() == orderID) {
+        if (order.id.toString() == orderID) {
           orderModel = order;
         }
       });
@@ -222,15 +234,16 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
     ApiResponse apiResponse = await orderRepo.updatePaymentMethod(orderID);
     _isLoading = false;
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       int orderIndex;
-      for(int index=0; index<_runningOrderList.length; index++) {
-        if(_runningOrderList[index].id.toString() == orderID) {
+      for (int index = 0; index < _runningOrderList.length; index++) {
+        if (_runningOrderList[index].id.toString() == orderID) {
           orderIndex = index;
           break;
         }
       }
-      if(orderIndex != null) {
+      if (orderIndex != null) {
         _runningOrderList[orderIndex].paymentMethod = 'cash_on_delivery';
       }
       _trackModel.paymentMethod = 'cash_on_delivery';
@@ -244,7 +257,7 @@ class OrderProvider extends ChangeNotifier {
 
   void setOrderType(String type, {bool notify = true}) {
     _orderType = type;
-    if(notify) {
+    if (notify) {
       notifyListeners();
     }
   }
@@ -257,64 +270,85 @@ class OrderProvider extends ChangeNotifier {
   }
 
   Future<void> initializeTimeSlot(BuildContext context) async {
-   final _scheduleTime =  Provider.of<SplashProvider>(context, listen: false).configModel.restaurantScheduleTime;
-   int _duration = Provider.of<SplashProvider>(context, listen: false).configModel.scheduleOrderSlotDuration;
+    final _scheduleTime = Provider.of<SplashProvider>(context, listen: false)
+        .configModel
+        .restaurantScheduleTime;
+    int _duration = Provider.of<SplashProvider>(context, listen: false)
+        .configModel
+        .scheduleOrderSlotDuration;
     _timeSlots = [];
     _allTimeSlots = [];
     _selectDateSlot = 0;
     int _minutes = 0;
     DateTime _now = DateTime.now();
-    for(int index = 0; index < _scheduleTime.length; index++) {
+    for (int index = 0; index < _scheduleTime.length; index++) {
       DateTime _openTime = DateTime(
         _now.year,
         _now.month,
         _now.day,
-        DateConverter.convertStringTimeToDate(_scheduleTime[index].openingTime).hour,
-        DateConverter.convertStringTimeToDate(_scheduleTime[index].openingTime).minute,
+        DateConverter.convertStringTimeToDate(_scheduleTime[index].openingTime)
+            .hour,
+        DateConverter.convertStringTimeToDate(_scheduleTime[index].openingTime)
+            .minute,
       );
 
       DateTime _closeTime = DateTime(
         _now.year,
         _now.month,
         _now.day,
-        DateConverter.convertStringTimeToDate(_scheduleTime[index].closingTime).hour,
-        DateConverter.convertStringTimeToDate(_scheduleTime[index].closingTime).minute,
+        DateConverter.convertStringTimeToDate(_scheduleTime[index].closingTime)
+            .hour,
+        DateConverter.convertStringTimeToDate(_scheduleTime[index].closingTime)
+            .minute,
       );
 
-      if(_closeTime.difference(_openTime).isNegative) {
+      if (_closeTime.difference(_openTime).isNegative) {
         _minutes = _openTime.difference(_closeTime).inMinutes;
-      }else {
+      } else {
         _minutes = _closeTime.difference(_openTime).inMinutes;
       }
-      if(_duration > 0 && _minutes > _duration) {
+      if (_duration > 0 && _minutes > _duration) {
         DateTime _time = _openTime;
-        for(;;) {
-          if(_time.isBefore(_closeTime)) {
+        for (;;) {
+          if (_time.isBefore(_closeTime)) {
             DateTime _start = _time;
             DateTime _end = _start.add(Duration(minutes: _duration));
-            if(_end.isAfter(_closeTime)) {
+            if (_end.isAfter(_closeTime)) {
               _end = _closeTime;
             }
-            _timeSlots.add(TimeSlotModel(day: int.tryParse(_scheduleTime[index].day), startTime: _start, endTime: _end));
-            _allTimeSlots.add(TimeSlotModel(day: int.tryParse(_scheduleTime[index].day), startTime: _start, endTime: _end));
+            _timeSlots.add(TimeSlotModel(
+                day: int.tryParse(_scheduleTime[index].day),
+                startTime: _start,
+                endTime: _end));
+            _allTimeSlots.add(TimeSlotModel(
+                day: int.tryParse(_scheduleTime[index].day),
+                startTime: _start,
+                endTime: _end));
             _time = _time.add(Duration(minutes: _duration));
-          }else {
+          } else {
             break;
           }
         }
-      }else {
-        _timeSlots.add(TimeSlotModel(day: int.tryParse(_scheduleTime[index].day), startTime: _openTime, endTime: _closeTime));
-        _allTimeSlots.add(TimeSlotModel(day: int.tryParse(_scheduleTime[index].day), startTime: _openTime, endTime: _closeTime));
+      } else {
+        _timeSlots.add(TimeSlotModel(
+            day: int.tryParse(_scheduleTime[index].day),
+            startTime: _openTime,
+            endTime: _closeTime));
+        _allTimeSlots.add(TimeSlotModel(
+            day: int.tryParse(_scheduleTime[index].day),
+            startTime: _openTime,
+            endTime: _closeTime));
       }
     }
     validateSlot(_allTimeSlots, 0, notify: false);
   }
+
   void sortTime() {
-    _timeSlots.sort((a, b){
+    _timeSlots.sort((a, b) {
       return a.startTime.compareTo(b.startTime);
     });
 
-    _allTimeSlots.sort((a, b){
+    _allTimeSlots.sort((a, b) {
       return a.startTime.compareTo(b.startTime);
     });
   }
@@ -326,69 +360,84 @@ class OrderProvider extends ChangeNotifier {
 
   void updateDateSlot(int index) {
     _selectDateSlot = index;
-    if(_allTimeSlots != null) {
+    if (_allTimeSlots != null) {
       validateSlot(_allTimeSlots, index);
     }
     notifyListeners();
   }
 
-
-
-  void validateSlot(List<TimeSlotModel> slots, int dateIndex, {bool notify = true}) {
+  void validateSlot(List<TimeSlotModel> slots, int dateIndex,
+      {bool notify = true}) {
     _timeSlots = [];
     int _day = 0;
-    if(dateIndex == 0) {
+    if (dateIndex == 0) {
       _day = DateTime.now().weekday;
-    }else {
+    } else {
       _day = DateTime.now().add(Duration(days: 1)).weekday;
     }
-    if(_day == 7) {
+    if (_day == 7) {
       _day = 0;
     }
     slots.forEach((slot) {
-      if (_day == slot.day && (dateIndex == 0 ? slot.endTime.isAfter(DateTime.now()) : true)) {
+      if (_day == slot.day &&
+          (dateIndex == 0 ? slot.endTime.isAfter(DateTime.now()) : true)) {
         _timeSlots.add(slot);
       }
     });
 
-
-    if(notify) {
+    if (notify) {
       notifyListeners();
     }
   }
 
-
-  Future<bool> getDistanceInMeter(LatLng originLatLng, LatLng destinationLatLng) async {
+  Future<bool> getDistanceInMeter(
+      LatLng originLatLng, LatLng destinationLatLng) async {
     _distance = -1;
     bool _isSuccess = false;
-    ApiResponse response = await orderRepo.getDistanceInMeter(originLatLng, destinationLatLng);
+    ApiResponse response =
+        await orderRepo.getDistanceInMeter(originLatLng, destinationLatLng);
     try {
-      if (response.response.statusCode == 200 && response.response.data['status'] == 'OK') {
+      if (response.response.statusCode == 200 &&
+          response.response.data['status'] == 'OK') {
         _isSuccess = true;
-        _distance = DistanceModel.fromJson(response.response.data).rows[0].elements[0].distance.value / 1000;
+        _distance = DistanceModel.fromJson(response.response.data)
+                .rows[0]
+                .elements[0]
+                .distance
+                .value /
+            1000;
       } else {
         _distance = Geolocator.distanceBetween(
-          originLatLng.latitude, originLatLng.longitude, destinationLatLng.latitude, destinationLatLng.longitude,
-        ) / 1000;
+              originLatLng.latitude,
+              originLatLng.longitude,
+              destinationLatLng.latitude,
+              destinationLatLng.longitude,
+            ) /
+            1000;
       }
     } catch (e) {
       _distance = Geolocator.distanceBetween(
-        originLatLng.latitude, originLatLng.longitude, destinationLatLng.latitude, destinationLatLng.longitude,
-      ) / 1000;
+            originLatLng.latitude,
+            originLatLng.longitude,
+            destinationLatLng.latitude,
+            destinationLatLng.longitude,
+          ) /
+          1000;
     }
     notifyListeners();
     return _isSuccess;
   }
 
-  Future<void> setPlaceOrder(String placeOrder)async{
-    await sharedPreferences.setString(AppConstants.PLACE_ORDER_DATA, placeOrder);
+  Future<void> setPlaceOrder(String placeOrder) async {
+    await sharedPreferences.setString(
+        AppConstants.PLACE_ORDER_DATA, placeOrder);
   }
-  String getPlaceOrder(){
+
+  String getPlaceOrder() {
     return sharedPreferences.getString(AppConstants.PLACE_ORDER_DATA);
   }
-  Future<void> clearPlaceOrder()async{
+
+  Future<void> clearPlaceOrder() async {
     await sharedPreferences.remove(AppConstants.PLACE_ORDER_DATA);
   }
-
-
 }

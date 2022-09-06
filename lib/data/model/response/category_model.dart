@@ -9,17 +9,17 @@ class CategoryModel {
   String _image;
   String _bannerImage;
 
-  CategoryModel(
-      {int id,
-        String name,
-        int parentId,
-        int position,
-        int status,
-        String createdAt,
-        String updatedAt,
-        String image,
-        String bannerImage,
-      }) {
+  CategoryModel({
+    int id,
+    String name,
+    int parentId,
+    int position,
+    int status,
+    String createdAt,
+    String updatedAt,
+    String image,
+    String bannerImage,
+  }) {
     this._id = id;
     this._name = name;
     this._parentId = parentId;

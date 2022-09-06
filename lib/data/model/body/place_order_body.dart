@@ -23,22 +23,22 @@ class PlaceOrderBody {
     return this;
   }
 
-  PlaceOrderBody(
-      {@required List<Cart> cart,
-        @required double couponDiscountAmount,
-        @required String couponDiscountTitle,
-        @required String couponCode,
-        @required double orderAmount,
-        @required int deliveryAddressId,
-        @required String orderType,
-        @required String paymentMethod,
-        @required int branchId,
-        @required String deliveryTime,
-        @required String deliveryDate,
-        @required String orderNote,
-        @required double distance,
-        String transactionReference,
-      }) {
+  PlaceOrderBody({
+    @required List<Cart> cart,
+    @required double couponDiscountAmount,
+    @required String couponDiscountTitle,
+    @required String couponCode,
+    @required double orderAmount,
+    @required int deliveryAddressId,
+    @required String orderType,
+    @required String paymentMethod,
+    @required int branchId,
+    @required String deliveryTime,
+    @required String deliveryDate,
+    @required String orderNote,
+    @required double distance,
+    String transactionReference,
+  }) {
     this._cart = cart;
     this._couponDiscountAmount = couponDiscountAmount;
     this._couponDiscountTitle = couponDiscountTitle;
@@ -108,7 +108,7 @@ class PlaceOrderBody {
     data['delivery_date'] = this._deliveryDate;
     data['branch_id'] = this._branchId;
     data['distance'] = this._distance;
-    if(_transactionReference != null) {
+    if (_transactionReference != null) {
       data['transaction_reference'] = this._transactionReference;
     }
     return data;
@@ -128,14 +128,14 @@ class Cart {
 
   Cart(
       String productId,
-        String price,
-        String variant,
-        List<Variation> variation,
-        double discountAmount,
-        int quantity,
-        double taxAmount,
-        List<int> addOnIds,
-        List<int> addOnQtys) {
+      String price,
+      String variant,
+      List<Variation> variation,
+      double discountAmount,
+      int quantity,
+      double taxAmount,
+      List<int> addOnIds,
+      List<int> addOnQtys) {
     this._productId = productId;
     this._price = price;
     this._variant = variant;

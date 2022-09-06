@@ -20,15 +20,15 @@ class SetMenuProvider extends ChangeNotifier {
   List<Product> get setMenuList => _setMenuList;
   int get getCurrentIndex => _currentIndex;
 
-  Future<void> getSetMenuList(BuildContext context, bool reload,
-      String languageCode) async {
+  Future<void> getSetMenuList(
+      BuildContext context, bool reload, String languageCode) async {
     if (setMenuList == null || reload) {
       ApiResponse apiResponse = await setMenuRepo.getSetMenuList(languageCode);
       if (apiResponse.response != null &&
           apiResponse.response.statusCode == 200) {
         _setMenuList = [];
-        apiResponse.response.data.forEach((setMenu) =>
-            _setMenuList.add(Product.fromJson(setMenu)));
+        apiResponse.response.data
+            .forEach((setMenu) => _setMenuList.add(Product.fromJson(setMenu)));
       } else {
         ApiChecker.checkApi(context, apiResponse);
       }
@@ -37,22 +37,19 @@ class SetMenuProvider extends ChangeNotifier {
   }
 
   updateSetMenuCurrentIndex(int index, int totalLength) {
-    if(index > 0) {
+    if (index > 0) {
       _pageFirstIndex = false;
       notifyListeners();
-    }else{
+    } else {
       _pageFirstIndex = true;
       notifyListeners();
     }
-    if(index + 1  == totalLength) {
+    if (index + 1 == totalLength) {
       _pageLastIndex = true;
       notifyListeners();
-    }else {
+    } else {
       _pageLastIndex = false;
       notifyListeners();
     }
   }
-
-
-
 }

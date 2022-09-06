@@ -19,7 +19,8 @@ class WishListProvider extends ChangeNotifier {
 
   void addToWishList(Product product, Function feedbackMessage) async {
     ApiResponse apiResponse = await wishListRepo.addWishList(product.id);
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       Map map = apiResponse.response.data;
       String message = map['message'];
       feedbackMessage(message);
@@ -34,7 +35,8 @@ class WishListProvider extends ChangeNotifier {
 
   void removeFromWishList(Product product, Function feedbackMessage) async {
     ApiResponse apiResponse = await wishListRepo.removeWishList(product.id);
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       Map map = apiResponse.response.data;
       String message = map['message'];
       feedbackMessage(message);
@@ -52,11 +54,15 @@ class WishListProvider extends ChangeNotifier {
     _wishList = [];
     _wishIdList = [];
     ApiResponse apiResponse = await wishListRepo.getWishList();
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       notifyListeners();
       apiResponse.response.data.forEach((wishList) async {
-        ApiResponse productResponse = await productRepo.searchProduct(WishListModel.fromJson(wishList).productId.toString(), languageCode);
-        if (productResponse.response != null && productResponse.response.statusCode == 200) {
+        ApiResponse productResponse = await productRepo.searchProduct(
+            WishListModel.fromJson(wishList).productId.toString(),
+            languageCode);
+        if (productResponse.response != null &&
+            productResponse.response.statusCode == 200) {
           Product _product = Product.fromJson(productResponse.response.data);
           _wishList.add(_product);
           _wishIdList.add(_product.id);

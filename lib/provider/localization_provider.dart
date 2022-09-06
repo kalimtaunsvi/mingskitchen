@@ -16,9 +16,9 @@ class LocalizationProvider extends ChangeNotifier {
 
   void setLanguage(Locale locale) {
     _locale = locale;
-    if(_locale.languageCode == 'ar') {
+    if (_locale.languageCode == 'ar') {
       _isLtr = false;
-    }else {
+    } else {
       _isLtr = true;
     }
     _saveLanguage(_locale);
@@ -26,14 +26,18 @@ class LocalizationProvider extends ChangeNotifier {
   }
 
   _loadCurrentLanguage() async {
-    _locale = Locale(sharedPreferences.getString(AppConstants.LANGUAGE_CODE) ?? AppConstants.languages[0].languageCode,
-        sharedPreferences.getString(AppConstants.COUNTRY_CODE) ?? AppConstants.languages[0].countryCode);
+    _locale = Locale(
+        sharedPreferences.getString(AppConstants.LANGUAGE_CODE) ??
+            AppConstants.languages[0].languageCode,
+        sharedPreferences.getString(AppConstants.COUNTRY_CODE) ??
+            AppConstants.languages[0].countryCode);
     _isLtr = _locale.languageCode == 'en';
     notifyListeners();
   }
 
   _saveLanguage(Locale locale) async {
-    sharedPreferences.setString(AppConstants.LANGUAGE_CODE, locale.languageCode);
+    sharedPreferences.setString(
+        AppConstants.LANGUAGE_CODE, locale.languageCode);
     sharedPreferences.setString(AppConstants.COUNTRY_CODE, locale.countryCode);
   }
 }

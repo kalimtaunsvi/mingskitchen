@@ -11,7 +11,8 @@ class DeliveryOptionButton extends StatelessWidget {
   final String value;
   final String title;
   final bool kmWiseFee;
-  DeliveryOptionButton({@required this.value, @required this.title, @required this.kmWiseFee});
+  DeliveryOptionButton(
+      {@required this.value, @required this.title, @required this.kmWiseFee});
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +29,13 @@ class DeliveryOptionButton extends StatelessWidget {
                 onChanged: (String value) => order.setOrderType(value),
               ),
               SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-
               Text(title, style: rubikRegular),
               SizedBox(width: 5),
-
-              kmWiseFee ? SizedBox() : Text('(${value == 'delivery' ? PriceConverter.convertPrice(context, Provider.of<SplashProvider>(context, listen: false)
-                  .configModel.deliveryCharge) : getTranslated('free', context)})', style: rubikMedium),
-
+              kmWiseFee
+                  ? SizedBox()
+                  : Text(
+                      '(${value == 'delivery' ? PriceConverter.convertPrice(context, Provider.of<SplashProvider>(context, listen: false).configModel.deliveryCharge) : getTranslated('free', context)})',
+                      style: rubikMedium),
             ],
           ),
         );

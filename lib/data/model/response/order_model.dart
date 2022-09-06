@@ -28,35 +28,35 @@ class OrderModel {
   DeliveryAddress _deliveryAddress;
   String _preparationTime;
 
-  OrderModel(
-      {int id,
-        int userId,
-        double orderAmount,
-        double couponDiscountAmount,
-        String couponDiscountTitle,
-        String paymentStatus,
-        String orderStatus,
-        double totalTaxAmount,
-        String paymentMethod,
-        String transactionReference,
-        int deliveryAddressId,
-        String createdAt,
-        String updatedAt,
-        String checked,
-        int deliveryManId,
-        double deliveryCharge,
-        String orderNote,
-        List<int> addOnIds,
-        List<Details> details,
-        DeliveryMan deliveryMan,
-        int detailsCount,
-        String deliveryTime,
-        String deliveryDate,
-        String orderType,
-        double extraDiscount,
-        DeliveryAddress deliveryAddress,
-        String preparationTime,
-      }) {
+  OrderModel({
+    int id,
+    int userId,
+    double orderAmount,
+    double couponDiscountAmount,
+    String couponDiscountTitle,
+    String paymentStatus,
+    String orderStatus,
+    double totalTaxAmount,
+    String paymentMethod,
+    String transactionReference,
+    int deliveryAddressId,
+    String createdAt,
+    String updatedAt,
+    String checked,
+    int deliveryManId,
+    double deliveryCharge,
+    String orderNote,
+    List<int> addOnIds,
+    List<Details> details,
+    DeliveryMan deliveryMan,
+    int detailsCount,
+    String deliveryTime,
+    String deliveryDate,
+    String orderType,
+    double extraDiscount,
+    DeliveryAddress deliveryAddress,
+    String preparationTime,
+  }) {
     this._id = id;
     this._userId = userId;
     this._orderAmount = orderAmount;
@@ -133,7 +133,7 @@ class OrderModel {
     _deliveryCharge = json['delivery_charge'].toDouble();
     _orderNote = json['order_note'];
     _detailsCount = json['details_count'];
-    if(json['add_on_ids'] != null) {
+    if (json['add_on_ids'] != null) {
       _addOnIds = json['add_on_ids'].cast<int>();
     }
     if (json['details'] != null) {
@@ -148,10 +148,10 @@ class OrderModel {
     _orderType = json['order_type'];
     _deliveryTime = json['delivery_time'];
     _deliveryDate = json['delivery_date'];
-    if(json['extra_discount'] != null){
-      try{
+    if (json['extra_discount'] != null) {
+      try {
         _extraDiscount = double.parse(json['extra_discount']);
-      }catch(e){
+      } catch (e) {
         _extraDiscount = json['extra_discount'];
       }
     }
@@ -159,7 +159,7 @@ class OrderModel {
         ? new DeliveryAddress.fromJson(json['delivery_address'])
         : null;
     _preparationTime = json['preparation_time'].toString() ?? '0';
-   // print('order pre time -- $_preparationTime');
+    // print('order pre time -- $_preparationTime');
   }
 
   Map<String, dynamic> toJson() {
@@ -198,6 +198,7 @@ class OrderModel {
     return data;
   }
 }
+
 class DeliveryAddress {
   int _id;
   String _addressType;
@@ -212,15 +213,15 @@ class DeliveryAddress {
 
   DeliveryAddress(
       {int id,
-        String addressType,
-        String contactPersonNumber,
-        String address,
-        String latitude,
-        String longitude,
-        String createdAt,
-        String updatedAt,
-        int userId,
-        String contactPersonName}) {
+      String addressType,
+      String contactPersonNumber,
+      String address,
+      String latitude,
+      String longitude,
+      String createdAt,
+      String updatedAt,
+      int userId,
+      String contactPersonName}) {
     this._id = id;
     this._addressType = addressType;
     this._contactPersonNumber = contactPersonNumber;
@@ -291,19 +292,19 @@ class Details {
 
   Details(
       {int id,
-        int productId,
-        int orderId,
-        double price,
-        String productDetails,
-        String variation,
-        double discountOnProduct,
-        String discountType,
-        int quantity,
-        double taxAmount,
-        String createdAt,
-        String updatedAt,
-        String addOnIds,
-        String variant}) {
+      int productId,
+      int orderId,
+      double price,
+      String productDetails,
+      String variation,
+      double discountOnProduct,
+      String discountType,
+      int quantity,
+      double taxAmount,
+      String createdAt,
+      String updatedAt,
+      String addOnIds,
+      String variant}) {
     this._id = id;
     this._productId = productId;
     this._orderId = orderId;
@@ -391,20 +392,20 @@ class DeliveryMan {
 
   DeliveryMan(
       {int id,
-        String fName,
-        String lName,
-        String phone,
-        String email,
-        String identityNumber,
-        String identityType,
-        String identityImage,
-        String image,
-        String password,
-        String createdAt,
-        String updatedAt,
-        String authToken,
-        String fcmToken,
-        List<Rating> rating}) {
+      String fName,
+      String lName,
+      String phone,
+      String email,
+      String identityNumber,
+      String identityType,
+      String identityImage,
+      String image,
+      String password,
+      String createdAt,
+      String updatedAt,
+      String authToken,
+      String fcmToken,
+      List<Rating> rating}) {
     this._id = id;
     this._fName = fName;
     this._lName = lName;

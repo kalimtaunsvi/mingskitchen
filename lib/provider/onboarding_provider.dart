@@ -9,7 +9,8 @@ class OnBoardingProvider with ChangeNotifier {
   final OnBoardingRepo onboardingRepo;
   final SharedPreferences sharedPreferences;
 
-  OnBoardingProvider({@required this.onboardingRepo, @required this.sharedPreferences}) {
+  OnBoardingProvider(
+      {@required this.onboardingRepo, @required this.sharedPreferences}) {
     _loadShowOnBoardingStatus();
   }
 
@@ -25,16 +26,20 @@ class OnBoardingProvider with ChangeNotifier {
     _selectedIndex = index;
     notifyListeners();
   }
+
   void _loadShowOnBoardingStatus() async {
-    _showOnBoardingStatus = sharedPreferences.getBool(AppConstants.ON_BOARDING_SKIP) ?? true;
+    _showOnBoardingStatus =
+        sharedPreferences.getBool(AppConstants.ON_BOARDING_SKIP) ?? true;
   }
+
   void toggleShowOnBoardingStatus() {
     sharedPreferences.setBool(AppConstants.ON_BOARDING_SKIP, false);
   }
 
   void initBoardingList(BuildContext context) async {
     ApiResponse apiResponse = await onboardingRepo.getOnBoardingList(context);
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       _onBoardingList.clear();
       _onBoardingList.addAll(apiResponse.response.data);
       notifyListeners();

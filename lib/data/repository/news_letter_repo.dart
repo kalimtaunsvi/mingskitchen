@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_restaurant/data/datasource/remote/dio/dio_client.dart';
 import 'package:flutter_restaurant/data/datasource/remote/exception/api_error_handler.dart';
@@ -10,13 +9,13 @@ class NewsLetterRepo {
 
   NewsLetterRepo({@required this.dioClient});
 
-  Future<ApiResponse> addToNewsLetter(String  email) async {
+  Future<ApiResponse> addToNewsLetter(String email) async {
     try {
-      final response = await dioClient.post(AppConstants.EMAIL_SUBSCRIBE_URI, data: {'email':email});
+      final response = await dioClient
+          .post(AppConstants.EMAIL_SUBSCRIBE_URI, data: {'email': email});
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
-
 }

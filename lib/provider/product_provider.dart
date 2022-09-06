@@ -1,4 +1,3 @@
-
 import 'package:flutter_restaurant/data/model/response/cart_model.dart';
 import 'package:flutter_restaurant/data/model/response/order_details_model.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +28,7 @@ class ProductProvider extends ChangeNotifier {
   int _quantity = 1;
   List<bool> _addOnActiveList = [];
   List<int> _addOnQtyList = [];
-  bool _seeMoreButtonVisible= true;
+  bool _seeMoreButtonVisible = true;
   int latestOffset = 1;
   int popularOffset = 1;
   int _cartIndex = -1;
@@ -46,60 +45,69 @@ class ProductProvider extends ChangeNotifier {
   bool get seeMoreButtonVisible => _seeMoreButtonVisible;
   int get cartIndex => _cartIndex;
 
-
-  Future<void> getLatestProductList(BuildContext context , bool reload, String _offset, String languageCode) async {
-    if(reload || _offset == '1') {
-      latestOffset = 1 ;
+  Future<void> getLatestProductList(BuildContext context, bool reload,
+      String _offset, String languageCode) async {
+    if (reload || _offset == '1') {
+      latestOffset = 1;
       _offsetList = [];
     }
     if (!_offsetList.contains(_offset)) {
       _offsetList = [];
       _offsetList.add(_offset);
-      ApiResponse apiResponse = await productRepo.getLatestProductList(_offset, languageCode);
-      if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+      ApiResponse apiResponse =
+          await productRepo.getLatestProductList(_offset, languageCode);
+      if (apiResponse.response != null &&
+          apiResponse.response.statusCode == 200) {
         print('${apiResponse.response.data}');
         if (reload || _offset == '1') {
           _latestProductList = [];
         }
-        _latestProductList.addAll(ProductModel.fromJson(apiResponse.response.data).products);
-        _latestPageSize = ProductModel.fromJson(apiResponse.response.data).totalSize;
+        _latestProductList
+            .addAll(ProductModel.fromJson(apiResponse.response.data).products);
+        _latestPageSize =
+            ProductModel.fromJson(apiResponse.response.data).totalSize;
         _isLoading = false;
         notifyListeners();
       } else {
         showCustomSnackBar(apiResponse.error.toString(), context);
       }
     } else {
-      if(isLoading) {
+      if (isLoading) {
         _isLoading = false;
         notifyListeners();
       }
     }
   }
 
-  Future<bool> getPopularProductList(BuildContext context , bool reload, String _offset, String languageCode) async {
+  Future<bool> getPopularProductList(BuildContext context, bool reload,
+      String _offset, String languageCode) async {
     bool _apiSuccess = false;
-    if(reload || _offset == '1') {
-      popularOffset = 1 ;
+    if (reload || _offset == '1') {
+      popularOffset = 1;
       _offsetList = [];
     }
     if (!_offsetList.contains(_offset)) {
       _offsetList = [];
       _offsetList.add(_offset);
-      ApiResponse apiResponse = await productRepo.getPopularProductList(_offset, languageCode);
-      if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+      ApiResponse apiResponse =
+          await productRepo.getPopularProductList(_offset, languageCode);
+      if (apiResponse.response != null &&
+          apiResponse.response.statusCode == 200) {
         _apiSuccess = true;
         if (reload || _offset == '1') {
           _popularProductList = [];
         }
-        _popularProductList.addAll(ProductModel.fromJson(apiResponse.response.data).products);
-        _popularPageSize = ProductModel.fromJson(apiResponse.response.data).totalSize;
+        _popularProductList
+            .addAll(ProductModel.fromJson(apiResponse.response.data).products);
+        _popularPageSize =
+            ProductModel.fromJson(apiResponse.response.data).totalSize;
         _isLoading = false;
         notifyListeners();
       } else {
         showCustomSnackBar(apiResponse.error.toString(), context);
       }
     } else {
-      if(isLoading) {
+      if (isLoading) {
         _isLoading = false;
         notifyListeners();
       }
@@ -116,16 +124,19 @@ class ProductProvider extends ChangeNotifier {
     _variationIndex = [];
     _addOnQtyList = [];
     _addOnActiveList = [];
-    if(cart != null) {
+    if (cart != null) {
       _quantity = cart.quantity;
       List<String> _variationTypes = [];
-      if(cart.variation.length != null && cart.variation.length > 0 && cart.variation[0].type != null) {
+      if (cart.variation.length != null &&
+          cart.variation.length > 0 &&
+          cart.variation[0].type != null) {
         _variationTypes.addAll(cart.variation[0].type.split('-'));
       }
       int _varIndex = 0;
       product.choiceOptions.forEach((choiceOption) {
-        for(int index=0; index<choiceOption.options.length; index++) {
-          if(choiceOption.options[index].trim().replaceAll(' ', '') == _variationTypes[_varIndex].trim()) {
+        for (int index = 0; index < choiceOption.options.length; index++) {
+          if (choiceOption.options[index].trim().replaceAll(' ', '') ==
+              _variationTypes[_varIndex].trim()) {
             _variationIndex.add(index);
             break;
           }
@@ -135,15 +146,16 @@ class ProductProvider extends ChangeNotifier {
       List<int> _addOnIdList = [];
       cart.addOnIds.forEach((addOnId) => _addOnIdList.add(addOnId.id));
       product.addOns.forEach((addOn) {
-        if(_addOnIdList.contains(addOn.id)) {
+        if (_addOnIdList.contains(addOn.id)) {
           _addOnActiveList.add(true);
-          _addOnQtyList.add(cart.addOnIds[_addOnIdList.indexOf(addOn.id)].quantity);
-        }else {
+          _addOnQtyList
+              .add(cart.addOnIds[_addOnIdList.indexOf(addOn.id)].quantity);
+        } else {
           _addOnActiveList.add(false);
           _addOnQtyList.add(1);
         }
       });
-    }else {
+    } else {
       _quantity = 1;
       product.choiceOptions.forEach((element) => _variationIndex.add(0));
       product.addOns.forEach((addOn) {
@@ -172,17 +184,21 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setCartVariationIndex(int index, int i, Product product, String variationType, BuildContext context) {
+  void setCartVariationIndex(int index, int i, Product product,
+      String variationType, BuildContext context) {
     _variationIndex[index] = i;
     _quantity = 1;
     setExistInCart(product, context);
     notifyListeners();
   }
 
-  int setExistInCart(Product product, BuildContext context,{bool notify = true}) {
+  int setExistInCart(Product product, BuildContext context,
+      {bool notify = true}) {
     List<String> _variationList = [];
     for (int index = 0; index < product.choiceOptions.length; index++) {
-      _variationList.add(product.choiceOptions[index].options[_variationIndex[index]].replaceAll(' ', ''));
+      _variationList.add(product
+          .choiceOptions[index].options[_variationIndex[index]]
+          .replaceAll(' ', ''));
     }
     String variationType = '';
     bool isFirst = true;
@@ -194,19 +210,22 @@ class ProductProvider extends ChangeNotifier {
         variationType = '$variationType-$variation';
       }
     });
-    final _cartProvider =  Provider.of<CartProvider>(context, listen: false);
-    _cartIndex = _cartProvider.isExistInCart(product.id, variationType, false, null);
-    if(_cartIndex != -1) {
+    final _cartProvider = Provider.of<CartProvider>(context, listen: false);
+    _cartIndex =
+        _cartProvider.isExistInCart(product.id, variationType, false, null);
+    if (_cartIndex != -1) {
       _quantity = _cartProvider.cartList[_cartIndex].quantity;
       _addOnActiveList = [];
       _addOnQtyList = [];
       List<int> _addOnIdList = [];
-      _cartProvider.cartList[_cartIndex].addOnIds.forEach((addOnId) => _addOnIdList.add(addOnId.id));
+      _cartProvider.cartList[_cartIndex].addOnIds
+          .forEach((addOnId) => _addOnIdList.add(addOnId.id));
       product.addOns.forEach((addOn) {
-        if(_addOnIdList.contains(addOn.id)) {
+        if (_addOnIdList.contains(addOn.id)) {
           _addOnActiveList.add(true);
-          _addOnQtyList.add(_cartProvider.cartList[_cartIndex].addOnIds[_addOnIdList.indexOf(addOn.id)].quantity);
-        }else {
+          _addOnQtyList.add(_cartProvider.cartList[_cartIndex]
+              .addOnIds[_addOnIdList.indexOf(addOn.id)].quantity);
+        } else {
           _addOnActiveList.add(false);
           _addOnQtyList.add(1);
         }
@@ -272,9 +291,9 @@ class ProductProvider extends ChangeNotifier {
       notifyListeners();
     } else {
       String errorMessage;
-      if(response.error is String) {
+      if (response.error is String) {
         errorMessage = response.error.toString();
-      }else {
+      } else {
         errorMessage = response.error.errors[0].message;
       }
       responseModel = ResponseModel(false, errorMessage);
@@ -287,7 +306,8 @@ class ProductProvider extends ChangeNotifier {
   Future<ResponseModel> submitDeliveryManReview(ReviewBody reviewBody) async {
     _isLoading = true;
     notifyListeners();
-    ApiResponse response = await productRepo.submitDeliveryManReview(reviewBody);
+    ApiResponse response =
+        await productRepo.submitDeliveryManReview(reviewBody);
     ResponseModel responseModel;
     if (response.response != null && response.response.statusCode == 200) {
       _deliveryManRating = 0;
@@ -295,9 +315,9 @@ class ProductProvider extends ChangeNotifier {
       notifyListeners();
     } else {
       String errorMessage;
-      if(response.error is String) {
+      if (response.error is String) {
         errorMessage = response.error.toString();
-      }else {
+      } else {
         errorMessage = response.error.errors[0].message;
       }
       responseModel = ResponseModel(false, errorMessage);
@@ -309,22 +329,24 @@ class ProductProvider extends ChangeNotifier {
 
   void moreProduct(BuildContext context) {
     int pageSize;
-    pageSize =(latestPageSize / 10).ceil();
+    pageSize = (latestPageSize / 10).ceil();
 
     if (latestOffset < pageSize) {
       latestOffset++;
       showBottomLoader();
       getLatestProductList(
-        context, false, latestOffset.toString(),
-        Provider.of<LocalizationProvider>(context, listen: false).locale.languageCode,
+        context,
+        false,
+        latestOffset.toString(),
+        Provider.of<LocalizationProvider>(context, listen: false)
+            .locale
+            .languageCode,
       );
     }
   }
 
-
-  void seeMoreReturn(){
+  void seeMoreReturn() {
     latestOffset = 1;
     _seeMoreButtonVisible = true;
   }
-
 }

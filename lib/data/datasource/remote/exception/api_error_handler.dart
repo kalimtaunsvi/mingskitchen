@@ -16,11 +16,11 @@ class ApiErrorHandler {
               break;
             case DioErrorType.other:
               errorDescription =
-              "Connection to API server failed due to internet connection";
+                  "Connection to API server failed due to internet connection";
               break;
             case DioErrorType.receiveTimeout:
               errorDescription =
-              "Receive timeout in connection with API server";
+                  "Receive timeout in connection with API server";
               break;
             case DioErrorType.response:
               switch (error.response.statusCode) {
@@ -33,13 +33,14 @@ class ApiErrorHandler {
                   ErrorResponse errorResponse;
                   try {
                     errorResponse = ErrorResponse.fromJson(error.response.data);
-                  }catch(e) {}
-                  if (errorResponse != null && errorResponse.errors != null &&
+                  } catch (e) {}
+                  if (errorResponse != null &&
+                      errorResponse.errors != null &&
                       errorResponse.errors.length > 0)
                     errorDescription = errorResponse;
                   else
                     errorDescription =
-                    "Failed to load data - status code: ${error.response.statusCode}";
+                        "Failed to load data - status code: ${error.response.statusCode}";
               }
               break;
             case DioErrorType.sendTimeout:

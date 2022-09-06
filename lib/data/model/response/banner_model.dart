@@ -9,13 +9,13 @@ class BannerModel {
 
   BannerModel(
       {int id,
-        String title,
-        String image,
-        int productId,
-        int status,
-        String createdAt,
-        String updatedAt,
-        int categoryId}) {
+      String title,
+      String image,
+      int productId,
+      int status,
+      String createdAt,
+      String updatedAt,
+      int categoryId}) {
     this._id = id;
     this._title = title;
     this._image = image;

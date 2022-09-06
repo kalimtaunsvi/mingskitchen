@@ -7,10 +7,12 @@ import 'package:provider/provider.dart';
 
 class ApiChecker {
   static void checkApi(BuildContext context, ApiResponse apiResponse) {
-    if(apiResponse.error is! String && apiResponse.error.errors[0].message == 'Unauthenticated.') {
+    if (apiResponse.error is! String &&
+        apiResponse.error.errors[0].message == 'Unauthenticated.') {
       Provider.of<SplashProvider>(context, listen: false).removeSharedData();
-      Navigator.pushNamedAndRemoveUntil(context, Routes.getLoginRoute(), (route) => false);
-    }else {
+      Navigator.pushNamedAndRemoveUntil(
+          context, Routes.getLoginRoute(), (route) => false);
+    } else {
       String _errorMessage;
       if (apiResponse.error is String) {
         _errorMessage = apiResponse.error.toString();

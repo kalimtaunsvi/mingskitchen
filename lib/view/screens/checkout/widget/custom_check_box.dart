@@ -22,9 +22,12 @@ class CustomCheckBox extends StatelessWidget {
               onChanged: (bool isChecked) => order.setPaymentMethod(index),
             ),
             Expanded(
-              child: Text(title, style: rubikRegular.copyWith(
-                color: order.paymentMethodIndex == index ? Theme.of(context).textTheme.bodyText1.color : ColorResources.getGreyColor(context),
-              )),
+              child: Text(title,
+                  style: rubikRegular.copyWith(
+                    color: order.paymentMethodIndex == index
+                        ? Theme.of(context).textTheme.bodyText1.color
+                        : ColorResources.getGreyColor(context),
+                  )),
             ),
           ]),
         );

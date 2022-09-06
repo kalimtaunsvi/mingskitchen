@@ -11,11 +11,8 @@ class MembershipPlainRepo {
   Future<ApiResponse> getMemberhipPlans() async {
     try {
       final response = await dioClient.get(AppConstants.MEMBERSHIP_PLAN_URI);
-      print(response.toString() + "ghgghjbjbj");
       return ApiResponse.withSuccess(response);
     } catch (e) {
-      print(e.toString() + "ggggg");
-
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }

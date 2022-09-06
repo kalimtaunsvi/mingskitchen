@@ -20,21 +20,21 @@ class OrderDetailsModel {
 
   OrderDetailsModel(
       {int id,
-        int productId,
-        int orderId,
-        double price,
-        Product productDetails,
-        List<Variation> variations,
-        String variation,
-        double discountOnProduct,
-        String discountType,
-        int quantity,
-        double taxAmount,
-        String createdAt,
-        String updatedAt,
-        List<int> addOnIds,
-        List<int> addOnQtys,
-        String variant}) {
+      int productId,
+      int orderId,
+      double price,
+      Product productDetails,
+      List<Variation> variations,
+      String variation,
+      double discountOnProduct,
+      String discountType,
+      int quantity,
+      double taxAmount,
+      String createdAt,
+      String updatedAt,
+      List<int> addOnIds,
+      List<int> addOnQtys,
+      String variant}) {
     this._id = id;
     this._productId = productId;
     this._orderId = orderId;
@@ -93,15 +93,14 @@ class OrderDetailsModel {
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
     _addOnIds = json['add_on_ids'].cast<int>();
-    if(json['add_on_qtys'] != null) {
+    if (json['add_on_qtys'] != null) {
       _addOnQtys = [];
       json['add_on_qtys'].forEach((qun) {
         try {
-          _addOnQtys.add( int.parse(qun));
-        }catch(e) {
+          _addOnQtys.add(int.parse(qun));
+        } catch (e) {
           _addOnQtys.add(qun);
         }
-
       });
     }
     _variant = json['variant'];

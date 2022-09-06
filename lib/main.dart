@@ -16,6 +16,7 @@ import 'package:flutter_restaurant/provider/book_table_provider.dart';
 import 'package:flutter_restaurant/provider/cart_provider.dart';
 import 'package:flutter_restaurant/provider/category_provider.dart';
 import 'package:flutter_restaurant/provider/chat_provider.dart';
+import 'package:flutter_restaurant/provider/check_membership_provider.dart';
 import 'package:flutter_restaurant/provider/coupon_provider.dart';
 import 'package:flutter_restaurant/provider/localization_provider.dart';
 import 'package:flutter_restaurant/provider/membership_plan_provider.dart';
@@ -113,6 +114,9 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (context) => di.sl<BookTableProvider>()),
       ChangeNotifierProvider(
         create: (context) => di.sl<MembershipPlansProvider>(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => di.sl<CheckMembershipProvider>(),
       ),
     ],
     child: MyApp(orderId: _orderID, isWeb: !kIsWeb),

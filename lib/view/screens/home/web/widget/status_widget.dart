@@ -10,8 +10,8 @@ class StatusWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) => SizedBox(
-          height: Dimensions.PADDING_SIZE_DEFAULT,
-          child: InkWell(
+              height: Dimensions.PADDING_SIZE_DEFAULT,
+              child: InkWell(
                 onTap: themeProvider.toggleTheme,
                 child: themeProvider.darkTheme
                     ? Container(
@@ -26,7 +26,10 @@ class StatusWidget extends StatelessWidget {
                             Expanded(
                                 child: Text(
                               getTranslated('on', context),
-                              textAlign: TextAlign.center, style: TextStyle(color: ColorResources.APPBAR_HEADER_COL0R, fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: ColorResources.APPBAR_HEADER_COL0R,
+                                  fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL),
                             )),
                             CircleAvatar(
                               radius: 13,
@@ -50,12 +53,16 @@ class StatusWidget extends StatelessWidget {
                             ),
                             Expanded(
                                 child: Text(getTranslated('off', context),
-                                    textAlign: TextAlign.center, style: TextStyle(color: ColorResources.APPBAR_HEADER_COL0R, fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL)
-                            )),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color:
+                                            ColorResources.APPBAR_HEADER_COL0R,
+                                        fontSize:
+                                            Dimensions.FONT_SIZE_EXTRA_SMALL))),
                           ],
                         ),
                       ),
               ),
-        ));
+            ));
   }
 }

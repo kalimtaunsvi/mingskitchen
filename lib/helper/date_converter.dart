@@ -4,10 +4,12 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class DateConverter {
-  static String formatDate(DateTime dateTime, BuildContext context, {bool isSecond = true}) {
+  static String formatDate(DateTime dateTime, BuildContext context,
+      {bool isSecond = true}) {
     return isSecond
-        ?  DateFormat('yyyy-MM-dd ${_timeFormatter(context)}:ss').format(dateTime) :
-    DateFormat('yyyy-MM-dd ${_timeFormatter(context)}').format(dateTime);
+        ? DateFormat('yyyy-MM-dd ${_timeFormatter(context)}:ss')
+            .format(dateTime)
+        : DateFormat('yyyy-MM-dd ${_timeFormatter(context)}').format(dateTime);
   }
 
   static String dateToTimeOnly(DateTime dateTime, BuildContext context) {
@@ -21,17 +23,22 @@ class DateConverter {
   static DateTime convertStringToDatetime(String dateTime) {
     return DateFormat("yyyy-MM-ddTHH:mm:ss.SSS").parse(dateTime);
   }
-  static String localDateToIsoStringAMPM(DateTime dateTime, BuildContext context) {
+
+  static String localDateToIsoStringAMPM(
+      DateTime dateTime, BuildContext context) {
     return DateFormat('yyyy-MM-dd ${_timeFormatter(context)}').format(dateTime);
   }
 
   static DateTime isoStringToLocalDate(String dateTime) {
-    return DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').parse(dateTime, true).toLocal();
+    return DateFormat('yyyy-MM-ddTHH:mm:ss.SSS')
+        .parse(dateTime, true)
+        .toLocal();
   }
 
   static String isoStringToLocalTimeOnly(String dateTime) {
     return DateFormat('hh:mm aa').format(isoStringToLocalDate(dateTime));
   }
+
   static String isoStringToLocalAMPM(String dateTime) {
     return DateFormat('a').format(isoStringToLocalDate(dateTime));
   }
@@ -45,21 +52,26 @@ class DateConverter {
   }
 
   static String convertTimeToTime(String time, BuildContext context) {
-    return DateFormat(_timeFormatter(context)).format(DateFormat('HH:mm').parse(time));
+    return DateFormat(_timeFormatter(context))
+        .format(DateFormat('HH:mm').parse(time));
   }
 
-  static bool isAvailable(String start, String end, BuildContext context, {DateTime time}) {
+  static bool isAvailable(String start, String end, BuildContext context,
+      {DateTime time}) {
     DateTime _currentTime;
-    if(time != null) {
+    if (time != null) {
       _currentTime = time;
-    }else {
-      _currentTime = Provider.of<SplashProvider>(context, listen: false).currentTime;
+    } else {
+      _currentTime =
+          Provider.of<SplashProvider>(context, listen: false).currentTime;
     }
     DateTime _start = DateFormat('hh:mm:ss').parse(start);
     DateTime _end = DateFormat('hh:mm:ss').parse(end);
-    DateTime _startTime = DateTime(_currentTime.year, _currentTime.month, _currentTime.day, _start.hour, _start.minute, _start.second);
-    DateTime _endTime = DateTime(_currentTime.year, _currentTime.month, _currentTime.day, _end.hour, _end.minute, _end.second);
-    if(_endTime.isBefore(_startTime)) {
+    DateTime _startTime = DateTime(_currentTime.year, _currentTime.month,
+        _currentTime.day, _start.hour, _start.minute, _start.second);
+    DateTime _endTime = DateTime(_currentTime.year, _currentTime.month,
+        _currentTime.day, _end.hour, _end.minute, _end.second);
+    if (_endTime.isBefore(_startTime)) {
       _endTime = _endTime.add(Duration(days: 1));
     }
     return _currentTime.isAfter(_startTime) && _currentTime.isBefore(_endTime);
@@ -75,7 +87,8 @@ class DateConverter {
     return DateFormat('HH:mm:ss').parse(time);
   }
 
-  static String deliveryDateAndTimeToDate(String deliveryDate, String deliveryTime, BuildContext context) {
+  static String deliveryDateAndTimeToDate(
+      String deliveryDate, String deliveryTime, BuildContext context) {
     DateTime _date = DateFormat('yyyy-MM-dd').parse(deliveryDate);
     DateTime _time = DateFormat('HH:mm').parse(deliveryTime);
     return '${DateFormat('dd-MMM-yyyy').format(_date)} ${DateFormat(_timeFormatter(context)).format(_time)}';
@@ -90,29 +103,39 @@ class DateConverter {
   }
 
   static String _timeFormatter(BuildContext context) {
-    return Provider.of<SplashProvider>(context, listen: false).configModel.timeFormat == '24' ? 'HH:mm' : 'hh:mm a';
+    return Provider.of<SplashProvider>(context, listen: false)
+                .configModel
+                .timeFormat ==
+            '24'
+        ? 'HH:mm'
+        : 'hh:mm a';
   }
 
   static String getWeekName(String index) {
     String _weekName;
     switch (index) {
-      case '0': _weekName = 'Sunday';
-      break;
-      case '1': _weekName = 'Monday';
-      break;
-      case '2': _weekName = 'Tuesday';
-      break;
-      case '3': _weekName = 'Wednesday';
-      break;
-      case '4': _weekName = 'Thursday';
-      break;
-      case '5': _weekName = 'Friday';
-      break;
-      case '6': _weekName = 'Saturday';
-      break;
+      case '0':
+        _weekName = 'Sunday';
+        break;
+      case '1':
+        _weekName = 'Monday';
+        break;
+      case '2':
+        _weekName = 'Tuesday';
+        break;
+      case '3':
+        _weekName = 'Wednesday';
+        break;
+      case '4':
+        _weekName = 'Thursday';
+        break;
+      case '5':
+        _weekName = 'Friday';
+        break;
+      case '6':
+        _weekName = 'Saturday';
+        break;
     }
     return _weekName;
-}
-
-
+  }
 }

@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_restaurant/data/datasource/remote/dio/dio_client.dart';
@@ -12,20 +11,22 @@ class ProductRepo {
 
   ProductRepo({@required this.dioClient});
 
-  Future<ApiResponse> getLatestProductList(String offset, String languageCode) async {
+  Future<ApiResponse> getLatestProductList(
+      String offset, String languageCode) async {
     try {
       final response = await dioClient.get(
         '${AppConstants.LATEST_PRODUCT_URI}?limit=12&&offset=$offset',
         options: Options(headers: {'X-localization': languageCode}),
-      ); print(languageCode );
+      );
+      print(languageCode);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
-
   }
 
-  Future<ApiResponse> getPopularProductList(String offset, String languageCode) async {
+  Future<ApiResponse> getPopularProductList(
+      String offset, String languageCode) async {
     try {
       final response = await dioClient.get(
         '${AppConstants.POPULAR_PRODUCT_URI}?limit=12&&offset=$offset',
@@ -37,9 +38,8 @@ class ProductRepo {
     }
   }
 
-
-
-  Future<ApiResponse> searchProduct(String productId, String languageCode) async {
+  Future<ApiResponse> searchProduct(
+      String productId, String languageCode) async {
     try {
       final response = await dioClient.get(
         '${AppConstants.SEARCH_PRODUCT_URI}$productId',
@@ -53,7 +53,8 @@ class ProductRepo {
 
   Future<ApiResponse> submitReview(ReviewBody reviewBody) async {
     try {
-      final response = await dioClient.post(AppConstants.REVIEW_URI, data: reviewBody);
+      final response =
+          await dioClient.post(AppConstants.REVIEW_URI, data: reviewBody);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -62,7 +63,8 @@ class ProductRepo {
 
   Future<ApiResponse> submitDeliveryManReview(ReviewBody reviewBody) async {
     try {
-      final response = await dioClient.post(AppConstants.DELIVER_MAN_REVIEW_URI, data: reviewBody);
+      final response = await dioClient.post(AppConstants.DELIVER_MAN_REVIEW_URI,
+          data: reviewBody);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

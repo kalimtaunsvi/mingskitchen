@@ -18,9 +18,11 @@ class BannerRepo {
     }
   }
 
-  Future<ApiResponse> getProductDetails(String productID, String languageCode) async {
+  Future<ApiResponse> getProductDetails(
+      String productID, String languageCode) async {
     try {
-      final response = await dioClient.get('${AppConstants.PRODUCT_DETAILS_URI}$productID',
+      final response = await dioClient.get(
+          '${AppConstants.PRODUCT_DETAILS_URI}$productID',
           options: Options(headers: {'X-localization': languageCode}));
 
       return ApiResponse.withSuccess(response);

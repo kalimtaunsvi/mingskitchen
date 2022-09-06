@@ -12,7 +12,10 @@ class ThanksFeedbackScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ResponsiveHelper.isDesktop(context) ? PreferredSize(child: WebAppBar(), preferredSize: Size.fromHeight(100)) : null,
+      appBar: ResponsiveHelper.isDesktop(context)
+          ? PreferredSize(
+              child: WebAppBar(), preferredSize: Size.fromHeight(100))
+          : null,
       body: Center(
         child: Container(
           width: 1170,
@@ -38,14 +41,16 @@ class ThanksFeedbackScreen extends StatelessWidget {
                   getTranslated('it_will_helps_to_improve', context),
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline2.copyWith(
-                        color: ColorResources.getGreyBunkerColor(context).withOpacity(.75),
+                        color: ColorResources.getGreyBunkerColor(context)
+                            .withOpacity(.75),
                       ),
                 ),
                 SizedBox(height: 50),
                 CustomButton(
                   btnTxt: getTranslated('back_home', context),
                   onTap: () {
-                    Navigator.pushReplacementNamed(context, Routes.getMainRoute());
+                    Navigator.pushReplacementNamed(
+                        context, Routes.getMainRoute());
                   },
                 )
               ],

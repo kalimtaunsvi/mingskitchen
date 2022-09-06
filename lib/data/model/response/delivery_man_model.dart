@@ -11,14 +11,14 @@ class DeliveryManModel {
 
   DeliveryManModel(
       {int id,
-        int orderId,
-        int deliverymanId,
-        String time,
-        String longitude,
-        String latitude,
-        String location,
-        String createdAt,
-        String updatedAt}) {
+      int orderId,
+      int deliverymanId,
+      String time,
+      String longitude,
+      String latitude,
+      String location,
+      String createdAt,
+      String updatedAt}) {
     this._id = id;
     this._orderId = orderId;
     this._deliverymanId = deliverymanId;

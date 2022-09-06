@@ -21,7 +21,7 @@ class ChatProvider extends ChangeNotifier {
   bool _isSeen = false;
   bool _isSend = true;
   bool _isMe = false;
-  bool _isLoading= false;
+  bool _isLoading = false;
   bool get isLoading => _isLoading;
 
   List<bool> get showDate => _showDate;
@@ -31,41 +31,44 @@ class ChatProvider extends ChangeNotifier {
   bool get isSeen => _isSeen;
   bool get isSend => _isSend;
   bool get isMe => _isMe;
-  List<Messages>  _deliveryManMessage = [];
-  List<Messages>  _messageList = [];
+  List<Messages> _deliveryManMessage = [];
+  List<Messages> _messageList = [];
   List<Messages> get messageList => _messageList;
   List<Messages> get deliveryManMessage => _deliveryManMessage;
-  List<Messages>  _adminManMessage = [];
+  List<Messages> _adminManMessage = [];
   List<Messages> get adminManMessages => _adminManMessage;
-  List <XFile>_chatImage = [];
+  List<XFile> _chatImage = [];
   List<XFile> get chatImage => _chatImage;
 
-  Future<void> getMessages (BuildContext context, int offset, OrderModel orderModel, bool isFirst) async {
+  Future<void> getMessages(BuildContext context, int offset,
+      OrderModel orderModel, bool isFirst) async {
     ApiResponse _apiResponse;
-    if(isFirst) {
+    if (isFirst) {
       _messageList = [];
     }
     //
-    if(orderModel == null) {
+    if (orderModel == null) {
       _apiResponse = await chatRepo.getAdminMessage(1);
-    }else {
+    } else {
       _apiResponse = await chatRepo.getDeliveryManMessage(orderModel.id, 1);
     }
-    if (_apiResponse.response != null&& _apiResponse.response.data['messages'] != {} && _apiResponse.response.statusCode == 200) {
+    if (_apiResponse.response != null &&
+        _apiResponse.response.data['messages'] != {} &&
+        _apiResponse.response.statusCode == 200) {
       _messageList = [];
-      _messageList.addAll(ChatModel.fromJson(_apiResponse.response.data).messages);
+      _messageList
+          .addAll(ChatModel.fromJson(_apiResponse.response.data).messages);
     } else {
       ApiChecker.checkApi(context, _apiResponse);
     }
     notifyListeners();
   }
 
-
   void pickImage(bool isRemove) async {
-    if(isRemove) {
+    if (isRemove) {
       _imageFiles = [];
       _chatImage = [];
-    }else {
+    } else {
       _imageFiles = await ImagePicker().pickMultiImage(imageQuality: 30);
       if (_imageFiles != null) {
         _chatImage = imageFiles;
@@ -74,23 +77,25 @@ class ChatProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-  void removeImage(int index){
+
+  void removeImage(int index) {
     chatImage.removeAt(index);
     notifyListeners();
   }
 
-
-  Future<http.StreamedResponse> sendMessage(String message, BuildContext context, String token, OrderModel order) async {
+  Future<http.StreamedResponse> sendMessage(String message,
+      BuildContext context, String token, OrderModel order) async {
     http.StreamedResponse _response;
     _isLoading = true;
     // notifyListeners();
-    if(order == null) {
+    if (order == null) {
       _response = await chatRepo.sendMessageToAdmin(message, _chatImage, token);
-    }else {
-      _response = await chatRepo.sendMessageToDeliveryMan(message, _chatImage, order.id, token);
+    } else {
+      _response = await chatRepo.sendMessageToDeliveryMan(
+          message, _chatImage, order.id, token);
     }
     if (_response.statusCode == 200) {
-      getMessages(context,1, order, false);
+      getMessages(context, 1, order, false);
       _isLoading = false;
     }
     _imageFiles = [];
@@ -116,5 +121,4 @@ class ChatProvider extends ChangeNotifier {
   void setIsMe(bool value) {
     _isMe = value;
   }
-
 }

@@ -169,15 +169,15 @@ class _MenuWidget extends StatelessWidget {
   final TextStyle textStyle;
 
   _MenuWidget(
-      this.menu, {
-        this.goBackButtonText,
-        this.height,
-        this.backgroundColor,
-        this.menuIconColor,
-        this.menuIconSize,
-        this.moreIconColor,
-        this.textStyle,
-      }) : super(key: menu._key);
+    this.menu, {
+    this.goBackButtonText,
+    this.height,
+    this.backgroundColor,
+    this.menuIconColor,
+    this.menuIconSize,
+    this.moreIconColor,
+    this.textStyle,
+  }) : super(key: menu._key);
 
   Widget _buildPopupItem(MenuItemView _menu) {
     return Row(
@@ -214,9 +214,9 @@ class _MenuWidget extends StatelessWidget {
   }
 
   Future<MenuItemView> _showPopupMenu(
-      BuildContext context,
-      List<MenuItemView> menuItemViews,
-      ) async {
+    BuildContext context,
+    List<MenuItemView> menuItemViews,
+  ) async {
     final RenderBox overlay = Overlay.of(context).context.findRenderObject();
 
     final Offset position = menu._position + Offset(0, height - 11);
@@ -241,15 +241,15 @@ class _MenuWidget extends StatelessWidget {
   }
 
   Widget _getMenu(
-      BuildContext context,
-      MenuItemView menu,
-      ) {
+    BuildContext context,
+    MenuItemView menu,
+  ) {
     Future<MenuItemView> _getSelectedMenu(
-        MenuItemView menu, {
-          MenuItemView previousMenu,
-          int stackIdx,
-          List<MenuItemView> stack,
-        }) async {
+      MenuItemView menu, {
+      MenuItemView previousMenu,
+      int stackIdx,
+      List<MenuItemView> stack,
+    }) async {
       if (!menu._hasChildren) {
         return menu;
       }
@@ -316,65 +316,107 @@ class _MenuWidget extends StatelessWidget {
         }
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
+        padding: const EdgeInsets.symmetric(
+            horizontal: Dimensions.PADDING_SIZE_LARGE),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-           ...[
+            ...[
               OnHover(
                 builder: (isHovered) {
-                  final color = isHovered ? ColorResources.APPBAR_HEADER_COL0R : menuIconColor;
-                  return menu.menuType == MenuType.cart ?
-                  Stack(
-                    clipBehavior: Clip.none, children: [
-                    Icon(menu.icon, size: menuIconSize,color: color),
-                     Positioned(
-                      top: -7, right: -7,
-                      child: Container(
-                        padding: EdgeInsets.all(4),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-                        child: Center(
-                          child: Text(
-                            Provider.of<CartProvider>(context).cartList.length.toString(),
-                            style: rubikMedium.copyWith(color: ColorResources.COLOR_WHITE, fontSize: 8),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                  ) : menu.menuType == MenuType.text ? Text(menu.title, style: robotoRegular.copyWith(fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE, color: color)) :
-                  menu.menuType == MenuType.appLogo ?
-                  Padding(
-                    padding: ResponsiveHelper.isDesktop(context) ?  const EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE) : EdgeInsets.all(0),
-                    child: InkWell(
-                      onTap: () => Navigator.pushNamed(context, Routes.getMainRoute()),
-                      child: Provider.of<SplashProvider>(context).baseUrls != null?  Consumer<SplashProvider>(
-                          builder:(context, splash, child) => FadeInImage.assetNetwork(
-                            placeholder: Images.placeholder_rectangle,
-                            image:  '${splash.baseUrls.restaurantImageUrl}/${splash.configModel.restaurantLogo}',
-                            width: 120, height: 80,
-                            imageErrorBuilder: (c, o, s) => Image.asset(Images.logo, width: 120, height: 80),
-                          )): SizedBox(),
-                    ),
-                  ) : menu.menuType == MenuType.search ?
-                  InkWell(
-                    onTap: () => Navigator.pushNamed(context, Routes.getSearchRoute()),
-                    child: Container(
-                      height: 100,
-                      width: 300.0,
-                      color: Colors.red,
-                    ),
-                  ) : menu.menuType == MenuType.menu ? OnHover(
-                    builder: (isHover) {
-                      final _color = isHovered ? ColorResources.APPBAR_HEADER_COL0R : ColorResources.getWhiteAndBlack(context);
-                      return Icon(Icons.menu, size: Dimensions.PADDING_SIZE_EXTRA_LARGE, color: _color,);
-                    }
-                  ) : SizedBox();
+                  final color = isHovered
+                      ? ColorResources.APPBAR_HEADER_COL0R
+                      : menuIconColor;
+                  return menu.menuType == MenuType.cart
+                      ? Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Icon(menu.icon, size: menuIconSize, color: color),
+                            Positioned(
+                              top: -7,
+                              right: -7,
+                              child: Container(
+                                padding: EdgeInsets.all(4),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle, color: Colors.red),
+                                child: Center(
+                                  child: Text(
+                                    Provider.of<CartProvider>(context)
+                                        .cartList
+                                        .length
+                                        .toString(),
+                                    style: rubikMedium.copyWith(
+                                        color: ColorResources.COLOR_WHITE,
+                                        fontSize: 8),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      : menu.menuType == MenuType.text
+                          ? Text(menu.title,
+                              style: robotoRegular.copyWith(
+                                  fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
+                                  color: color))
+                          : menu.menuType == MenuType.appLogo
+                              ? Padding(
+                                  padding: ResponsiveHelper.isDesktop(context)
+                                      ? const EdgeInsets.all(
+                                          Dimensions.PADDING_SIZE_LARGE)
+                                      : EdgeInsets.all(0),
+                                  child: InkWell(
+                                    onTap: () => Navigator.pushNamed(
+                                        context, Routes.getMainRoute()),
+                                    child: Provider.of<SplashProvider>(context)
+                                                .baseUrls !=
+                                            null
+                                        ? Consumer<SplashProvider>(
+                                            builder: (context, splash, child) =>
+                                                FadeInImage.assetNetwork(
+                                                  placeholder: Images
+                                                      .placeholder_rectangle,
+                                                  image:
+                                                      '${splash.baseUrls.restaurantImageUrl}/${splash.configModel.restaurantLogo}',
+                                                  width: 120,
+                                                  height: 80,
+                                                  imageErrorBuilder:
+                                                      (c, o, s) => Image.asset(
+                                                          Images.logo,
+                                                          width: 120,
+                                                          height: 80),
+                                                ))
+                                        : SizedBox(),
+                                  ),
+                                )
+                              : menu.menuType == MenuType.search
+                                  ? InkWell(
+                                      onTap: () => Navigator.pushNamed(
+                                          context, Routes.getSearchRoute()),
+                                      child: Container(
+                                        height: 100,
+                                        width: 300.0,
+                                        color: Colors.red,
+                                      ),
+                                    )
+                                  : menu.menuType == MenuType.menu
+                                      ? OnHover(builder: (isHover) {
+                                          final _color = isHovered
+                                              ? ColorResources
+                                                  .APPBAR_HEADER_COL0R
+                                              : ColorResources.getWhiteAndBlack(
+                                                  context);
+                                          return Icon(
+                                            Icons.menu,
+                                            size: Dimensions
+                                                .PADDING_SIZE_EXTRA_LARGE,
+                                            color: _color,
+                                          );
+                                        })
+                                      : SizedBox();
                 },
-
               ),
-
               SizedBox(
                 width: 5,
               ),

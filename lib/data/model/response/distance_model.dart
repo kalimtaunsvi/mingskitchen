@@ -6,9 +6,9 @@ class DistanceModel {
 
   DistanceModel(
       {this.destinationAddresses,
-        this.originAddresses,
-        this.rows,
-        this.status});
+      this.originAddresses,
+      this.rows,
+      this.status});
 
   DistanceModel.fromJson(Map<String, dynamic> json) {
     destinationAddresses = json['destination_addresses'].cast<String>();

@@ -34,43 +34,42 @@ class ConfigModel {
   int _scheduleOrderSlotDuration;
   String _timeFormat;
 
-
-  ConfigModel(
-      {String restaurantName,
-        String restaurantLogo,
-        String restaurantAddress,
-        String restaurantPhone,
-        String restaurantEmail,
-        BaseUrls baseUrls,
-        String currencySymbol,
-        double deliveryCharge,
-        String cashOnDelivery,
-        String digitalPayment,
-        String termsAndConditions,
-        String privacyPolicy,
-        String aboutUs,
-        bool emailVerification,
-        bool phoneVerification,
-        String currencySymbolPosition,
-        bool maintenanceMode,
-        String countryCode,
-        RestaurantLocationCoverage restaurantLocationCoverage,
-        double minimumOrderValue,
-        List<Branches> branches,
-        bool selfPickup,
-        bool homeDelivery,
-        DeliveryManagement deliveryManagement,
-        PlayStoreConfig playStoreConfig,
-        AppStoreConfig appStoreConfig,
-        List<SocialMediaLink> socialMediaLink,
-        String softwareVersion,
-        String footerCopyright,
-        String timeZone,
-        int decimalPointSettings,
-        List<RestaurantScheduleTime> restaurantScheduleTime,
-        int scheduleOrderSlotDuration,
-        String timeFormat,
-      }) {
+  ConfigModel({
+    String restaurantName,
+    String restaurantLogo,
+    String restaurantAddress,
+    String restaurantPhone,
+    String restaurantEmail,
+    BaseUrls baseUrls,
+    String currencySymbol,
+    double deliveryCharge,
+    String cashOnDelivery,
+    String digitalPayment,
+    String termsAndConditions,
+    String privacyPolicy,
+    String aboutUs,
+    bool emailVerification,
+    bool phoneVerification,
+    String currencySymbolPosition,
+    bool maintenanceMode,
+    String countryCode,
+    RestaurantLocationCoverage restaurantLocationCoverage,
+    double minimumOrderValue,
+    List<Branches> branches,
+    bool selfPickup,
+    bool homeDelivery,
+    DeliveryManagement deliveryManagement,
+    PlayStoreConfig playStoreConfig,
+    AppStoreConfig appStoreConfig,
+    List<SocialMediaLink> socialMediaLink,
+    String softwareVersion,
+    String footerCopyright,
+    String timeZone,
+    int decimalPointSettings,
+    List<RestaurantScheduleTime> restaurantScheduleTime,
+    int scheduleOrderSlotDuration,
+    String timeFormat,
+  }) {
     this._restaurantName = restaurantName;
     this._restaurantLogo = restaurantLogo;
     this._restaurantAddress = restaurantAddress;
@@ -124,9 +123,10 @@ class ConfigModel {
   String get cashOnDelivery => _cashOnDelivery;
   String get digitalPayment => _digitalPayment;
   String get termsAndConditions => _termsAndConditions;
-  String get aboutUs=> _aboutUs;
-  String get privacyPolicy=> _privacyPolicy;
-  RestaurantLocationCoverage get restaurantLocationCoverage => _restaurantLocationCoverage;
+  String get aboutUs => _aboutUs;
+  String get privacyPolicy => _privacyPolicy;
+  RestaurantLocationCoverage get restaurantLocationCoverage =>
+      _restaurantLocationCoverage;
   double get minimumOrderValue => _minimumOrderValue;
   List<Branches> get branches => _branches;
   bool get emailVerification => _emailVerification;
@@ -142,12 +142,12 @@ class ConfigModel {
   List<SocialMediaLink> get socialMediaLink => _socialMediaLink;
   String get softwareVersion => _softwareVersion;
   String get footerCopyright => _footerCopyright;
-  String get timeZone  => _timeZone;
+  String get timeZone => _timeZone;
   int get decimalPointSettings => _decimalPointSettings;
-  List<RestaurantScheduleTime> get restaurantScheduleTime => _restaurantScheduleTime;
+  List<RestaurantScheduleTime> get restaurantScheduleTime =>
+      _restaurantScheduleTime;
   int get scheduleOrderSlotDuration => _scheduleOrderSlotDuration;
   String get timeFormat => _timeFormat;
-
 
   ConfigModel.fromJson(Map<String, dynamic> json) {
     _restaurantName = json['restaurant_name'];
@@ -173,8 +173,12 @@ class ConfigModel {
     _selfPickup = json['self_pickup'];
     _homeDelivery = json['delivery'];
     _restaurantLocationCoverage = json['restaurant_location_coverage'] != null
-        ? new RestaurantLocationCoverage.fromJson(json['restaurant_location_coverage']) : null;
-    _minimumOrderValue = json['minimum_order_value'] != null ? json['minimum_order_value'].toDouble() : 0;
+        ? new RestaurantLocationCoverage.fromJson(
+            json['restaurant_location_coverage'])
+        : null;
+    _minimumOrderValue = json['minimum_order_value'] != null
+        ? json['minimum_order_value'].toDouble()
+        : 0;
     if (json['branches'] != null) {
       _branches = [];
       json['branches'].forEach((v) {
@@ -197,16 +201,18 @@ class ConfigModel {
         _socialMediaLink.add(new SocialMediaLink.fromJson(v));
       });
     }
-    if(json['software_version'] !=null){
+    if (json['software_version'] != null) {
       _softwareVersion = json['software_version'];
     }
-    if(json['footer_text']!=null){
+    if (json['footer_text'] != null) {
       _footerCopyright = json['footer_text'];
     }
     _timeZone = json['time_zone'];
     _decimalPointSettings = json['decimal_point_settings'] ?? 1;
 
-    _restaurantScheduleTime = List<RestaurantScheduleTime>.from(json["restaurant_schedule_time"].map((x) => RestaurantScheduleTime.fromJson(x)));
+    _restaurantScheduleTime = List<RestaurantScheduleTime>.from(
+        json["restaurant_schedule_time"]
+            .map((x) => RestaurantScheduleTime.fromJson(x)));
 
     // try {
     // }catch(_){
@@ -215,13 +221,12 @@ class ConfigModel {
 
     try {
       _scheduleOrderSlotDuration = json['schedule_order_slot_duration'] ?? 30;
-    }catch(_){
-      _scheduleOrderSlotDuration = int.tryParse(json['schedule_order_slot_duration'] ?? 30);
+    } catch (_) {
+      _scheduleOrderSlotDuration =
+          int.tryParse(json['schedule_order_slot_duration'] ?? 30);
     }
 
-    _timeFormat =  json['time_format'].toString() ?? '12';
-
-
+    _timeFormat = json['time_format'].toString() ?? '12';
   }
 
   Map<String, dynamic> toJson() {
@@ -249,7 +254,8 @@ class ConfigModel {
     data['self_pickup'] = this.selfPickup;
     data['delivery'] = this.homeDelivery;
     if (this._restaurantLocationCoverage != null) {
-      data['restaurant_location_coverage'] = this._restaurantLocationCoverage.toJson();
+      data['restaurant_location_coverage'] =
+          this._restaurantLocationCoverage.toJson();
     }
     data['minimum_order_value'] = this._minimumOrderValue;
     if (this._branches != null) {
@@ -290,15 +296,15 @@ class BaseUrls {
 
   BaseUrls(
       {String productImageUrl,
-        String customerImageUrl,
-        String bannerImageUrl,
-        String categoryImageUrl,
-        String categoryBannerImageUrl,
-        String reviewImageUrl,
-        String notificationImageUrl,
-        String restaurantImageUrl,
-        String deliveryManImageUrl,
-        String chatImageUrl}) {
+      String customerImageUrl,
+      String bannerImageUrl,
+      String categoryImageUrl,
+      String categoryBannerImageUrl,
+      String reviewImageUrl,
+      String notificationImageUrl,
+      String restaurantImageUrl,
+      String deliveryManImageUrl,
+      String chatImageUrl}) {
     this._productImageUrl = productImageUrl;
     this._customerImageUrl = customerImageUrl;
     this._bannerImageUrl = bannerImageUrl;
@@ -327,7 +333,7 @@ class BaseUrls {
     _customerImageUrl = json['customer_image_url'] ?? '';
     _bannerImageUrl = json['banner_image_url'] ?? '';
     _categoryImageUrl = json['category_image_url'] ?? '';
-    _categoryBannerImageUrl = json['category_banner_image_url' ?? '' ];
+    _categoryBannerImageUrl = json['category_banner_image_url' ?? ''];
     _reviewImageUrl = json['review_image_url'] ?? '';
     _notificationImageUrl = json['notification_image_url' ?? ''];
     _restaurantImageUrl = json['restaurant_image_url'] ?? '';
@@ -392,12 +398,12 @@ class Branches {
 
   Branches(
       {int id,
-        String name,
-        String email,
-        String longitude,
-        String latitude,
-        String address,
-        double coverage}) {
+      String name,
+      String email,
+      String longitude,
+      String latitude,
+      String address,
+      double coverage}) {
     this._id = id;
     this._name = name;
     this._email = email;
@@ -468,26 +474,27 @@ class DeliveryManagement {
     return data;
   }
 }
-class PlayStoreConfig{
+
+class PlayStoreConfig {
   bool _status;
   String _link;
   double _minVersion;
 
-  PlayStoreConfig({bool status, String link, double minVersion}){
+  PlayStoreConfig({bool status, String link, double minVersion}) {
     this._status = status;
     this._link = link;
     this._minVersion = minVersion;
   }
   bool get status => _status;
   String get link => _link;
-  double get minVersion =>_minVersion;
+  double get minVersion => _minVersion;
 
   PlayStoreConfig.fromJson(Map<String, dynamic> json) {
     _status = json['status'];
-    if(json['link'] != null){
+    if (json['link'] != null) {
       _link = json['link'];
     }
-    if(json['min_version'] != null && json['min_version'] != '' ){
+    if (json['min_version'] != null && json['min_version'] != '') {
       _minVersion = double.parse(json['min_version']);
     }
   }
@@ -501,12 +508,12 @@ class PlayStoreConfig{
   }
 }
 
-class AppStoreConfig{
+class AppStoreConfig {
   bool _status;
   String _link;
   double _minVersion;
 
-  AppStoreConfig({bool status, String link, double minVersion}){
+  AppStoreConfig({bool status, String link, double minVersion}) {
     this._status = status;
     this._link = link;
     this._minVersion = minVersion;
@@ -514,18 +521,16 @@ class AppStoreConfig{
 
   bool get status => _status;
   String get link => _link;
-  double get minVersion =>_minVersion;
-
+  double get minVersion => _minVersion;
 
   AppStoreConfig.fromJson(Map<String, dynamic> json) {
     _status = json['status'];
-    if(json['link'] != null){
+    if (json['link'] != null) {
       _link = json['link'];
     }
-    if(json['min_version'] !=null  && json['min_version'] != ''){
+    if (json['min_version'] != null && json['min_version'] != '') {
       _minVersion = double.parse(json['min_version']);
     }
-
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -544,12 +549,7 @@ class SocialMediaLink {
   int status;
   String updatedAt;
 
-  SocialMediaLink(
-      {this.id,
-        this.name,
-        this.link,
-        this.status,
-        this.updatedAt});
+  SocialMediaLink({this.id, this.name, this.link, this.status, this.updatedAt});
 
   SocialMediaLink.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -581,15 +581,16 @@ class RestaurantScheduleTime {
   String openingTime;
   String closingTime;
 
-  factory RestaurantScheduleTime.fromJson(Map<String, dynamic> json) => RestaurantScheduleTime(
-    day: json["day"].toString(),
-    openingTime: json["opening_time"].toString(),
-    closingTime: json["closing_time"].toString(),
-  );
+  factory RestaurantScheduleTime.fromJson(Map<String, dynamic> json) =>
+      RestaurantScheduleTime(
+        day: json["day"].toString(),
+        openingTime: json["opening_time"].toString(),
+        closingTime: json["closing_time"].toString(),
+      );
 
   Map<String, dynamic> toJson() => {
-    "day": day,
-    "opening_time": openingTime,
-    "closing_time": closingTime,
-  };
+        "day": day,
+        "opening_time": openingTime,
+        "closing_time": closingTime,
+      };
 }

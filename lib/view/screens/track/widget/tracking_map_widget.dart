@@ -21,7 +21,10 @@ class TrackingMapWidget extends StatefulWidget {
   final DeliveryManModel deliveryManModel;
   final String orderID;
   final AddressModel addressModel;
-  TrackingMapWidget({@required this.deliveryManModel, @required this.orderID, @required this.addressModel});
+  TrackingMapWidget(
+      {@required this.deliveryManModel,
+      @required this.orderID,
+      @required this.addressModel});
 
   @override
   _TrackingMapWidgetState createState() => _TrackingMapWidgetState();
@@ -39,10 +42,19 @@ class _TrackingMapWidgetState extends State<TrackingMapWidget> {
   void initState() {
     super.initState();
 
-    RestaurantLocationCoverage coverage = Provider.of<SplashProvider>(context, listen: false).configModel.restaurantLocationCoverage;
-    _deliveryBoyLatLng = LatLng(double.parse(widget.deliveryManModel.latitude ?? '0'), double.parse(widget.deliveryManModel.longitude ?? '0'));
-    _addressLatLng = widget.addressModel != null ? LatLng(double.parse(widget.addressModel.latitude), double.parse(widget.addressModel.longitude)) : LatLng(0,0);
-    _restaurantLatLng = LatLng(double.parse(coverage.latitude), double.parse(coverage.longitude));
+    RestaurantLocationCoverage coverage =
+        Provider.of<SplashProvider>(context, listen: false)
+            .configModel
+            .restaurantLocationCoverage;
+    _deliveryBoyLatLng = LatLng(
+        double.parse(widget.deliveryManModel.latitude ?? '0'),
+        double.parse(widget.deliveryManModel.longitude ?? '0'));
+    _addressLatLng = widget.addressModel != null
+        ? LatLng(double.parse(widget.addressModel.latitude),
+            double.parse(widget.addressModel.longitude))
+        : LatLng(0, 0);
+    _restaurantLatLng = LatLng(
+        double.parse(coverage.latitude), double.parse(coverage.longitude));
   }
 
   @override
@@ -56,7 +68,8 @@ class _TrackingMapWidgetState extends State<TrackingMapWidget> {
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     return Container(
-      height: 200, width: ResponsiveHelper.isMobilePhone() ? _width - 130 : 1170.0 - 100.0,
+      height: 200,
+      width: ResponsiveHelper.isMobilePhone() ? _width - 130 : 1170.0 - 100.0,
       margin: EdgeInsets.all(20),
       padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
       alignment: Alignment.center,
@@ -64,65 +77,81 @@ class _TrackingMapWidgetState extends State<TrackingMapWidget> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: widget.deliveryManModel.latitude != null ? Stack(
-        children: [
-          GoogleMap(
-            mapType: MapType.normal,
-            initialCameraPosition: CameraPosition(target: _addressLatLng, zoom: 18),
-            zoomControlsEnabled: true,
-            markers: _markers,
-            onMapCreated: (GoogleMapController controller) {
-              _controller = controller;
-              _isLoading = false;
-              setMarker();
-            },
-            onTap: (latLng) async {
-              await Provider.of<OrderProvider>(context, listen: false).getDeliveryManData(widget.orderID, context);
-              String url ='https://www.google.com/maps/dir/?api=1&origin=${widget.deliveryManModel.latitude},${widget.deliveryManModel.longitude}'
-                  '&destination=${_addressLatLng.latitude},${_addressLatLng.longitude}&mode=d';
-              if (await canLaunchUrl(Uri.parse(url))) {
-                await launchUrl(Uri.parse(url));
-              } else {
-                throw 'Could not launch $url';
-              }
-            },
-          ),
-
-          _isLoading ? Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor))) : SizedBox(),
-        ],
-      ) : FittedBox(child: Text(getTranslated('no_delivery_man_data_found', context))),
+      child: widget.deliveryManModel.latitude != null
+          ? Stack(
+              children: [
+                GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition:
+                      CameraPosition(target: _addressLatLng, zoom: 18),
+                  zoomControlsEnabled: true,
+                  markers: _markers,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller = controller;
+                    _isLoading = false;
+                    setMarker();
+                  },
+                  onTap: (latLng) async {
+                    await Provider.of<OrderProvider>(context, listen: false)
+                        .getDeliveryManData(widget.orderID, context);
+                    String url =
+                        'https://www.google.com/maps/dir/?api=1&origin=${widget.deliveryManModel.latitude},${widget.deliveryManModel.longitude}'
+                        '&destination=${_addressLatLng.latitude},${_addressLatLng.longitude}&mode=d';
+                    if (await canLaunchUrl(Uri.parse(url))) {
+                      await launchUrl(Uri.parse(url));
+                    } else {
+                      throw 'Could not launch $url';
+                    }
+                  },
+                ),
+                _isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Theme.of(context).primaryColor)))
+                    : SizedBox(),
+              ],
+            )
+          : FittedBox(
+              child:
+                  Text(getTranslated('no_delivery_man_data_found', context))),
     );
   }
 
   void setMarker() async {
     try {
       Uint8List restaurantImageData = await convertAssetToUnit8List(
-          Images.restaurant_marker, width: ResponsiveHelper.isMobilePhone() ? 50 : 5);
+          Images.restaurant_marker,
+          width: ResponsiveHelper.isMobilePhone() ? 50 : 5);
       Uint8List deliveryBoyImageData = await convertAssetToUnit8List(
-          Images.delivery_boy_marker, width: ResponsiveHelper.isMobilePhone() ? 50 : 5);
+          Images.delivery_boy_marker,
+          width: ResponsiveHelper.isMobilePhone() ? 50 : 5);
       Uint8List destinationImageData = await convertAssetToUnit8List(
-          Images.destination_marker, width: ResponsiveHelper.isMobilePhone() ? 50 : 5);
+          Images.destination_marker,
+          width: ResponsiveHelper.isMobilePhone() ? 50 : 5);
 
       // Animate to coordinate
       LatLngBounds bounds;
       double _rotation = 0;
       if (_controller != null) {
         if (_addressLatLng.latitude < _restaurantLatLng.latitude) {
-          bounds = LatLngBounds(southwest: _addressLatLng, northeast: _restaurantLatLng);
+          bounds = LatLngBounds(
+              southwest: _addressLatLng, northeast: _restaurantLatLng);
           _rotation = 0;
         } else {
-          bounds = LatLngBounds(southwest: _restaurantLatLng, northeast: _addressLatLng);
+          bounds = LatLngBounds(
+              southwest: _restaurantLatLng, northeast: _addressLatLng);
           _rotation = 180;
         }
       }
       LatLng centerBounds = LatLng(
           (bounds.northeast.latitude + bounds.southwest.latitude) / 2,
-          (bounds.northeast.longitude + bounds.southwest.longitude) / 2
-      );
+          (bounds.northeast.longitude + bounds.southwest.longitude) / 2);
 
-      _controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(target: centerBounds, zoom: 5)));
+      _controller.moveCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(target: centerBounds, zoom: 5)));
 
-      if(ResponsiveHelper.isMobilePhone()) {
+      if (ResponsiveHelper.isMobilePhone()) {
         zoomToFit(_controller, bounds, centerBounds);
       }
 
@@ -143,31 +172,36 @@ class _TrackingMapWidgetState extends State<TrackingMapWidget> {
         position: _restaurantLatLng,
         infoWindow: InfoWindow(
           title: 'Restaurant',
-          snippet: '${_restaurantLatLng.latitude}, ${_restaurantLatLng.longitude}',
+          snippet:
+              '${_restaurantLatLng.latitude}, ${_restaurantLatLng.longitude}',
         ),
         icon: BitmapDescriptor.fromBytes(restaurantImageData),
       ));
-      widget.deliveryManModel.latitude != null ? _markers.add(Marker(
-        markerId: MarkerId('delivery_boy'),
-        position: _deliveryBoyLatLng,
-        infoWindow: InfoWindow(
-          title: 'Delivery Man',
-          snippet: '${_deliveryBoyLatLng.latitude}, ${_deliveryBoyLatLng.longitude}',
-        ),
-        rotation: _rotation,
-        icon: BitmapDescriptor.fromBytes(deliveryBoyImageData),
-      )) : SizedBox();
-    }catch(e) {}
+      widget.deliveryManModel.latitude != null
+          ? _markers.add(Marker(
+              markerId: MarkerId('delivery_boy'),
+              position: _deliveryBoyLatLng,
+              infoWindow: InfoWindow(
+                title: 'Delivery Man',
+                snippet:
+                    '${_deliveryBoyLatLng.latitude}, ${_deliveryBoyLatLng.longitude}',
+              ),
+              rotation: _rotation,
+              icon: BitmapDescriptor.fromBytes(deliveryBoyImageData),
+            ))
+          : SizedBox();
+    } catch (e) {}
 
     setState(() {});
   }
 
-  Future<void> zoomToFit(GoogleMapController controller, LatLngBounds bounds, LatLng centerBounds) async {
+  Future<void> zoomToFit(GoogleMapController controller, LatLngBounds bounds,
+      LatLng centerBounds) async {
     bool keepZoomingOut = true;
 
-    while(keepZoomingOut) {
+    while (keepZoomingOut) {
       final LatLngBounds screenBounds = await controller.getVisibleRegion();
-      if(fits(bounds, screenBounds)){
+      if (fits(bounds, screenBounds)) {
         keepZoomingOut = false;
         final double zoomLevel = await controller.getZoomLevel() - 0.5;
         controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -175,8 +209,7 @@ class _TrackingMapWidgetState extends State<TrackingMapWidget> {
           zoom: zoomLevel,
         )));
         break;
-      }
-      else {
+      } else {
         // Zooming out by 0.1 zoom level per iteration
         final double zoomLevel = await controller.getZoomLevel() - 0.1;
         controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -188,19 +221,30 @@ class _TrackingMapWidgetState extends State<TrackingMapWidget> {
   }
 
   bool fits(LatLngBounds fitBounds, LatLngBounds screenBounds) {
-    final bool northEastLatitudeCheck = screenBounds.northeast.latitude >= fitBounds.northeast.latitude;
-    final bool northEastLongitudeCheck = screenBounds.northeast.longitude >= fitBounds.northeast.longitude;
+    final bool northEastLatitudeCheck =
+        screenBounds.northeast.latitude >= fitBounds.northeast.latitude;
+    final bool northEastLongitudeCheck =
+        screenBounds.northeast.longitude >= fitBounds.northeast.longitude;
 
-    final bool southWestLatitudeCheck = screenBounds.southwest.latitude <= fitBounds.southwest.latitude;
-    final bool southWestLongitudeCheck = screenBounds.southwest.longitude <= fitBounds.southwest.longitude;
+    final bool southWestLatitudeCheck =
+        screenBounds.southwest.latitude <= fitBounds.southwest.latitude;
+    final bool southWestLongitudeCheck =
+        screenBounds.southwest.longitude <= fitBounds.southwest.longitude;
 
-    return northEastLatitudeCheck && northEastLongitudeCheck && southWestLatitudeCheck && southWestLongitudeCheck;
+    return northEastLatitudeCheck &&
+        northEastLongitudeCheck &&
+        southWestLatitudeCheck &&
+        southWestLongitudeCheck;
   }
 
-  Future<Uint8List> convertAssetToUnit8List(String imagePath, {int width = 50}) async {
+  Future<Uint8List> convertAssetToUnit8List(String imagePath,
+      {int width = 50}) async {
     ByteData data = await rootBundle.load(imagePath);
-    Codec codec = await instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    Codec codec = await instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
     FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ImageByteFormat.png)).buffer.asUint8List();
+    return (await fi.image.toByteData(format: ImageByteFormat.png))
+        .buffer
+        .asUint8List();
   }
 }

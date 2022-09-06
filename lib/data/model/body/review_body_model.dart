@@ -8,11 +8,11 @@ class ReviewBody {
 
   ReviewBody(
       {String productId,
-        String deliveryManId,
-        String comment,
-        String rating,
-        String orderId,
-        List<String> fileUpload}) {
+      String deliveryManId,
+      String comment,
+      String rating,
+      String orderId,
+      List<String> fileUpload}) {
     this._productId = productId;
     this._deliveryManId = deliveryManId;
     this._comment = comment;

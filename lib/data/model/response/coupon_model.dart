@@ -14,17 +14,17 @@ class CouponModel {
 
   CouponModel(
       {int id,
-        String title,
-        String code,
-        String startDate,
-        String expireDate,
-        double minPurchase,
-        double maxDiscount,
-        double discount,
-        String discountType,
-        int status,
-        String createdAt,
-        String updatedAt}) {
+      String title,
+      String code,
+      String startDate,
+      String expireDate,
+      double minPurchase,
+      double maxDiscount,
+      double discount,
+      String discountType,
+      int status,
+      String createdAt,
+      String updatedAt}) {
     this._id = id;
     this._title = title;
     this._code = code;

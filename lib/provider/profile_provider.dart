@@ -21,7 +21,8 @@ class ProfileProvider with ChangeNotifier {
   Future<ResponseModel> getUserInfo(BuildContext context) async {
     ResponseModel _responseModel;
     ApiResponse apiResponse = await profileRepo.getUserInfo();
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       _userInfoModel = UserInfoModel.fromJson(apiResponse.response.data);
       _responseModel = ResponseModel(true, 'successful');
     } else {
@@ -42,11 +43,13 @@ class ProfileProvider with ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  Future<ResponseModel> updateUserInfo(UserInfoModel updateUserModel, String password, File file, XFile data, String token) async {
+  Future<ResponseModel> updateUserInfo(UserInfoModel updateUserModel,
+      String password, File file, XFile data, String token) async {
     _isLoading = true;
     notifyListeners();
     ResponseModel _responseModel;
-    http.StreamedResponse response = await profileRepo.updateProfile(updateUserModel, password, file, data, token);
+    http.StreamedResponse response = await profileRepo.updateProfile(
+        updateUserModel, password, file, data, token);
     _isLoading = false;
     if (response.statusCode == 200) {
       Map map = jsonDecode(await response.stream.bytesToString());
@@ -55,11 +58,11 @@ class ProfileProvider with ChangeNotifier {
       _responseModel = ResponseModel(true, message);
       print(message);
     } else {
-      _responseModel = ResponseModel(false, '${response.statusCode} ${response.reasonPhrase}');
+      _responseModel = ResponseModel(
+          false, '${response.statusCode} ${response.reasonPhrase}');
       print('${response.statusCode} ${response.reasonPhrase}');
     }
     notifyListeners();
     return _responseModel;
   }
-
 }

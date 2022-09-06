@@ -20,7 +20,8 @@ class WishListRepo {
 
   Future<ApiResponse> addWishList(int productID) async {
     try {
-      final response = await dioClient.post(AppConstants.ADD_WISH_LIST_URI + productID.toString());
+      final response = await dioClient
+          .post(AppConstants.ADD_WISH_LIST_URI + productID.toString());
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -29,7 +30,8 @@ class WishListRepo {
 
   Future<ApiResponse> removeWishList(int productID) async {
     try {
-      final response = await dioClient.delete(AppConstants.REMOVE_WISH_LIST_URI + productID.toString());
+      final response = await dioClient
+          .delete(AppConstants.REMOVE_WISH_LIST_URI + productID.toString());
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

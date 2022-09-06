@@ -21,7 +21,8 @@ class SplashProvider extends ChangeNotifier {
   Future<bool> initConfig(BuildContext context) async {
     ApiResponse apiResponse = await splashRepo.getConfig();
     bool isSuccess;
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       _configModel = ConfigModel.fromJson(apiResponse.response.data);
       _baseUrls = ConfigModel.fromJson(apiResponse.response.data).baseUrls;
       isSuccess = true;
@@ -29,9 +30,9 @@ class SplashProvider extends ChangeNotifier {
     } else {
       isSuccess = false;
       String _error;
-      if(apiResponse.error is String) {
+      if (apiResponse.error is String) {
         _error = apiResponse.error;
-      }else {
+      } else {
         _error = apiResponse.error.errors[0].message;
       }
       print(_error);
@@ -50,15 +51,18 @@ class SplashProvider extends ChangeNotifier {
 
   bool isRestaurantClosed(bool today) {
     DateTime _date = DateTime.now();
-    if(!today) {
+    if (!today) {
       _date = _date.add(Duration(days: 1));
     }
     int _weekday = _date.weekday;
-    if(_weekday == 7) {
+    if (_weekday == 7) {
       _weekday = 0;
     }
-    for(int index = 0; index <  _configModel.restaurantScheduleTime.length; index++) {
-      if(_weekday.toString() ==  _configModel.restaurantScheduleTime[index].day) {
+    for (int index = 0;
+        index < _configModel.restaurantScheduleTime.length;
+        index++) {
+      if (_weekday.toString() ==
+          _configModel.restaurantScheduleTime[index].day) {
         return false;
       }
     }
@@ -66,15 +70,19 @@ class SplashProvider extends ChangeNotifier {
   }
 
   bool isRestaurantOpenNow(BuildContext context) {
-    if(isRestaurantClosed(true)) {
+    if (isRestaurantClosed(true)) {
       return false;
     }
     int _weekday = DateTime.now().weekday;
-    if(_weekday == 7) {
+    if (_weekday == 7) {
       _weekday = 0;
     }
-    for(int index = 0; index <  _configModel.restaurantScheduleTime.length; index++) {
-      if(_weekday.toString() ==  _configModel.restaurantScheduleTime[index].day && DateConverter.isAvailable(
+    for (int index = 0;
+        index < _configModel.restaurantScheduleTime.length;
+        index++) {
+      if (_weekday.toString() ==
+              _configModel.restaurantScheduleTime[index].day &&
+          DateConverter.isAvailable(
             _configModel.restaurantScheduleTime[index].openingTime,
             _configModel.restaurantScheduleTime[index].closingTime,
             context,
@@ -84,5 +92,4 @@ class SplashProvider extends ChangeNotifier {
     }
     return false;
   }
-
 }

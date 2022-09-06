@@ -9,7 +9,14 @@ class MessageBody {
   DateTime time;
   List<String> imageUrls;
 
-  MessageBody({this.id, this.orderId, this.senderId, this.receiverId, this.message, this.time, this.imageUrls});
+  MessageBody(
+      {this.id,
+      this.orderId,
+      this.senderId,
+      this.receiverId,
+      this.message,
+      this.time,
+      this.imageUrls});
 
   MessageBody.fromJson(Map<String, dynamic> json) {
     id = json['id'];

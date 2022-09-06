@@ -5,6 +5,7 @@ import 'package:flutter_restaurant/data/repository/book_table_repo.dart';
 import 'package:flutter_restaurant/data/repository/cart_repo.dart';
 import 'package:flutter_restaurant/data/repository/category_repo.dart';
 import 'package:flutter_restaurant/data/repository/chat_repo.dart';
+import 'package:flutter_restaurant/data/repository/check_membership_repo.dart';
 import 'package:flutter_restaurant/data/repository/coupon_repo.dart';
 import 'package:flutter_restaurant/data/repository/location_repo.dart';
 import 'package:flutter_restaurant/data/repository/membership_plain_repo.dart';
@@ -24,6 +25,7 @@ import 'package:flutter_restaurant/provider/book_table_provider.dart';
 import 'package:flutter_restaurant/provider/cart_provider.dart';
 import 'package:flutter_restaurant/provider/category_provider.dart';
 import 'package:flutter_restaurant/provider/chat_provider.dart';
+import 'package:flutter_restaurant/provider/check_membership_provider.dart';
 import 'package:flutter_restaurant/provider/coupon_provider.dart';
 import 'package:flutter_restaurant/provider/localization_provider.dart';
 import 'package:flutter_restaurant/provider/membership_plan_provider.dart';
@@ -80,6 +82,7 @@ Future<void> init() async {
       () => SearchRepo(dioClient: sl(), sharedPreferences: sl()));
   sl.registerLazySingleton(() => NotificationRepo(dioClient: sl()));
   sl.registerLazySingleton(() => CouponRepo(dioClient: sl()));
+  sl.registerLazySingleton(() => CheckMembershipRepo(dioClient: sl()));
   sl.registerLazySingleton(() => WishListRepo(dioClient: sl()));
   sl.registerLazySingleton(() => NewsLetterRepo(dioClient: sl()));
 
@@ -108,6 +111,7 @@ Future<void> init() async {
   sl.registerFactory(
       () => WishListProvider(wishListRepo: sl(), productRepo: sl()));
   sl.registerFactory(() => CouponProvider(couponRepo: sl()));
+  sl.registerFactory(() => CheckMembershipProvider(checkMembershipRepo: sl()));
   sl.registerFactory(() => SearchProvider(searchRepo: sl()));
   sl.registerFactory(() => NewsLetterProvider(newsLetterRepo: sl()));
   sl.registerLazySingleton(() => TimerProvider());

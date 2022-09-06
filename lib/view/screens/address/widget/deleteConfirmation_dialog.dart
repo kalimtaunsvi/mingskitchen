@@ -19,33 +19,38 @@ class DeleteConfirmationDialog extends StatelessWidget {
       child: Container(
         width: 300,
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-
           SizedBox(height: 20),
           CircleAvatar(
             radius: 30,
             backgroundColor: Theme.of(context).primaryColor,
             child: Icon(Icons.contact_support, size: 50),
           ),
-
           Padding(
             padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
             child: FittedBox(
-              child: Text(getTranslated('want_to_delete', context), style: rubikRegular, textAlign: TextAlign.center, maxLines: 1),
+              child: Text(getTranslated('want_to_delete', context),
+                  style: rubikRegular,
+                  textAlign: TextAlign.center,
+                  maxLines: 1),
             ),
           ),
-
           Divider(height: 0, color: ColorResources.getHintColor(context)),
-
-           Row(children: [
-
-            Expanded(child: InkWell(
+          Row(children: [
+            Expanded(
+                child: InkWell(
               onTap: () {
-                showDialog(context: context, barrierDismissible: false, builder: (context) => Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
-                  ),
-                ));
-                Provider.of<LocationProvider>(context, listen: false).deleteUserAddressByID(addressModel.id, index, (bool isSuccessful, String message) {
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) => Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Theme.of(context).primaryColor),
+                          ),
+                        ));
+                Provider.of<LocationProvider>(context, listen: false)
+                    .deleteUserAddressByID(addressModel.id, index,
+                        (bool isSuccessful, String message) {
                   Navigator.pop(context);
                   showCustomSnackBar(message, context, isError: !isSuccessful);
                   Navigator.pop(context);
@@ -54,24 +59,29 @@ class DeleteConfirmationDialog extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
                 alignment: Alignment.center,
-                decoration: BoxDecoration(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10))),
-                child: Text(getTranslated('yes', context), style: rubikBold.copyWith(color: Theme.of(context).primaryColor)),
+                decoration: BoxDecoration(
+                    borderRadius:
+                        BorderRadius.only(bottomLeft: Radius.circular(10))),
+                child: Text(getTranslated('yes', context),
+                    style: rubikBold.copyWith(
+                        color: Theme.of(context).primaryColor)),
               ),
             )),
-
-            Expanded(child: InkWell(
+            Expanded(
+                child: InkWell(
               onTap: () => Navigator.pop(context),
               child: Container(
                 padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.only(bottomRight: Radius.circular(10)),
+                  borderRadius:
+                      BorderRadius.only(bottomRight: Radius.circular(10)),
                 ),
-                child: Text(getTranslated('no', context), style: rubikBold.copyWith(color: Colors.white)),
+                child: Text(getTranslated('no', context),
+                    style: rubikBold.copyWith(color: Colors.white)),
               ),
             )),
-
           ])
         ]),
       ),

@@ -20,7 +20,8 @@ class VerificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(context: context, title: getTranslated('verify_email', context)),
+      appBar: CustomAppBar(
+          context: context, title: getTranslated('verify_email', context)),
       body: SafeArea(
         child: Scrollbar(
           child: SingleChildScrollView(
@@ -33,12 +34,19 @@ class VerificationScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(height: 55),
-                      Provider.of<SplashProvider>(context, listen: false).configModel.emailVerification?
-                      Image.asset(
-                        Images.email_with_background,
-                        width: 142,
-                        height: 142,
-                      ):Icon(Icons.phone_android_outlined,size: 50,color: Theme.of(context).primaryColor,),
+                      Provider.of<SplashProvider>(context, listen: false)
+                              .configModel
+                              .emailVerification
+                          ? Image.asset(
+                              Images.email_with_background,
+                              width: 142,
+                              height: 142,
+                            )
+                          : Icon(
+                              Icons.phone_android_outlined,
+                              size: 50,
+                              color: Theme.of(context).primaryColor,
+                            ),
                       SizedBox(height: 40),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -46,11 +54,13 @@ class VerificationScreen extends StatelessWidget {
                             child: Text(
                           '${getTranslated('please_enter_4_digit_code', context)}\n $emailAddress',
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline2.copyWith(color: ColorResources.getHintColor(context)),
+                          style: Theme.of(context).textTheme.headline2.copyWith(
+                              color: ColorResources.getHintColor(context)),
                         )),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 39, vertical: 35),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 39, vertical: 35),
                         child: PinCodeTextField(
                           length: 4,
                           appContext: context,
@@ -65,10 +75,12 @@ class VerificationScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             selectedColor: ColorResources.colorMap[200],
                             selectedFillColor: Colors.white,
-                            inactiveFillColor: ColorResources.getSearchBg(context),
+                            inactiveFillColor:
+                                ColorResources.getSearchBg(context),
                             inactiveColor: ColorResources.colorMap[200],
                             activeColor: ColorResources.colorMap[400],
-                            activeFillColor: ColorResources.getSearchBg(context),
+                            activeFillColor:
+                                ColorResources.getSearchBg(context),
                           ),
                           animationDuration: Duration(milliseconds: 300),
                           backgroundColor: Colors.transparent,
@@ -89,25 +101,45 @@ class VerificationScreen extends StatelessWidget {
                       Center(
                         child: InkWell(
                           onTap: () {
-                            if(fromSignUp) {
-                              Provider.of<SplashProvider>(context, listen: false).configModel.emailVerification?
-                              Provider.of<AuthProvider>(context, listen: false).checkEmail(emailAddress).then((value) {
+                            if (fromSignUp) {
+                              Provider.of<SplashProvider>(context,
+                                          listen: false)
+                                      .configModel
+                                      .emailVerification
+                                  ? Provider.of<AuthProvider>(context,
+                                          listen: false)
+                                      .checkEmail(emailAddress)
+                                      .then((value) {
+                                      if (value.isSuccess) {
+                                        showCustomSnackBar(
+                                            'Resent code successful', context,
+                                            isError: false);
+                                      } else {
+                                        showCustomSnackBar(
+                                            value.message, context);
+                                      }
+                                    })
+                                  : Provider.of<AuthProvider>(context,
+                                          listen: false)
+                                      .checkPhone(emailAddress)
+                                      .then((value) {
+                                      if (value.isSuccess) {
+                                        showCustomSnackBar(
+                                            'Resent code successful', context,
+                                            isError: false);
+                                      } else {
+                                        showCustomSnackBar(
+                                            value.message, context);
+                                      }
+                                    });
+                            } else {
+                              Provider.of<AuthProvider>(context, listen: false)
+                                  .forgetPassword(emailAddress)
+                                  .then((value) {
                                 if (value.isSuccess) {
-                                  showCustomSnackBar('Resent code successful', context, isError: false);
-                                } else {
-                                  showCustomSnackBar(value.message, context);
-                                }
-                              }):Provider.of<AuthProvider>(context, listen: false).checkPhone(emailAddress).then((value) {
-                                if (value.isSuccess) {
-                                  showCustomSnackBar('Resent code successful', context, isError: false);
-                                } else {
-                                  showCustomSnackBar(value.message, context);
-                                }
-                              });
-                            }else {
-                              Provider.of<AuthProvider>(context, listen: false).forgetPassword(emailAddress).then((value) {
-                                if (value.isSuccess) {
-                                  showCustomSnackBar('Resent code successful', context, isError: false);
+                                  showCustomSnackBar(
+                                      'Resent code successful', context,
+                                      isError: false);
                                 } else {
                                   showCustomSnackBar(value.message, context);
                                 }
@@ -115,52 +147,99 @@ class VerificationScreen extends StatelessWidget {
                             }
                           },
                           child: Padding(
-                            padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                            padding: EdgeInsets.all(
+                                Dimensions.PADDING_SIZE_EXTRA_SMALL),
                             child: Text(
                               getTranslated('resend_code', context),
-                              style: Theme.of(context).textTheme.headline3.copyWith(
-                                    color: ColorResources.getGreyBunkerColor(context),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline3
+                                  .copyWith(
+                                    color: ColorResources.getGreyBunkerColor(
+                                        context),
                                   ),
                             ),
                           ),
                         ),
                       ),
                       SizedBox(height: 48),
-                      authProvider.isEnableVerificationCode ? !authProvider.isPhoneNumberVerificationButtonLoading
-                          ? Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
-                              child: CustomButton(
-                                btnTxt: getTranslated('verify', context),
-                                onTap: () {
-                                  if(fromSignUp) {
-                                    Provider.of<SplashProvider>(context, listen: false).configModel.emailVerification?
-                                    Provider.of<AuthProvider>(context, listen: false).verifyEmail(emailAddress).then((value) {
-                                      if(value.isSuccess) {
-                                        Navigator.pushNamed(context, Routes.getCreateAccountRoute(emailAddress));
-                                      }else {
-                                        showCustomSnackBar(value.message, context);
+                      authProvider.isEnableVerificationCode
+                          ? !authProvider.isPhoneNumberVerificationButtonLoading
+                              ? Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal:
+                                          Dimensions.PADDING_SIZE_LARGE),
+                                  child: CustomButton(
+                                    btnTxt: getTranslated('verify', context),
+                                    onTap: () {
+                                      if (fromSignUp) {
+                                        Provider.of<SplashProvider>(context,
+                                                    listen: false)
+                                                .configModel
+                                                .emailVerification
+                                            ? Provider.of<AuthProvider>(context,
+                                                    listen: false)
+                                                .verifyEmail(emailAddress)
+                                                .then((value) {
+                                                if (value.isSuccess) {
+                                                  Navigator.pushNamed(
+                                                      context,
+                                                      Routes
+                                                          .getCreateAccountRoute(
+                                                              emailAddress));
+                                                } else {
+                                                  showCustomSnackBar(
+                                                      value.message, context);
+                                                }
+                                              })
+                                            : Provider.of<AuthProvider>(context,
+                                                    listen: false)
+                                                .verifyPhone(
+                                                    "+" + emailAddress.trim())
+                                                .then((value) {
+                                                if (value.isSuccess) {
+                                                  Navigator.pushNamed(
+                                                      context,
+                                                      Routes
+                                                          .getCreateAccountRoute(
+                                                              emailAddress));
+                                                } else {
+                                                  showCustomSnackBar(
+                                                      value.message, context);
+                                                }
+                                              });
+                                      } else {
+                                        String _mail =
+                                            Provider.of<SplashProvider>(context,
+                                                        listen: false)
+                                                    .configModel
+                                                    .phoneVerification
+                                                ? '+' + emailAddress.trim()
+                                                : emailAddress;
+                                        Provider.of<AuthProvider>(context,
+                                                listen: false)
+                                            .verifyToken(_mail)
+                                            .then((value) {
+                                          if (value.isSuccess) {
+                                            Navigator.pushNamed(
+                                                context,
+                                                Routes.getNewPassRoute(
+                                                    _mail,
+                                                    authProvider
+                                                        .verificationCode));
+                                          } else {
+                                            showCustomSnackBar(
+                                                value.message, context);
+                                          }
+                                        });
                                       }
-                                    }):Provider.of<AuthProvider>(context, listen: false).verifyPhone("+"+emailAddress.trim()).then((value) {
-                                      if(value.isSuccess) {
-                                        Navigator.pushNamed(context, Routes.getCreateAccountRoute(emailAddress));
-                                      }else {
-                                        showCustomSnackBar(value.message, context);
-                                      }
-                                    });
-                                  }else {
-                                    String _mail = Provider.of<SplashProvider>(context, listen: false).configModel.phoneVerification
-                                        ? '+'+emailAddress.trim() : emailAddress;
-                                    Provider.of<AuthProvider>(context, listen: false).verifyToken(_mail).then((value) {
-                                      if(value.isSuccess) {
-                                        Navigator.pushNamed(context, Routes.getNewPassRoute(_mail, authProvider.verificationCode));
-                                      }else {
-                                        showCustomSnackBar(value.message, context);
-                                      }
-                                    });
-                                  }
-                                },
-                              ),
-                            ) : Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)))
+                                    },
+                                  ),
+                                )
+                              : Center(
+                                  child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Theme.of(context).primaryColor)))
                           : SizedBox.shrink()
                     ],
                   ),

@@ -18,33 +18,40 @@ class OrderWebPayment extends StatefulWidget {
 }
 
 class _OrderWebPaymentState extends State<OrderWebPayment> {
-
   getValue() async {
-    if(html.window.location.href.contains('success')){
-      final orderProvider =  Provider.of<OrderProvider>(context, listen: false);
-      String _placeOrderString =  utf8.decode(base64Url.decode(orderProvider.getPlaceOrder().replaceAll(' ', '+')));
-      String _tokenString = utf8.decode(base64Url.decode(widget.token.replaceAll(' ', '+')));
-      String _paymentMethod = _tokenString.substring(0, _tokenString.indexOf('&&'));
-      String _transactionReference = _tokenString.substring(_tokenString.indexOf('&&') + '&&'.length, _tokenString.length);
+    if (html.window.location.href.contains('success')) {
+      final orderProvider = Provider.of<OrderProvider>(context, listen: false);
+      String _placeOrderString = utf8.decode(
+          base64Url.decode(orderProvider.getPlaceOrder().replaceAll(' ', '+')));
+      String _tokenString =
+          utf8.decode(base64Url.decode(widget.token.replaceAll(' ', '+')));
+      String _paymentMethod =
+          _tokenString.substring(0, _tokenString.indexOf('&&'));
+      String _transactionReference = _tokenString.substring(
+          _tokenString.indexOf('&&') + '&&'.length, _tokenString.length);
 
-      PlaceOrderBody _placeOrderBody =  PlaceOrderBody.fromJson(jsonDecode(_placeOrderString)).copyWith(
+      PlaceOrderBody _placeOrderBody =
+          PlaceOrderBody.fromJson(jsonDecode(_placeOrderString)).copyWith(
         paymentMethod: _paymentMethod.replaceAll('payment_method=', ''),
-        transactionReference: _transactionReference.replaceAll('transaction_reference=', ''),
+        transactionReference:
+            _transactionReference.replaceAll('transaction_reference=', ''),
       );
       orderProvider.placeOrder(_placeOrderBody, _callback);
-
-    }else{
-      Navigator.pushReplacementNamed(context, '${Routes.ORDER_SUCCESS_SCREEN}/-1/field');
+    } else {
+      Navigator.pushReplacementNamed(
+          context, '${Routes.ORDER_SUCCESS_SCREEN}/-1/field');
     }
   }
 
-  void _callback(bool isSuccess, String message, String orderID, int addressID) async {
+  void _callback(
+      bool isSuccess, String message, String orderID, int addressID) async {
     Provider.of<CartProvider>(context, listen: false).clearCartList();
     Provider.of<OrderProvider>(context, listen: false).clearPlaceOrder();
     Provider.of<OrderProvider>(context, listen: false).stopLoader();
-    if(isSuccess) {
-      Navigator.pushReplacementNamed(context, '${Routes.ORDER_SUCCESS_SCREEN}/$orderID/success');
-    }else {
+    if (isSuccess) {
+      Navigator.pushReplacementNamed(
+          context, '${Routes.ORDER_SUCCESS_SCREEN}/$orderID/success');
+    } else {
       showCustomSnackBar(message, context);
     }
   }
@@ -55,12 +62,13 @@ class _OrderWebPaymentState extends State<OrderWebPayment> {
     super.initState();
     getValue();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(child: WebAppBar(), preferredSize: Size.fromHeight(100)),
-      body: Center(
-          child: CircularProgressIndicator()),
+      appBar: PreferredSize(
+          child: WebAppBar(), preferredSize: Size.fromHeight(100)),
+      body: Center(child: CircularProgressIndicator()),
     );
   }
 }

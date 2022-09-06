@@ -15,18 +15,18 @@ class UserInfoModel {
 
   UserInfoModel(
       {this.id,
-        this.fName,
-        this.lName,
-        this.email,
-        this.image,
-        this.isPhoneVerified,
-        this.emailVerifiedAt,
-        this.createdAt,
-        this.updatedAt,
-        this.emailVerificationToken,
-        this.phone,
-        this.point,
-        this.cmFirebaseToken});
+      this.fName,
+      this.lName,
+      this.email,
+      this.image,
+      this.isPhoneVerified,
+      this.emailVerifiedAt,
+      this.createdAt,
+      this.updatedAt,
+      this.emailVerificationToken,
+      this.phone,
+      this.point,
+      this.cmFirebaseToken});
 
   UserInfoModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

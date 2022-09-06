@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_restaurant/data/datasource/remote/dio/dio_client.dart';
@@ -12,7 +11,8 @@ class SearchRepo {
   final SharedPreferences sharedPreferences;
   SearchRepo({@required this.dioClient, @required this.sharedPreferences});
 
-  Future<ApiResponse> getSearchProductList(String query, String languageCode) async {
+  Future<ApiResponse> getSearchProductList(
+      String query, String languageCode) async {
     try {
       final response = await dioClient.get(AppConstants.SEARCH_URI + query,
           options: Options(headers: {'X-localization': languageCode}));
@@ -26,11 +26,13 @@ class SearchRepo {
   // for save home address
   Future<void> saveSearchAddress(String searchAddress) async {
     try {
-      List<String> searchKeywordList = sharedPreferences.getStringList(AppConstants.SEARCH_ADDRESS) ?? [];
+      List<String> searchKeywordList =
+          sharedPreferences.getStringList(AppConstants.SEARCH_ADDRESS) ?? [];
       if (!searchKeywordList.contains(searchAddress)) {
         searchKeywordList.add(searchAddress);
       }
-      await sharedPreferences.setStringList(AppConstants.SEARCH_ADDRESS, searchKeywordList);
+      await sharedPreferences.setStringList(
+          AppConstants.SEARCH_ADDRESS, searchKeywordList);
     } catch (e) {
       throw e;
     }

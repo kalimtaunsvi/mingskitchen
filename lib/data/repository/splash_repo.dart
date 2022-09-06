@@ -20,22 +20,24 @@ class SplashRepo {
   }
 
   Future<bool> initSharedData() {
-    if(!sharedPreferences.containsKey(AppConstants.THEME)) {
+    if (!sharedPreferences.containsKey(AppConstants.THEME)) {
       return sharedPreferences.setBool(AppConstants.THEME, false);
     }
-    if(!sharedPreferences.containsKey(AppConstants.COUNTRY_CODE)) {
-      return sharedPreferences.setString(AppConstants.COUNTRY_CODE, AppConstants.languages[0].countryCode);
+    if (!sharedPreferences.containsKey(AppConstants.COUNTRY_CODE)) {
+      return sharedPreferences.setString(
+          AppConstants.COUNTRY_CODE, AppConstants.languages[0].countryCode);
     }
-    if(!sharedPreferences.containsKey(AppConstants.LANGUAGE_CODE)) {
-      return sharedPreferences.setString(AppConstants.LANGUAGE_CODE, AppConstants.languages[0].languageCode);
+    if (!sharedPreferences.containsKey(AppConstants.LANGUAGE_CODE)) {
+      return sharedPreferences.setString(
+          AppConstants.LANGUAGE_CODE, AppConstants.languages[0].languageCode);
     }
-    if(!sharedPreferences.containsKey(AppConstants.ON_BOARDING_SKIP)) {
+    if (!sharedPreferences.containsKey(AppConstants.ON_BOARDING_SKIP)) {
       return sharedPreferences.setBool(AppConstants.ON_BOARDING_SKIP, true);
     }
     // if (!sharedPreferences.containsKey(AppConstants.LANG_SKIP)) {
     //   sharedPreferences.setBool(AppConstants.LANG_SKIP, true);
     // }
-    if(!sharedPreferences.containsKey(AppConstants.CART_LIST)) {
+    if (!sharedPreferences.containsKey(AppConstants.CART_LIST)) {
       return sharedPreferences.setStringList(AppConstants.CART_LIST, []);
     }
     return Future.value(true);
