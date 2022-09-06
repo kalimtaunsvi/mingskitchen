@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_restaurant/data/model/response/base/api_response.dart';
 import 'package:flutter_restaurant/data/model/response/check_membership.dart';
 import 'package:flutter_restaurant/data/model/response/coupon_model.dart';
+import 'package:flutter_restaurant/data/repository/auth_repo.dart';
 import 'package:flutter_restaurant/data/repository/check_membership_repo.dart';
 import 'package:flutter_restaurant/helper/api_checker.dart';
 
 class CheckMembershipProvider extends ChangeNotifier {
   final CheckMembershipRepo checkMembershipRepo;
-  CheckMembershipProvider({@required this.checkMembershipRepo});
+  final AuthRepo authRepo;
+
+  CheckMembershipProvider(
+      {@required this.checkMembershipRepo, @required this.authRepo});
 
   List<CouponModel> _couponList;
   CouponModel _coupon;
@@ -24,22 +28,17 @@ class CheckMembershipProvider extends ChangeNotifier {
   CheckMembership get checkMembership => _checkMembership;
 
   Future<void> checkUserMembership(BuildContext context) async {
-    print("In checkUserMembership");
-    ApiResponse apiResponse = await checkMembershipRepo.checkMembership();
-    print("apiResponse " + apiResponse.response.data.toString());
-    if (apiResponse.response != null &&
-        apiResponse.response.statusCode == 200) {
-      _checkMembership = CheckMembership.fromJson(apiResponse.response.data);
-      print(_checkMembership.toString() + "checkUserMembership");
-      // _couponList = [];
-      // apiResponse.response.data.forEach(
-      //     (category) => _couponList.add(CouponModel.fromJson(category)));
-      print("before notifyListeners checkUserMembership");
-
-      notifyListeners();
-      print("out checkUserMembership");
-    } else {
-      ApiChecker.checkApi(context, apiResponse);
-    }
+    if (authRepo.isLoggedIn()) {
+      _isLoading = true;
+      ApiResponse apiResponse = await checkMembershipRepo.checkMembership();
+      if (apiResponse.response != null &&
+          apiResponse.response.statusCode == 200) {
+        _checkMembership = CheckMembership.fromJson(apiResponse.response.data);
+        _isLoading = false;
+        notifyListeners();
+      } else {
+        ApiChecker.checkApi(context, apiResponse);
+      }
+    } else {}
   }
 }

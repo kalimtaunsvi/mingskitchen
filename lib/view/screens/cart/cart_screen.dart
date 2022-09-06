@@ -589,31 +589,7 @@ class _CartScreenState extends State<CartScreen> {
                                                                           fontSize:
                                                                               Dimensions.FONT_SIZE_LARGE)),
                                                               if (checkMembership
-                                                                      .checkMembership !=
-                                                                  null)
-                                                                Text(
-                                                                  checkMembership
-                                                                              .checkMembership
-                                                                              .usermembershipplan
-                                                                              .discount ==
-                                                                          null
-                                                                      ? 0
-                                                                      : '(-)  ${PriceConverter.membershipDiscount(
-                                                                          context,
-                                                                          double.tryParse(checkMembership
-                                                                              .checkMembership
-                                                                              .usermembershipplan
-                                                                              .discount),
-                                                                          _total,
-                                                                        )}',
-                                                                  style: rubikRegular
-                                                                      .copyWith(
-                                                                    fontSize:
-                                                                        Dimensions
-                                                                            .FONT_SIZE_LARGE,
-                                                                  ),
-                                                                )
-                                                              else
+                                                                  .isLoading)
                                                                 SizedBox(
                                                                   width: 20,
                                                                   height: 20,
@@ -622,7 +598,29 @@ class _CartScreenState extends State<CartScreen> {
                                                                     color: ColorResources
                                                                         .APPBAR_HEADER_COL0R,
                                                                   ),
-                                                                ),
+                                                                )
+                                                              else
+                                                                Text(
+                                                                  (checkMembership.checkMembership ==
+                                                                              null ||
+                                                                          checkMembership.checkMembership.usermembershipplan.discount ==
+                                                                              null)
+                                                                      ? '(-)  \$0.00'
+                                                                      : '(-)  ${PriceConverter.membershipDiscount(
+                                                                          context,
+                                                                          double.tryParse(checkMembership
+                                                                              .checkMembership
+                                                                              .usermembershipplan
+                                                                              .discount),
+                                                                          _total,
+                                                                        ).toStringAsFixed(2)}',
+                                                                  style: rubikRegular
+                                                                      .copyWith(
+                                                                    fontSize:
+                                                                        Dimensions
+                                                                            .FONT_SIZE_LARGE,
+                                                                  ),
+                                                                )
                                                             ]);
                                                       }),
                                                       SizedBox(height: 10),
