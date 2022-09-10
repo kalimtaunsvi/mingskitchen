@@ -25,7 +25,12 @@ class AuthRepo {
         AppConstants.REGISTER_URI,
         data: signUpModel.toJson(),
       );
-      return ApiResponse.withSuccess(response);
+      ApiResponse apiResponse = ApiResponse.withSuccess(response);
+      await sharedPreferences.setString(AppConstants.USER_ID,
+          apiResponse.response.data['user_id'].toString());
+      final userId = sharedPreferences.getString(AppConstants.USER_ID) ?? "";
+      print("User Id: $userId");
+      return apiResponse;
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
@@ -38,7 +43,12 @@ class AuthRepo {
         AppConstants.LOGIN_URI,
         data: {"email_or_phone": email, "email": email, "password": password},
       );
-      return ApiResponse.withSuccess(response);
+      ApiResponse apiResponse = ApiResponse.withSuccess(response);
+      await sharedPreferences.setString(
+          AppConstants.USER_ID, apiResponse.response.data['userid'].toString());
+      final userId = sharedPreferences.getString(AppConstants.USER_ID) ?? "";
+      print("User Id: ${apiResponse.response.data['userid']}");
+      return apiResponse;
     } catch (e) {
       //print(e.toString());
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));

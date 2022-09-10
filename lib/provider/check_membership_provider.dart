@@ -28,17 +28,16 @@ class CheckMembershipProvider extends ChangeNotifier {
   CheckMembership get checkMembership => _checkMembership;
 
   Future<void> checkUserMembership(BuildContext context) async {
-    if (authRepo.isLoggedIn()) {
-      _isLoading = true;
-      ApiResponse apiResponse = await checkMembershipRepo.checkMembership();
-      if (apiResponse.response != null &&
-          apiResponse.response.statusCode == 200) {
-        _checkMembership = CheckMembership.fromJson(apiResponse.response.data);
-        _isLoading = false;
-        notifyListeners();
-      } else {
-        ApiChecker.checkApi(context, apiResponse);
-      }
-    } else {}
+    _isLoading = true;
+    notifyListeners();
+    ApiResponse apiResponse = await checkMembershipRepo.checkMembership();
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
+      _checkMembership = CheckMembership.fromJson(apiResponse.response.data);
+      _isLoading = false;
+      notifyListeners();
+    } else {
+      ApiChecker.checkApi(context, apiResponse);
+    }
   }
 }

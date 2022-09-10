@@ -82,7 +82,8 @@ Future<void> init() async {
       () => SearchRepo(dioClient: sl(), sharedPreferences: sl()));
   sl.registerLazySingleton(() => NotificationRepo(dioClient: sl()));
   sl.registerLazySingleton(() => CouponRepo(dioClient: sl()));
-  sl.registerLazySingleton(() => CheckMembershipRepo(dioClient: sl()));
+  sl.registerLazySingleton(
+      () => CheckMembershipRepo(dioClient: sl(), sharedPreferences: sl()));
   sl.registerLazySingleton(() => WishListRepo(dioClient: sl()));
   sl.registerLazySingleton(() => NewsLetterRepo(dioClient: sl()));
 
@@ -111,7 +112,8 @@ Future<void> init() async {
   sl.registerFactory(
       () => WishListProvider(wishListRepo: sl(), productRepo: sl()));
   sl.registerFactory(() => CouponProvider(couponRepo: sl()));
-  sl.registerFactory(() => CheckMembershipProvider(checkMembershipRepo: sl()));
+  sl.registerFactory(
+      () => CheckMembershipProvider(checkMembershipRepo: sl(), authRepo: sl()));
   sl.registerFactory(() => SearchProvider(searchRepo: sl()));
   sl.registerFactory(() => NewsLetterProvider(newsLetterRepo: sl()));
   sl.registerLazySingleton(() => TimerProvider());

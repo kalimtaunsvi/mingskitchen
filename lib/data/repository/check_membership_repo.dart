@@ -3,25 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_restaurant/data/datasource/remote/dio/dio_client.dart';
 import 'package:flutter_restaurant/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:flutter_restaurant/data/model/response/base/api_response.dart';
+import 'package:flutter_restaurant/utill/app_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CheckMembershipRepo {
   final DioClient dioClient;
-  CheckMembershipRepo({@required this.dioClient});
+  final SharedPreferences sharedPreferences;
+
+  CheckMembershipRepo(
+      {@required this.dioClient, @required this.sharedPreferences});
 
   Future<ApiResponse> checkMembership() async {
-    print("checkUserMembership repo");
     try {
+      final userId = sharedPreferences.getString(AppConstants.USER_ID) ?? "";
       final response = await Dio().post(
         'https://admin.mingskitchen.ca/api/v1/checkmembership',
         data: {
-          'user_id': 12,
+          'user_id': userId,
         },
       );
 
-      print(response.toString() + "checkUserMembership response");
       return ApiResponse.withSuccess(response);
     } catch (e) {
-      print("checkUserMembership error " + e.toString());
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }

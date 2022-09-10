@@ -90,6 +90,7 @@ class AppConstants {
   static const String TOPIC = 'notify';
   static const String ON_BOARDING_SKIP = 'on_boarding_skip';
   static const String PLACE_ORDER_DATA = 'place_order_data';
+  static const String USER_ID = 'user_id';
 
   static List<LanguageModel> languages = [
     LanguageModel(

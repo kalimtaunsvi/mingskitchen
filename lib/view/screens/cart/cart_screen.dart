@@ -36,7 +36,6 @@ class _CartScreenState extends State<CartScreen> {
   void initState() {
     super.initState();
     Provider.of<CouponProvider>(context, listen: false).removeCouponData(false);
-
     Provider.of<OrderProvider>(context, listen: false).setOrderType(
       Provider.of<SplashProvider>(context, listen: false)
               .configModel
@@ -45,6 +44,12 @@ class _CartScreenState extends State<CartScreen> {
           : 'take_away',
       notify: false,
     );
+    Future.microtask(() => apicall());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     Future.microtask(() => apicall());
   }
 
@@ -745,40 +750,54 @@ class _CartScreenState extends State<CartScreen> {
                                                                 .PADDING_SIZE_DEFAULT),
                                                       if (ResponsiveHelper
                                                           .isDesktop(context))
-                                                        Container(
-                                                          width: 1170,
-                                                          padding: EdgeInsets
-                                                              .all(Dimensions
-                                                                  .PADDING_SIZE_SMALL),
-                                                          child: CustomButton(
-                                                              btnTxt: getTranslated(
-                                                                  'continue_checkout',
-                                                                  context),
-                                                              onTap: () {
-                                                                if (_orderAmount <
-                                                                    Provider.of<SplashProvider>(
-                                                                            context,
-                                                                            listen:
-                                                                                false)
-                                                                        .configModel
-                                                                        .minimumOrderValue) {
-                                                                  showCustomSnackBar(
-                                                                      'Minimum order amount is ${PriceConverter.convertPrice(context, Provider.of<SplashProvider>(context, listen: false).configModel.minimumOrderValue)}, you have ${PriceConverter.convertPrice(context, _orderAmount)} in your cart, please add more item.',
-                                                                      context);
-                                                                } else {
-                                                                  Navigator
-                                                                      .pushNamed(
-                                                                          context,
-                                                                          Routes
-                                                                              .getCheckoutRoute(
-                                                                            _total,
-                                                                            'cart',
-                                                                            Provider.of<OrderProvider>(context, listen: false).orderType,
-                                                                            Provider.of<CouponProvider>(context, listen: false).code,
-                                                                          ));
-                                                                }
-                                                              }),
-                                                        ),
+                                                        Consumer<
+                                                                CheckMembershipProvider>(
+                                                            builder: (
+                                                          context,
+                                                          checkMembership,
+                                                          child,
+                                                        ) {
+                                                          return Container(
+                                                            width: 1170,
+                                                            padding: EdgeInsets
+                                                                .all(Dimensions
+                                                                    .PADDING_SIZE_SMALL),
+                                                            child: CustomButton(
+                                                                btnTxt: getTranslated(
+                                                                    'continue_checkout',
+                                                                    context),
+                                                                onTap: () {
+                                                                  if (_orderAmount <
+                                                                      Provider.of<SplashProvider>(
+                                                                              context,
+                                                                              listen: false)
+                                                                          .configModel
+                                                                          .minimumOrderValue) {
+                                                                    showCustomSnackBar(
+                                                                        'Minimum order amount is ${PriceConverter.convertPrice(context, Provider.of<SplashProvider>(context, listen: false).configModel.minimumOrderValue)}, you have ${PriceConverter.convertPrice(context, _orderAmount)} in your cart, please add more item.',
+                                                                        context);
+                                                                  } else {
+                                                                    Navigator.pushNamed(
+                                                                        context,
+                                                                        Routes.getCheckoutRoute(
+                                                                          _total -
+                                                                              ((checkMembership.checkMembership == null || checkMembership.checkMembership.usermembershipplan.discount == null)
+                                                                                  ? 0
+                                                                                  : PriceConverter.membershipDiscount(
+                                                                                      context,
+                                                                                      double.tryParse(checkMembership.checkMembership.usermembershipplan.discount),
+                                                                                      _total,
+                                                                                    )),
+                                                                          'cart',
+                                                                          Provider.of<OrderProvider>(context, listen: false)
+                                                                              .orderType,
+                                                                          Provider.of<CouponProvider>(context, listen: false)
+                                                                              .code,
+                                                                        ));
+                                                                  }
+                                                                }),
+                                                          );
+                                                        }),
                                                     ]),
                                               ),
                                             ),
