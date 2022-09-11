@@ -26,8 +26,8 @@ class AuthRepo {
         data: signUpModel.toJson(),
       );
       ApiResponse apiResponse = ApiResponse.withSuccess(response);
-      await sharedPreferences.setString(AppConstants.USER_ID,
-          apiResponse.response.data['user_id'].toString());
+      await sharedPreferences.setString(
+          AppConstants.USER_ID, apiResponse.response.data['userid'].toString());
       final userId = sharedPreferences.getString(AppConstants.USER_ID) ?? "";
       print("User Id: $userId");
       return apiResponse;
