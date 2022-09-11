@@ -112,8 +112,8 @@ Future<void> init() async {
   sl.registerFactory(
       () => WishListProvider(wishListRepo: sl(), productRepo: sl()));
   sl.registerFactory(() => CouponProvider(couponRepo: sl()));
-  sl.registerFactory(
-      () => CheckMembershipProvider(checkMembershipRepo: sl(), authRepo: sl()));
+  sl.registerFactory(() => CheckMembershipProvider(
+      checkMembershipRepo: sl(), authRepo: sl(), sharedPreferences: sl()));
   sl.registerFactory(() => SearchProvider(searchRepo: sl()));
   sl.registerFactory(() => NewsLetterProvider(newsLetterRepo: sl()));
   sl.registerLazySingleton(() => TimerProvider());

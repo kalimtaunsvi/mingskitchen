@@ -606,7 +606,8 @@ class _CartScreenState extends State<CartScreen> {
                                                                 )
                                                               else
                                                                 Text(
-                                                                  (checkMembership.checkMembership ==
+                                                                  (checkMembership.checkMembership == null ||
+                                                                          checkMembership.checkMembership.usermembershipplan ==
                                                                               null ||
                                                                           checkMembership.checkMembership.usermembershipplan.discount ==
                                                                               null)

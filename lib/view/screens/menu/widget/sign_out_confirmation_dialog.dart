@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_restaurant/helper/responsive_helper.dart';
 import 'package:flutter_restaurant/localization/language_constrants.dart';
 import 'package:flutter_restaurant/provider/auth_provider.dart';
+import 'package:flutter_restaurant/provider/splash_provider.dart';
 import 'package:flutter_restaurant/utill/dimensions.dart';
 import 'package:flutter_restaurant/utill/routes.dart';
 import 'package:flutter_restaurant/utill/styles.dart';
@@ -33,6 +34,9 @@ class SignOutConfirmationDialog extends StatelessWidget {
                     Expanded(
                         child: InkWell(
                       onTap: () {
+                        SplashProvider splashProvider =
+                            Provider.of<SplashProvider>(context, listen: false);
+                        splashProvider.removeSharedData();
                         Provider.of<AuthProvider>(context, listen: false)
                             .clearSharedData()
                             .then((condition) {
