@@ -146,6 +146,7 @@ class _MyAppState extends State<MyApp> {
       _route();
     }
   }
+  //safsa
 
   void _route() {
     Provider.of<SplashProvider>(context, listen: false)
