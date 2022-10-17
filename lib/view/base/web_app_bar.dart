@@ -140,42 +140,43 @@ class _WebAppBarState extends State<WebAppBar> {
                                         Dimensions.FONT_SIZE_EXTRA_SMALL)),
                           ),
                           StatusWidget(),
-                          SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_LARGE),
-                          SizedBox(
-                            height: Dimensions.PADDING_SIZE_LARGE,
-                            child: OnHover(builder: (isHovered) {
-                              final color =
-                                  isHovered ? Colors.black : Colors.white;
-                              return MouseRegion(
-                                onHover: (details) {
-                                  _showPopupMenu(
-                                      details.position, context, false);
-                                },
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      _currentLanguage.imageUrl,
-                                      height: Dimensions.PADDING_SIZE_LARGE,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    SizedBox(
-                                        width: Dimensions.PADDING_SIZE_SMALL),
-                                    Text('${_currentLanguage.languageName}',
-                                        style: poppinsRegular.copyWith(
-                                            color: color,
-                                            fontSize: Dimensions
-                                                .FONT_SIZE_EXTRA_SMALL)),
-                                    SizedBox(
-                                        width: Dimensions
-                                            .PADDING_SIZE_EXTRA_SMALL),
-                                    Icon(Icons.expand_more,
-                                        color: color,
-                                        size: Dimensions.PADDING_SIZE_LARGE)
-                                  ],
-                                ),
-                              );
-                            }),
-                          ),
+                          // SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                          // SizedBox(
+                          //   height: Dimensions.PADDING_SIZE_LARGE,
+                          //   child: OnHover(builder: (isHovered) {
+                          //     final color =
+                          //         isHovered ? Colors.black : Colors.white;
+                          //     return MouseRegion(
+                          //       onHover: (details) {
+                          //         _showPopupMenu(
+                          //             details.position, context, false);
+                          //       },
+                          //       child: Row(
+                          //         children: [
+                          //           Image.asset(
+                          //             _currentLanguage.imageUrl,
+                          //             height: Dimensions.PADDING_SIZE_LARGE,
+                          //             fit: BoxFit.cover,
+                          //           ),
+                          //           SizedBox(
+                          //               width: Dimensions.PADDING_SIZE_SMALL),
+                          //           Text('${_currentLanguage.languageName}',
+                          //               style: poppinsRegular.copyWith(
+                          //                   color: color,
+                          //                   fontSize: Dimensions
+                          //                       .FONT_SIZE_EXTRA_SMALL)),
+                          //           SizedBox(
+                          //               width: Dimensions
+                          //                   .PADDING_SIZE_EXTRA_SMALL),
+                          //           Icon(Icons.expand_more,
+                          //               color: color,
+                          //               size: Dimensions.PADDING_SIZE_LARGE)
+                          //         ],
+                          //       ),
+                          //     );
+                          //   }),
+                          // ),
+
                           SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT),
                           InkWell(
                             onTap: () {

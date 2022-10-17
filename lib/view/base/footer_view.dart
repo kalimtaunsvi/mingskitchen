@@ -24,7 +24,7 @@ class FooterView extends StatelessWidget {
       data: ThemeData(
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            primary: ColorResources.COLOR_WHITE,
+            foregroundColor: ColorResources.COLOR_WHITE,
           ),
         ),
       ),
@@ -190,8 +190,8 @@ class FooterView extends StatelessWidget {
                                   height: Dimensions.PADDING_SIZE_LARGE),
                               OnHover(builder: (hovered) {
                                 return InkWell(
-                                  onTap: () => Navigator.pushNamed(
-                                      context, Routes.getPolicyRoute()),
+                                  // onTap: () => Navigator.pushNamed(
+                                  //     context, Routes.getPolicyRoute()),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -227,8 +227,8 @@ class FooterView extends StatelessWidget {
                                   height: Dimensions.PADDING_SIZE_DEFAULT),
                               OnHover(builder: (hovered) {
                                 return InkWell(
-                                  onTap: () => Navigator.pushNamed(
-                                      context, Routes.getPolicyRoute()),
+                                  // onTap: () => Navigator.pushNamed(
+                                  //     context, Routes.getPolicyRoute()),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -261,8 +261,8 @@ class FooterView extends StatelessWidget {
                                   height: Dimensions.PADDING_SIZE_DEFAULT),
                               OnHover(builder: (hovered) {
                                 return InkWell(
-                                  onTap: () => Navigator.pushNamed(
-                                      context, Routes.getPolicyRoute()),
+                                  // onTap: () => Navigator.pushNamed(
+                                  //     context, Routes.getPolicyRoute()),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -587,13 +587,21 @@ class FooterView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(
-                      width: 500.0,
-                      child: Text(
-                          "©Copyright 2022 Mings Kitchen- All Right reserved! Developed By DeelComm",
+                    Row(
+                      children: [
+                        Text(
+                          "©Copyright 2022 Mings Kitchen- All Right reserved! Developed By",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
-                          textAlign: TextAlign.center),
+                          textAlign: TextAlign.center,
+                        ),
+                        InkWell(
+                          onTap: () => _launchURL("https://deelcomm.com"),
+                          child: Text(
+                            " DeelComm",
+                          ),
+                        ),
+                      ],
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.min,

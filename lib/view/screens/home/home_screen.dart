@@ -474,71 +474,72 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                ResponsiveHelper.isMobile(context)
-                    ? SizedBox()
-                    : Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            RichText(
-                              text: TextSpan(
-                                text: '____   ',
-                                style: TextStyle(
-                                  fontSize: Dimensions.FONT_SIZE_OVER_TOO_LARGE,
-                                  color: ColorResources.APPBAR_HEADER_COL0R,
-                                  fontWeight: FontWeight.w900,
-                                ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: 'Team Members',
-                                    style: dancingScriptRegular,
-                                  ),
-                                  TextSpan(text: '   _____'),
-                                ],
-                              ),
-                            ),
-                            Text(
-                              "Our Master Chefs",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                fontSize: Dimensions.FONT_SIZE_OVER_TOO_LARGE,
-                              ),
-                            ),
-                            SizedBox(
-                              height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
-                            ),
-                            // Container(
-                            //   width: Dimensions.getScreeenSize(context).width *
-                            //       0.86,
-                            //   child: GridView.builder(
-                            //     padding: const EdgeInsets.symmetric(
-                            //       horizontal: Dimensions.PADDING_SIZE_LARGE,
-                            //     ),
-                            //     shrinkWrap: true,
-                            //     gridDelegate:
-                            //         SliverGridDelegateWithMaxCrossAxisExtent(
-                            //       maxCrossAxisExtent: 300,
-                            //       mainAxisExtent: 340,
-                            //       mainAxisSpacing: 10,
-                            //       crossAxisSpacing: 10,
-                            //     ),
-                            //     itemCount: 4,
-                            //     itemBuilder: (context, index) {
-                            //       return TeamMemberWidget();
-                            //     },
-                            //   ),
-                            // ),
-                            Wrap(
-                              children: [1, 2, 3, 4]
-                                  .map(
-                                    (e) => TeamMemberWidget(),
-                                  )
-                                  .toList(),
-                            ),
-                            SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
-                          ],
-                        ),
-                      ),
+                // ResponsiveHelper.isMobile(context)
+                // ? SizedBox()
+                // : Center(
+                //     child: Column(
+                //       mainAxisSize: MainAxisSize.min,
+                //       children: [
+                //         RichText(
+                //           text: TextSpan(
+                //             text: '____   ',
+                //             style: TextStyle(
+                //               fontSize: Dimensions.FONT_SIZE_OVER_TOO_LARGE,
+                //               color: ColorResources.APPBAR_HEADER_COL0R,
+                //               fontWeight: FontWeight.w900,
+                //             ),
+                //             children: <TextSpan>[
+                //               TextSpan(
+                //                 text: 'Team Members',
+                //                 style: dancingScriptRegular,
+                //               ),
+                //               TextSpan(text: '   _____'),
+                //             ],
+                //           ),
+                //         ),
+                //         Text(
+                //           "Our Master Chefs",
+                //           style: TextStyle(
+                //             fontWeight: FontWeight.w900,
+                //             fontSize: Dimensions.FONT_SIZE_OVER_TOO_LARGE,
+                //           ),
+                //         ),
+                //         SizedBox(
+                //           height: Dimensions.PADDING_SIZE_EXTRA_LARGE,
+                //         ),
+                //         // Container(
+                //         //   width: Dimensions.getScreeenSize(context).width *
+                //         //       0.86,
+                //         //   child: GridView.builder(
+                //         //     padding: const EdgeInsets.symmetric(
+                //         //       horizontal: Dimensions.PADDING_SIZE_LARGE,
+                //         //     ),
+                //         //     shrinkWrap: true,
+                //         //     gridDelegate:
+                //         //         SliverGridDelegateWithMaxCrossAxisExtent(
+                //         //       maxCrossAxisExtent: 300,
+                //         //       mainAxisExtent: 340,
+                //         //       mainAxisSpacing: 10,
+                //         //       crossAxisSpacing: 10,
+                //         //     ),
+                //         //     itemCount: 4,
+                //         //     itemBuilder: (context, index) {
+                //         //       return TeamMemberWidget();
+                //         //     },
+                //         //   ),
+                //         // ),
+                //         Wrap(
+                //           children: [1, 2, 3, 4]
+                //               .map(
+                //                 (e) => TeamMemberWidget(),
+                //               )
+                //               .toList(),
+                //         ),
+                //         SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT),
+                //       ],
+                //     ),
+                //   ),
+
                 ResponsiveHelper.isMobile(context)
                     ? SizedBox()
                     : Center(
