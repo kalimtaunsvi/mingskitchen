@@ -383,7 +383,7 @@ class _BookTableScreenState extends State<BookTableScreen> {
                                       message: _specialRequestController.text,
                                     ),
                                   );
-
+                                  print("api request success");
                                   // ResponseModel responseModel;
                                   if (apiResponse.response != null &&
                                       apiResponse.response.statusCode == 200) {
@@ -400,6 +400,10 @@ class _BookTableScreenState extends State<BookTableScreen> {
                                     if (apiResponse.error is String) {
                                       errorMessage =
                                           apiResponse.error.toString();
+                                      showCustomSnackBar(
+                                        errorMessage.toString(),
+                                        context,
+                                      );
                                     } else {
                                       showCustomSnackBar(
                                         'Failed to book a table',
