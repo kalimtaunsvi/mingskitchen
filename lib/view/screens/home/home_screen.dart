@@ -547,33 +547,34 @@ class _HomeScreenState extends State<HomeScreen> {
                           margin: const EdgeInsets.symmetric(
                             vertical: Dimensions.PADDING_SIZE_DEFAULT,
                           ),
-                          width: (MediaQuery.of(context).size.width / 5) * 4,
+                          width:
+                              Dimensions.getScreeenSize(context).width * 0.86,
                           child: Wrap(
-                            alignment: WrapAlignment.center,
+                            alignment: WrapAlignment.spaceBetween,
                             children: [
                               ServiceCard(
                                 title: "Master Chefs",
                                 iconData: Icons.person,
                                 description:
-                                    "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
+                                    "We have well trained professional cooks and tradesman who is proficient in all aspects of food preparation.",
                               ),
                               ServiceCard(
                                 title: "Quality Food",
                                 iconData: Icons.fastfood,
                                 description:
-                                    "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
+                                    "We aim to provide customers with supreme taste, impressive quality service and pleasant dining experiences, continuing to challenge ourselves.",
                               ),
                               ServiceCard(
                                 title: "Online Order",
                                 iconData: Icons.shopping_cart,
                                 description:
-                                    "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
+                                    "Fast and easy food delivery from any branch of Ming's Kitchen near you.A large variety of cuisines, diverse dishes.Safe, easy & secure payment options.",
                               ),
                               ServiceCard(
-                                title: "24/7 Service",
+                                title: "24/7 Support",
                                 iconData: Icons.headphones,
                                 description:
-                                    "Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam",
+                                    "We provide 24/7 Support to help our customers if they have any issues with ordering & booking or any other customers can get help and find answers to questions.",
                               ),
                             ],
                           ),

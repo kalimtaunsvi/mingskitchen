@@ -513,9 +513,10 @@ class _CartScreenState extends State<CartScreen> {
                                                                   .spaceBetween,
                                                           children: [
                                                             Text(
-                                                                getTranslated(
-                                                                    'tax',
-                                                                    context),
+                                                                "GST, PST /Tax",
+                                                                // getTranslated(
+                                                                //     'tax',
+                                                                //     context),
                                                                 style: rubikRegular
                                                                     .copyWith(
                                                                         fontSize:
