@@ -14,9 +14,9 @@ class BookTableRepo {
   Future<ApiResponse> booktable(BookTableModel bookTableModel) async {
     try {
       //print(signUpModel.toJson());
-      Response response = await dioClient.post(
+      Response response = await dioClient.get(
         AppConstants.BOOK_TABLE,
-        data: bookTableModel.toJson(),
+        queryParameters: bookTableModel.toMap(),
       );
       return ApiResponse.withSuccess(response);
     } catch (e) {
