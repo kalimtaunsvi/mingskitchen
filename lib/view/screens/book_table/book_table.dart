@@ -37,6 +37,7 @@ class _BookTableScreenState extends State<BookTableScreen> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
   final TextEditingController _noOfPeopleController = TextEditingController();
+  bool loading = false;
 
   @override
   void initState() {
@@ -324,126 +325,141 @@ class _BookTableScreenState extends State<BookTableScreen> {
 
                             // for signup button
                             SizedBox(height: 10),
-                            CustomButton(
-                              btnTxt: "BOOK NOW",
-                              onTap: () async {
-                                String _fullName =
-                                    _fullNameController.text.trim();
-                                String _email = _emailController.text.trim();
-                                String _date = _dateController.text.trim();
-                                String _time = _dateController.text.trim();
-                                String _noOfPeople =
-                                    _noOfPeopleController.text.trim();
-                                String _specialRequest =
-                                    _specialRequestController.text.trim();
-                                if (_fullName.isEmpty) {
-                                  showCustomSnackBar(
-                                    "Enter your name",
-                                    context,
-                                  );
-                                } else if (_email.isEmpty) {
-                                  showCustomSnackBar(
-                                    "Enter your email",
-                                    context,
-                                  );
-                                } else if (_date.isEmpty) {
-                                  showCustomSnackBar(
-                                    "Select the date",
-                                    context,
-                                  );
-                                } else if (_noOfPeople.isEmpty) {
-                                  showCustomSnackBar(
-                                      'Enter number of peoples', context);
-                                } else if (_specialRequest.length < 6) {
-                                  showCustomSnackBar(
-                                    'Enter special request',
-                                    context,
-                                  );
-                                } else if (_date.length < 6) {
-                                  showCustomSnackBar(
-                                    'Choose date',
-                                    context,
-                                  );
-                                } else if (_time.length < 6) {
-                                  showCustomSnackBar(
-                                    'Choose time',
-                                    context,
-                                  );
-                                } else {
-                                  ApiResponse apiResponse =
-                                      await bookTableProvider.bookTableRepo
-                                          .booktable(
-                                    BookTableModel(
-                                      name: _fullNameController.text,
-                                      email: _emailController.text,
-                                      phone: _phoneNumberController.text,
-                                      no_of_person: _noOfPeopleController.text,
-                                      date: _dateController.text,
-                                      time: _timeController.text,
-                                      message: _specialRequestController.text,
+                            loading
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      color: ColorResources.APPBAR_HEADER_COL0R,
                                     ),
-                                  );
-                                  print("api request success");
-                                  // ResponseModel responseModel;
-                                  if (apiResponse.response != null &&
-                                      apiResponse.response.statusCode == 200) {
-                                    showCustomSnackBar(
-                                      'Table booked successful',
-                                      context,
-                                      isError: false,
-                                    );
-                                    // Map map = apiResponse.response.data;
-                                    // responseModel =
-                                    //     ResponseModel(true, 'successful');
-                                  } else {
-                                    String errorMessage;
-                                    if (apiResponse.error is String) {
-                                      errorMessage =
-                                          apiResponse.error.toString();
-                                      showCustomSnackBar(
-                                        errorMessage.toString(),
-                                        context,
-                                      );
-                                    } else {
-                                      showCustomSnackBar(
-                                        'Failed to book a table',
-                                        context,
-                                      );
-                                    }
-                                  }
+                                  )
+                                : CustomButton(
+                                    btnTxt: "BOOK NOW",
+                                    onTap: () async {
+                                      changeLoadingStatus();
+                                      String _fullName =
+                                          _fullNameController.text.trim();
+                                      String _email =
+                                          _emailController.text.trim();
+                                      String _date =
+                                          _dateController.text.trim();
+                                      String _time =
+                                          _dateController.text.trim();
+                                      String _noOfPeople =
+                                          _noOfPeopleController.text.trim();
+                                      String _specialRequest =
+                                          _specialRequestController.text.trim();
+                                      if (_fullName.isEmpty) {
+                                        showCustomSnackBar(
+                                          "Enter your name",
+                                          context,
+                                        );
+                                      } else if (_email.isEmpty) {
+                                        showCustomSnackBar(
+                                          "Enter your email",
+                                          context,
+                                        );
+                                      } else if (_date.isEmpty) {
+                                        showCustomSnackBar(
+                                          "Select the date",
+                                          context,
+                                        );
+                                      } else if (_noOfPeople.isEmpty) {
+                                        showCustomSnackBar(
+                                            'Enter number of peoples', context);
+                                      } else if (_specialRequest.length < 6) {
+                                        showCustomSnackBar(
+                                          'Enter special request',
+                                          context,
+                                        );
+                                      } else if (_date.length < 6) {
+                                        showCustomSnackBar(
+                                          'Choose date',
+                                          context,
+                                        );
+                                      } else if (_time.length < 6) {
+                                        showCustomSnackBar(
+                                          'Choose time',
+                                          context,
+                                        );
+                                      } else {
+                                        ApiResponse apiResponse =
+                                            await bookTableProvider
+                                                .bookTableRepo
+                                                .booktable(
+                                          BookTableModel(
+                                            name: _fullNameController.text,
+                                            email: _emailController.text,
+                                            phone: _phoneNumberController.text,
+                                            no_of_person:
+                                                _noOfPeopleController.text,
+                                            date: _dateController.text,
+                                            time: _timeController.text,
+                                            message:
+                                                _specialRequestController.text,
+                                          ),
+                                        );
+                                        print("api request success");
+                                        // ResponseModel responseModel;
+                                        if (apiResponse.response != null &&
+                                            apiResponse.response.statusCode ==
+                                                200) {
+                                          showCustomSnackBar(
+                                            'Table booked successful',
+                                            context,
+                                            isError: false,
+                                          );
+                                          // Map map = apiResponse.response.data;
+                                          // responseModel =
+                                          //     ResponseModel(true, 'successful');
+                                        } else {
+                                          String errorMessage;
+                                          if (apiResponse.error is String) {
+                                            errorMessage =
+                                                apiResponse.error.toString();
+                                            showCustomSnackBar(
+                                              errorMessage.toString(),
+                                              context,
+                                            );
+                                          } else {
+                                            showCustomSnackBar(
+                                              'Failed to book a table',
+                                              context,
+                                            );
+                                          }
+                                        }
 
-                                  // SignUpModel signUpModel = SignUpModel(
-                                  //   fName: _fullName,
-                                  //   lName: _email,
-                                  //   email: _email,
-                                  //   password: _password,
-                                  //   phone: '+' + widget.email.trim(),
-                                  // );
-                                  // authProvider
-                                  //     .registration(signUpModel)
-                                  //     .then((status) async {
-                                  //   if (status.isSuccess) {
-                                  //     await Provider.of<
-                                  //                 WishListProvider>(
-                                  //             context,
-                                  //             listen: false)
-                                  //         .initWishList(
-                                  //       context,
-                                  //       Provider.of<LocalizationProvider>(
-                                  //               context,
-                                  //               listen: false)
-                                  //           .locale
-                                  //           .languageCode,
-                                  //     );
-                                  //     Navigator.pushNamedAndRemoveUntil(
-                                  //         context,
-                                  //         Routes.getMainRoute(),
-                                  //         (route) => false);
-                                  //   }
-                                  // });
-                                }
-                              },
-                            )
+                                        // SignUpModel signUpModel = SignUpModel(
+                                        //   fName: _fullName,
+                                        //   lName: _email,
+                                        //   email: _email,
+                                        //   password: _password,
+                                        //   phone: '+' + widget.email.trim(),
+                                        // );
+                                        // authProvider
+                                        //     .registration(signUpModel)
+                                        //     .then((status) async {
+                                        //   if (status.isSuccess) {
+                                        //     await Provider.of<
+                                        //                 WishListProvider>(
+                                        //             context,
+                                        //             listen: false)
+                                        //         .initWishList(
+                                        //       context,
+                                        //       Provider.of<LocalizationProvider>(
+                                        //               context,
+                                        //               listen: false)
+                                        //           .locale
+                                        //           .languageCode,
+                                        //     );
+                                        //     Navigator.pushNamedAndRemoveUntil(
+                                        //         context,
+                                        //         Routes.getMainRoute(),
+                                        //         (route) => false);
+                                        //   }
+                                        // });
+                                      }
+                                      changeLoadingStatus();
+                                    },
+                                  )
                           ],
                         ),
                       ),
@@ -457,6 +473,12 @@ class _BookTableScreenState extends State<BookTableScreen> {
         ),
       ),
     );
+  }
+
+  void changeLoadingStatus() {
+    setState(() {
+      loading = !loading;
+    });
   }
 
   void setTime(DateTime time) {
